@@ -12,10 +12,18 @@ const pool = mysql.createPool({
     debug: true,
     host: DBHOST,
     user: DBUSER,
+    database: DBNAME,
     password: DBPASSWORD
 });
 
 // async helper function for that sweet sweet async/await refactoring
+/*
+
+Voor Lucas en evt anderen die dit lezen:
+
+- https://www.w3schools.com/js/js_promise.asp
+
+*/
 async function executeQuery(query) {
     return new Promise((resolve, reject) => {
         pool.getConnection((err, con) => {
@@ -30,10 +38,22 @@ async function executeQuery(query) {
     });
 }
 
-executeQuery("CREATE DATABASE userdata").catch((err) => {
+// try and create database
+executeQuery(`CREATE DATABASE ${DBNAME}`).catch(err => {
     // don't throw error if database creation fails; this is normal
     // upon program restart if database has already been created
-    if (err.code != "ER_DB_CREATE_EXISTS") throw err;
+    if (err.code !== "ER_DB_CREATE_EXISTS") throw err;
+});
+
+// try and create table for userdata
+executeQuery(`CREATE TABLE userdata (\
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,\
+firstname VARCHAR(30) NOT NULL,\
+lastname VARCHAR(30) NOT NULL,\
+email VARCHAR(50),\
+reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP    
+)`).catch(err => {
+    if (err.code !== "ER_TABLE_EXISTS_ERROR") throw err;
 });
 
 module.exports = executeQuery;
