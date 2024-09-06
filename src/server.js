@@ -1,20 +1,16 @@
 const express = require("express");
 const dotenv = require("@dotenvx/dotenvx").config();
-const mysql = require("mysql");
 const path = require("path");
+const bodyparser = require("body-parser");
+const executeQuery = require("./createdb"); /* DataBase CONnection */
 
 const app = express();
 
-// get environment variables
-const DBPASSWORD = process.env.DBPASSWORD;
-const DBUSER = process.env.DBUSER;
-const DBNAME = process.env.DBNAME;
-const DBSERVERNAME = process.env.DBSERVERNAME;
-
 const EXPRESSPORT = 3000;
 
-// json middleware
-app.use(express.json());
+// middleware
+app.use(bodyparser.urlencoded());
+app.use(bodyparser.json());
 // server main pages
 app.use(express.static(
     path.join(__dirname, "public")
