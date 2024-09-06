@@ -3,7 +3,7 @@
         <link rel="stylesheet" href="styles.css">
         <title>Open-ICT Student Socializer</title>
     </head>
-    <body>
+    <body onload="document.getElementById('id01').style.display='block'">
         <div class="top-menu">
 
             <h1 class="page-top-text">User Settings</h1>
@@ -24,7 +24,7 @@
           <form class="modal-content animate" action="../site leerling kennis maken/action.php" method="GET">
             <div class="imgcontainer">
               <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-              <img src="img_avatar2.png" alt="Avatar" class="avatar">
+              <img src="../site leerling kennis maken/img_avatar2.png" alt="Avatar" class="avatar">
             </div>
         
             <div class="container">
@@ -44,7 +44,7 @@
 
               <button type="submit">Login</button>
               <label>
-                <input type="checkbox" checked="checked" name="remember"> Remember me
+                <input type="checkbox" name="remember"> Remember me
               </label>
             </div>
         
