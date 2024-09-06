@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 }
 
 // Create database
-$sql = "CREATE DATABASE hoidaar";
+$sql = "CREATE DATABASE userdata";
 if ($conn->query($sql) === TRUE) {
   echo "Database created successfully";
 } else {
