@@ -2,7 +2,7 @@ const express = require("express");
 const dotenv = require("@dotenvx/dotenvx").config();
 const path = require("path");
 const bodyparser = require("body-parser");
-const executeQuery = require("./createdb");
+const executeQuery = require("./database.js");
 
 const app = express();
 

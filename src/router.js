@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
-const executeQuery = require("./createdb");
+const executeQuery = require("./database.js");
 const uuid = require("uuid");
 
 // specify app router to handle incoming requests from the client
