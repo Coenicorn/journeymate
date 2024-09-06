@@ -14,10 +14,11 @@ router.post("/signup", (request, response) => {
     const email = body.email;
     const username = body.username;
     const password = body.password;
-    const location = body.location;
+    const location_lat = body.location_lat;
+    const location_long = body.location_long;
 
     // upload to database
-    executeQuery(`INSERT INTO userdata (id, email, password, name, location) VALUE ('${uuid.v7()}', '${email}', '${password}', '${username}', '${location}')`);
+    executeQuery(`INSERT INTO userdata (id, email, password, name, location_lat, location_long) VALUE ('${uuid.v7()}', '${email}', '${password}', '${username}', '${location_lat}', '${location_long}')`);
 
     response.status(200);
     response.sendFile("index.html", { root: path.join(__dirname, "public") });
