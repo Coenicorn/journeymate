@@ -3,7 +3,7 @@
         <link rel="stylesheet" href="./styles.css">
         <title>Open-ICT Student Socializer</title>
     </head>
-    <body onload="checkCookie()">
+    <body onload="checkLogin(); setCookie('username', '', -1);">
         <div class="top-menu">
 
             <h1 class="page-top-text">User Settings</h1>
@@ -22,7 +22,7 @@
         
           <form class="modal-content animate">
             <div class="imgcontainer">
-              <span onclick="document.getElementById('id01').style.display='none'; checkCookie()" class="close" title="Close Modal">&times;</span>
+              <span onclick="document.getElementById('id01').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
               <img src="./img_avatar2.png" alt="Avatar" class="avatar">
             </div>
         
@@ -34,7 +34,7 @@
               <label for="password"><b>Password</b></label>
               <input id="lPassword" type="password" placeholder="Enter Password" name="password" required>
 
-              <button onclick="Login()">Login</button>
+              <button onclick="Login(); document.getElementById('id01').style.display='none'">Login</button>
               <button onclick="document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='block'">Sign Up</button>
               <label>
                 <input type="checkbox" name="remember" id="lRemember"> Remember me
@@ -52,7 +52,7 @@
         
             <form class="modal-content animate" action="/signup" method="POST">
               <div class="imgcontainer">
-                <span onclick="document.getElementById('id02').style.display='none'; checkCookie()" class="close" title="Close Modal">&times;</span>
+                <span onclick="document.getElementById('id02').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
                 <img src="./img_avatar2.png" alt="Avatar" class="avatar">
               </div>
           
@@ -109,21 +109,21 @@
           return "";
         }
 
-        function checkCookie() {
+        function checkLogin() {
           let username = getCookie("username");
           /* let password = getCookie("password");*/
-          if (username != "" /*&& password != ""*/) {
+          if (username != "") {
             alert("Welcome again " + username);
           } else {
-             document.getElementById('id01').style.display='block'
-          }
+                document.getElementById('id01').style.display='block'
+            }
         }
 
         function Login(){
             let username = document.getElementById("lUsername").value;
             let checked = document.getElementById("lRemember").value;
             if (checked == "on"){
-                setCookie("user", username, 2);
+                setCookie("username", username, 1);
             }
         }
     </script>
