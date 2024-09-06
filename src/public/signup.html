@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="./styles.css">
         <title>Open-ICT Student Socializer</title>
     </head>
     <body onload="document.getElementById('id01').style.display='block'">
@@ -9,22 +9,23 @@
             <h1 class="page-top-text">User Settings</h1>
 
             <div class="menu">
-                <a href="/" class="active">home</a>
+                <a href="./index.html" class="active">home</a>
                 <a href="#">studenten</a>
                 <a href="#">projecten</a>
+                <a href="#" class="menu-right" onclick="document.getElementById('id01').style.display='block'">login</a>
                 <a href="#" class="menu-right">menu</a>
                 <a href="#" class="menu-right">user</a>
             </div>
         </div>
 
-        <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+        <!--<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>-->
 
         <div id="id01" class="modal">
         
           <form class="modal-content animate" action="/signup" method="POST">
             <div class="imgcontainer">
               <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-              <img src="img_avatar2.png" alt="Avatar" class="avatar">
+              <img src="./img_avatar2.png" alt="Avatar" class="avatar">
             </div>
         
             <div class="container">
