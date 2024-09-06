@@ -74,6 +74,7 @@ input[type=text], input[type=password] {
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  border-radius: 5px;
 }
 
 /* Set a style for all buttons */
@@ -85,6 +86,7 @@ button {
   border: none;
   cursor: pointer;
   width: 100%;
+  border-radius: 5px;
 }
 
 button:hover {
@@ -112,6 +114,7 @@ img.avatar {
 
 .container {
   padding: 16px;
+  border-radius: 15px;
 }
 
 span.psw {
@@ -139,6 +142,7 @@ span.psw {
   background-color: #fefefe;
   margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
+  border-radius: 15px;
   width: 80%; /* Could be more or less, depending on screen size */
 }
 
