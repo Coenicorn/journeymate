@@ -11,5 +11,8 @@
     "url": "https://github.coenicorn.nl/journeymate"
   },
   "author": "Coenicorn",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.14.0"
+  }
 }
