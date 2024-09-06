@@ -22,7 +22,7 @@
         
           <form class="modal-content animate">
             <div class="imgcontainer">
-              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+              <span onclick="document.getElementById('id01').style.display='none'; checkCookie()" class="close" title="Close Modal">&times;</span>
               <img src="./img_avatar2.png" alt="Avatar" class="avatar">
             </div>
         
@@ -35,6 +35,7 @@
               <input id="lPassword" type="password" placeholder="Enter Password" name="password" required>
 
               <button onclick="Login()">Login</button>
+              <button onclick="document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='block'">Sign Up</button>
               <label>
                 <input type="checkbox" name="remember" id="lRemember"> Remember me
               </label>
@@ -51,7 +52,7 @@
         
             <form class="modal-content animate" action="/signup" method="POST">
               <div class="imgcontainer">
-                <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <span onclick="document.getElementById('id02').style.display='none'; checkCookie()" class="close" title="Close Modal">&times;</span>
                 <img src="./img_avatar2.png" alt="Avatar" class="avatar">
               </div>
           
@@ -70,7 +71,8 @@
                 <label for="location"><b>Start locatie</b></label>
                 <input type="text" placeholder="Enter start locatie" name="location" required>
   
-                <button type="submit">Login</button>
+                <button type="submit">Sign Up</button>
+                <button type="submit" onclick="document.getElementById('id01').style.display='block'; document.getElementById('id02').style.display='none'">Login</button>
                 <label>
                   <input type="checkbox" name="remember"> Remember me
                 </label>
@@ -119,11 +121,9 @@
 
         function Login(){
             let username = document.getElementById("lUsername").value;
-            let password = document.getElementById("lPassword").value;
             let checked = document.getElementById("lRemember").value;
             if (checked == "on"){
-                setCookie("user", username, 30);
-                setCookie("password", password, 30);
+                setCookie("user", username, 2);
             }
         }
     </script>
