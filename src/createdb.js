@@ -9,7 +9,7 @@ const DBHOST = process.env.DBSERVERNAME;
 // connect to database
 const pool = mysql.createPool({
     connectionLimit: 100,
-    debug: true,
+    debug: false,
     host: DBHOST,
     user: DBUSER,
     database: DBNAME,
@@ -46,11 +46,13 @@ executeQuery(`CREATE DATABASE ${DBNAME}`).catch(err => {
 });
 
 // try and create table for userdata
+// line continuation ("\") so that the line is not interpreted with newline characters ("\n")
 executeQuery(`CREATE TABLE userdata (\
-id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,\
+id VARCHAR(36) NOT NULL PRIMARY KEY,\
 firstname VARCHAR(30) NOT NULL,\
 lastname VARCHAR(30) NOT NULL,\
-email VARCHAR(50),\
+email VARCHAR(50) NOT NULL,\
+password VARCHAR(50) NOT NULL,\
 reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP    
 )`).catch(err => {
     if (err.code !== "ER_TABLE_EXISTS_ERROR") throw err;
