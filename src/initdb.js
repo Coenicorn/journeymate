@@ -20,10 +20,11 @@ executeQuery(`CREATE DATABASE ${DBNAME}`).catch(err => {
 // line continuation ("\") so that the line is not interpreted with newline characters ("\n")
 executeQuery(`CREATE TABLE userdata (\
 id VARCHAR(36) NOT NULL PRIMARY KEY,\
-firstname VARCHAR(30) NOT NULL,\
-lastname VARCHAR(30) NOT NULL,\
-email VARCHAR(50) NOT NULL,\
+name VARCHAR(30) NOT NULL,\
+email VARCHAR(30) NOT NULL,\
 password VARCHAR(50) NOT NULL,\
+location_lat VARCHAR(50) NOT NULL,\
+location_long VARCHAR(50) NOT NULL,\
 reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP    
 )`).catch(err => {
     if (err.code !== "ER_TABLE_EXISTS_ERROR") throw err;
