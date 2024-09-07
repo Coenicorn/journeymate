@@ -20,7 +20,7 @@
 
         <div id="id01" class="modal">
         
-          <form class="modal-content animate">
+          <form class="modal-content animate" id="001_loginform">
             <div class="imgcontainer">
               <span onclick="document.getElementById('id01').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
               <img src="./assets/avatar_icon.png" alt="Avatar" class="avatar">
@@ -50,7 +50,7 @@
 
         <div id="id02" class="modal">
         
-            <form class="modal-content animate" action="/signup" method="POST">
+            <form class="modal-content animate" id="001_signupform"  action="/signup" method="POST">
               <div class="imgcontainer">
                 <span onclick="document.getElementById('id02').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
                 <img src="./assets/avatar_icon.png" alt="Avatar" class="avatar">
@@ -72,7 +72,7 @@
                 <input type="text" placeholder="Enter start locatie" name="location" required>
   
                 <button type="submit">Sign Up</button>
-                <button type="submit" onclick="document.getElementById('id01').style.display='block'; document.getElementById('id02').style.display='none'">Login</button>
+                <button onclick="document.getElementById('id01').style.display='block'; document.getElementById('id02').style.display='none'">Login</button>
                 <label>
                   <input type="checkbox" name="remember"> Remember me
                 </label>
@@ -124,7 +124,7 @@
 
         function checkLogin() {
           let username = getCookie("username");
-          /* let password = getCookie("password");*/
+          // let password = getCookie("password");
           if (username != "") {
             alert("Welcome again " + username);
           } else {
@@ -139,5 +139,46 @@
                 setCookie("username", username, 1);
             }
         }
+
+        async function signupFormSubmit() {
+          const form = document.getElementById("001_signupform");
+          if (form === null) {
+            alert(`no signup form element`);
+            return;
+          }
+          const formdata = new FormData(form);
+          const destination = form.action;
+
+          const response = await fetch("/signup", {
+            method: "POST",
+            body: formdata,
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/x-www-form-urlencoded"
+            }
+          })
+            .catch(err => alert("something went wrong"));
+
+          console.log(response);
+        }
+
+        async function loginFormSubmit(formElement) {
+          // WIP
+        }
+
+        function loadEventHandlers() {
+          // prevent login and signup forms from reloading page
+          document.getElementById("001_signupform").onsubmit = (ev => {
+            ev.preventDefault();
+            signupFormSubmit();
+          });
+          document.getElementById("001_loginform").onsubmit = (ev => {
+            ev.preventDefault();
+            loginFormSubmit(document.getElementById("001_loginform"));
+          });
+          // --------------------------
+        }
+
+        onload = loadEventHandlers;
     </script>
 </html>

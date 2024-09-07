@@ -16,6 +16,12 @@ app.use(express.static(
 ));
 // custom routes for api requests
 app.use(require("./router"));
+// 404 page
+app.use((req, res, next) => {
+    res.status(404);
+
+    res.sendFile("404.html", { root: path.join(__dirname, "public") });
+})
 
 // start server on port 3000
 app.listen(EXPRESSPORT, () => {

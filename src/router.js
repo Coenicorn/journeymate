@@ -28,6 +28,14 @@ router.post("/signup", (request, response) => {
     // executeQuery(`INSERT INTO userdata (id, email, password, name, location_lat, location_long) VALUE ('${uuid.v7()}', '${email}', '${password}', '${username}', '${location_lat}', '${location_long}')`);
 
     response.status(200);
+
+    if (request.accepts() === "application/json") {
+        response.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({
+            passwordHash: passwordhash
+        }));
+    }
+
     response.sendFile("index.html", { root: path.join(__dirname, "public") });
 });
 
