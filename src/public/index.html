@@ -28,7 +28,7 @@
         
             <div class="container">
 
-              <label for="uname"><b>Username</b></label>
+              <label for="username"><b>Username</b></label>
               <input id="lUsername" type="text" placeholder="Enter Username" name="username" required>
             
               <label for="password"><b>Password</b></label>
@@ -61,7 +61,7 @@
                 <label for="email"><b>E-mail</b></label>
                 <input type="text" placeholder="Enter E-mail" name="email" required>
   
-                <label for="uname"><b>Username</b></label>
+                <label for="username"><b>Username</b></label>
                 <input type="text" placeholder="Enter Username" name="username" required>
               
                 <label for="password"><b>Password</b></label>
@@ -124,7 +124,7 @@
 
         function checkLogin() {
           let username = getCookie("username");
-          // let password = getCookie("password");
+          let passwordHash = getCookie("passwordhash");
           if (username != "") {
             alert("Welcome again " + username);
           } else {
@@ -149,7 +149,7 @@
           const formdata = new FormData(form);
           const destination = form.action;
 
-          const response = await fetch("/signup", {
+          const response = await fetch(destination, {
             method: "POST",
             body: formdata,
             headers: {
@@ -158,8 +158,15 @@
             }
           })
             .catch(err => alert("something went wrong"));
+            
+          const responseData = await response.json();
 
-          console.log(response);
+          if (response.status === 200) {
+
+            // succesfully signed up, store password and username
+            setCookie("username", formdata.get("username"));
+            setCookie("passwordhash", responseData.passwordHash);
+          }
         }
 
         async function loginFormSubmit(formElement) {

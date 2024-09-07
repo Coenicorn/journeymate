@@ -7,7 +7,7 @@ const argon2 = require("argon2"); // hashing functions
 const { hashPasswordWithSalt, verifyPasswordWithSalt } = require("./util.js");
 
 // specify app router to handle incoming requests from the client
-router.post("/signup", (request, response) => {
+router.post("/signup", async (request, response) => {
     // DEBUG log the request
     // console.log(request.body);
 
@@ -16,31 +16,32 @@ router.post("/signup", (request, response) => {
     const email = body.email;
     const username = body.username;
     const password = body.password;
-    const location_lat = body.location_lat;
-    const location_long = body.location_long;
     const userUUID = uuid.v4();
 
-    const passwordhash = hashPasswordWithSalt;
+    if (!email || !username || !password) {
+        response.status(400).send("One or more attributes are missing from request. Required attributes are: {email, username, password}");
+    }
+
+    const passwordhash = await hashPasswordWithSalt(password, userUUID);
 
     console.log(passwordhash);
 
     // upload to database
     // executeQuery(`INSERT INTO userdata (id, email, password, name, location_lat, location_long) VALUE ('${uuid.v7()}', '${email}', '${password}', '${username}', '${location_lat}', '${location_long}')`);
 
-    response.status(200);
-
-    if (request.accepts() === "application/json") {
-        response.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({
+    if (request.accepts().includes("application/json")) {
+        response.status(200).json({
             passwordHash: passwordhash
-        }));
+        });
+    } else {
+        response.sendFile("index.html", { root: path.join(__dirname, "public") });
     }
 
-    response.sendFile("index.html", { root: path.join(__dirname, "public") });
+    response.end();
 });
 
-router.post("/signin", (request, response) => {
-    // WIP
-});
+router.post("/auth", async (request, response) => {
+    
+})
 
 module.exports = router;
