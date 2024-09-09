@@ -18,7 +18,7 @@ router.post("/signup", (request, response) => {
     const location_long = body.location_long;
 
     // upload to database
-    executeQuery(`INSERT INTO userdata (id, email, password, name, location_lat, location_long) VALUE ('${uuid.v7()}', '${email}', '${password}', '${username}', '${location_lat}', '${location_long}')`);
+    executeQuery(`INSERT INTO userdata (id, email, passwordhash, name, location_lat, location_long) VALUE ('${uuid.v7()}', '${email}', '${password}', '${username}', '${location_lat}', '${location_long}')`);
 
     response.status(200);
     response.sendFile("index.html", { root: path.join(__dirname, "public") });
