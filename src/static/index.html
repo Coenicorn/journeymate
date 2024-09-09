@@ -1,12 +1,13 @@
+<!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="./styles.css">
-        <title>Open-ICT Student Socializer</title>
+        <title>Journeymate</title>
     </head>
     <body onload="checkLogin(); setCookie('username', '', -1);">
         <div class="top-menu">
 
-            <h1 class="page-top-text">User Settings</h1>
+            <h1 class="page-top-text">Journeymate</h1>
 
             <div class="menu">
                 <a href="./index.html" class="active">home</a>
@@ -23,7 +24,7 @@
           <form class="modal-content animate">
             <div class="imgcontainer">
               <span onclick="document.getElementById('id01').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
-              <img src="./img_avatar2.png" alt="Avatar" class="avatar">
+              <img src="./assets/img_avatar2.png" alt="Avatar" class="avatar">
             </div>
         
             <div class="container">
@@ -53,7 +54,7 @@
             <form class="modal-content animate" action="/signup" method="POST">
               <div class="imgcontainer">
                 <span onclick="document.getElementById('id02').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
-                <img src="./img_avatar2.png" alt="Avatar" class="avatar">
+                <img src="./assets/img_avatar2.png" alt="Avatar" class="avatar">
               </div>
           
               <div class="container">
@@ -65,8 +66,10 @@
                 <input type="text" placeholder="Enter Username" name="username" required>
               
                 <label for="password"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="password" required>
-  
+                <input type="password" placeholder="Enter Password" name="password" id="Password" required>
+
+                <label for="password"><b>Repeat Password</b></label>
+                <input type="password" placeholder="Repeat Password" name="password" id="RepeatPassword" required>  
   
                 <label for="location"><b>Start locatie</b></label>
                 <input type="text" placeholder="Enter start locatie" name="location" required>
