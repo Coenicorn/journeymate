@@ -1,3 +1,9 @@
 const argon2 = require("argon2");
 
-module.exports = {};
+function storeCredentials(uuid, username, email, password) {
+
+}
+
+function verifyCredentials(uuid, password) {
+    
+}
