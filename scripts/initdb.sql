@@ -3,7 +3,7 @@ USE journeymate;
 CREATE TABLE usercredentials (
     uuid VARCHAR(36) NOT NULL PRIMARY KEY,
     username VARCHAR(30) NOT NULL,
-    email VARCHAR(50) NOT NULL,
+    email VARCHAR(254) NOT NULL,
     passwordhash VARCHAR()
 );
 CREATE TABLE userdata (
