@@ -15,8 +15,8 @@ app.use(bodyparser.json());
 app.use(express.static(
     path.join(__dirname, "public")
 ));
-// custom routes for api requests
-app.use(require("./router"));
+// use api router
+app.use("/api", require("./api"));
 
 // start server on port 3000
 app.listen(EXPRESSPORT, () => {
