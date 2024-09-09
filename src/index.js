@@ -1,5 +1,5 @@
 const express = require("express");
-const dotenv = require("@dotenvx/dotenvx").config();
+const config = require("./config.js");
 const path = require("path");
 const bodyparser = require("body-parser");
 const { executeQuery } = require("./dbconnection.js");
