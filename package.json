@@ -4,8 +4,8 @@
   "description": "Travel together!",
   "main": "index.js",
   "scripts": {
-    "dev": "dotenvx run -- nodemon src/server.js",
-    "start": "dotenvx run -- node src/server.js",
+    "dev": "dotenvx run -- nodemon src/index.js",
+    "start": "dotenvx run -- node src/index.js",
     "initdb": "dotenvx run -- node src/initdb.js"
   },
   "repository": {

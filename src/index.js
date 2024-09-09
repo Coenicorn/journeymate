@@ -11,12 +11,14 @@ const EXPRESSPORT = 3000;
 // middleware
 app.use(bodyparser.urlencoded());
 app.use(bodyparser.json());
-// server main pages
+
+// server static content
 app.use(express.static(
-    path.join(__dirname, "public")
+    path.join(__dirname, "static")
 ));
+
 // use api router
-app.use("/api", require("./api"));
+app.use("/api", require("./api/"));
 
 // start server on port 3000
 app.listen(EXPRESSPORT, () => {
