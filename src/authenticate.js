@@ -49,7 +49,7 @@ async function storeCredentials(uuid, username, email, password) {
 
         if (correctFormat !== 0) reject(correctFormat);
 
-        //
+        // sanitize input
 
     });
 }
