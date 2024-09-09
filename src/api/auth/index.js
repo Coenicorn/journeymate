@@ -3,7 +3,7 @@ const executeQuery = require("../../dbconnection.js");
 
 router.use("/", (request, response) => {
     // username password based authentication
-
+    
 });
 
 router.use("/signup", (request, response) => {
@@ -22,7 +22,7 @@ router.use("/signup", (request, response) => {
     
     executeQuery(`INSERT INTO userdata (id, email, password, name, location_lat, location_long) VALUE ('${uuid.v7()}', '${email}', '${password}', '${username}', '${location_lat}', '${location_long}')`);
 
-
+    response.status(200);
 });
 
 module.exports = router;
