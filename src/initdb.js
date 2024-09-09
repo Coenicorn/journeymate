@@ -1,6 +1,24 @@
 // THIS CODE MAY ONLY BE RUN ONCE
 // it just won't do anything the 2nd time
 
+/*
+
+database structure:
+
+table #1:
+
+...
+[uuid, username, email, passwordhash]
+...
+
+table #2:
+
+...
+[uuid, location_lat, location_long]
+...
+
+*/
+
 const mysql = require("mysql");
 
 const DBPASSWORD = process.env.DBPASSWORD;
