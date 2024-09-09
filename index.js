@@ -85,7 +85,7 @@ main();
 
 const nsStationData = await nsResponse.json();
 
-console.log(nsStationData); // rauwe data
+console.log(nsStationData.payload); // rauwe data
 
 
     } catch (error) {
