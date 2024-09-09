@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const executeQuery = require("../../dbconnection.js");
-const 
 
 router.use("/", (request, response) => {
     // username password based authentication
