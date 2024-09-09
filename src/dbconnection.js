@@ -38,4 +38,4 @@ async function executeQuery(query) {
     });
 }
 
-module.exports = executeQuery;
+module.exports = { executeQuery };
