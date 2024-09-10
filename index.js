@@ -72,8 +72,6 @@ async function main() {
 
 async function getLocations(input){
 
-
-
     return new Promise(async(resolve) => {
 
         try{
@@ -81,7 +79,7 @@ async function getLocations(input){
     
             const response = await fetch(apiSearch);
             const data = await response.json();
-            const results = new Map([]);
+            const results = [];
 
             data.features.forEach((feature, index) => {
                 const { properties, geometry } = feature;
@@ -112,12 +110,12 @@ async function getLocations(input){
                     return;
                 }
     
-                results.set(index, resultaat);
+                results.push(resultaat);
             });
              resolve(results);
         } catch (error) {
             console.error('Error:', error);
-            resolve(new Map([]))
+            resolve([])
         }
 
     });
@@ -125,7 +123,7 @@ async function getLocations(input){
 
 async function getStation(results, chosenNumber){
 // NS API
-    const vertrek = results.get(chosenNumber - 1);
+    const vertrek = results[(chosenNumber - 1)];
     const nsApiRequest = nsStationURL
         .replace("{lat}", vertrek.lat)
         .replace("{lng}", vertrek.lon)
@@ -148,12 +146,9 @@ const nsResponse = await fetch(nsApiRequest, {
 
 async function getRoute(station){
     // NS ROUTE PLANNER
-
-var currentDate = new Date();
-
+var currentDate = new Date(); //een datum aanmaken voor een richtlijn voor de aankomsttijd (werkt niet helemaal)
 currentDate.setUTCHours(8); // UTC time
 currentDate.setUTCMinutes(34); // aankomsttijd op Utrecht Centraal, vanuit gaande dat tram om 8:39 vertrekt naar HU
-
 var rfc3339Date = currentDate.toISOString().replace("Z", "+0200"); 
 
 const nsApiReisRequest = nsReisInfoURL
@@ -167,7 +162,6 @@ headers: {
 });
 
 const nsReisData = await nsReisResponse.json();
-
 const availableTrips = new Map([]);
 const stops = new Map([]);
 
@@ -205,7 +199,6 @@ nsReisData.trips.forEach((trip, index) => {
             };
 
             console.log(stop.name);
-            
             tripStops.push(stop);
 
         });
@@ -213,7 +206,6 @@ nsReisData.trips.forEach((trip, index) => {
         stops.set(trip.idx, tripStops);
         //console.log(" Aantal stops: " + tripStops.length);
         //console.log(" Keer overstappen: " + (trip.legs.length - 1));
-
         const tempDate = new Date(reis.aankomstTijd);
         console.log(" " + formatDate(tempDate, 'YYYY-MM-DD HH:mm:ss') + "\n");
     });
