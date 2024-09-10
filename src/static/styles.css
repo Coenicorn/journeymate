@@ -68,13 +68,19 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 /* Full-width input fields */
 input[type=text], input[type=password] {
-  width: 100%;
+  width: 300px;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
   border-radius: 5px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus, input[type=password]:focus{
+  width: 100%;
 }
 
 /* Set a style for all buttons */
@@ -204,4 +210,14 @@ span.psw {
   margin-bottom: -32px;*/
   /*border: 1px #B79CED solid;*/
   border-radius: 15px;
+}
+
+input[type=text].SearchField{
+  width: 100px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text].SearchField:focus{
+  width: 100%;
 }

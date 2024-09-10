@@ -2,6 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="./styles.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Journeymate</title>
     </head>
     <body onload="checkLogin(); setCookie('username', '', -1);">
@@ -29,10 +30,10 @@
         
             <div class="container">
 
-              <label for="uname"><b>Username</b></label>
+              <label for="uname"><b>Username</b></label><br>
               <input id="lUsername" type="text" placeholder="Enter Username" name="username" required>
-            
-              <label for="password"><b>Password</b></label>
+              <br>
+              <label for="password"><b>Password</b></label><br>
               <input id="lPassword" type="password" placeholder="Enter Password" name="password" required>
 
               <button onclick="Login(); document.getElementById('id01').style.display='none'">Login</button>
@@ -59,19 +60,19 @@
           
               <div class="container">
   
-                <label for="email"><b>E-mail</b></label>
+                <label for="email"><b>E-mail</b></label><br>
                 <input type="text" placeholder="Enter E-mail" name="email" required>
-  
-                <label for="uname"><b>Username</b></label>
+                <br>
+                <label for="uname"><b>Username</b></label><br>
                 <input type="text" placeholder="Enter Username" name="username" required>
-              
-                <label for="password"><b>Password</b></label>
+                <br>
+                <label for="password"><b>Password</b></label><br>
                 <input type="password" placeholder="Enter Password" name="password" id="Password" required>
-
-                <label for="password"><b>Repeat Password</b></label>
+                <br>
+                <label for="password"><b>Repeat Password</b></label><br>
                 <input type="password" placeholder="Repeat Password" name="password" id="RepeatPassword" required>  
-  
-                <label for="location"><b>Start locatie</b></label>
+                <br>
+                <label for="location"><b>Start locatie</b></label><br>
                 <input type="text" placeholder="Enter start locatie" name="location" required>
   
                 <button type="submit">Sign Up</button>
@@ -95,8 +96,8 @@
                 <option value="option1">option1</option>
                 <option value="option2">option2</option>
                 <option value="option3">option3</option>
-              </select>
-              <input id="SearchPlace" type="text" placeholder="search">
+              </select><br>
+              <input id="SearchPlace" type="text" placeholder="search" class="SearchField">
               <button id="SearchButton" onclick="ShowInput()">search</button>
             </form>
           </div>
