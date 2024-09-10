@@ -109,7 +109,7 @@ async function getLocations(input){
                 };
 
                 if(resultaat.country != "Netherlands"){
-                    continue;
+                    return;
                 }
     
                 results.set(index, resultaat);

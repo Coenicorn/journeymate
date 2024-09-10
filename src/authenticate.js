@@ -1,6 +1,6 @@
 const argon2 = require("argon2");
 const { executeQuery, dbEscape } = require("./db.js");
-const { hashString, hashPasswordSalt, generateUUID } = require("./util.js");
+const { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt } = require("./util.js");
 const config = require("./config.js");
 
 /**
@@ -81,12 +81,26 @@ async function updateCredentials(uuid, username, email, password) {
  */
 async function verifyCredentials(uuid, password) {
     const formatResult = checkCredentialCorrectFormat(uuid, null, null, password);
+
+    if (formatResult !== 2) throw new Error("Not all input arguments are defined");
+
+    // get existing user, if any
+    let query = "SELECT * FROM usercredentials WHERE uuid = " + dbEscape(uuid);
+    let user = (await executeQuery(query).catch(err => console.error(err)))[0];
+
+    if (user.length === 0) {
+        // no users
+        throw new Error(`No users found`);
+    }
+
+    const match = await verifyPasswordSalt(password, uuid, user[0].passwordhash);
+
+    if (match) {
+        // succesful authentication
+        return 0;
+    } else {
+        throw new Error("Passwords do not match");
+    }
 }
 
-async function test() {
-    storeCredentials(generateUUID(), "coenicorn", "coenicorn.blauwzee@gmail.com", "lmaocoen");
-}
-
-test();
-
-module.exports = { storeCredentials, updateCredentials, verifyCredentials }; 
+module.exports = { storeCredentials, updateCredentials, verifyCredentials };

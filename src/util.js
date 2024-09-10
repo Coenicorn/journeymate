@@ -16,9 +16,15 @@ async function hashPasswordSalt(password, salt) {
     return hashString(combinedString);
 }
 
+async function verifyPasswordSalt(password, salt, passwordhash) {
+    const combinedString = `${password} . ${salt}`;
+
+    return argon2.verify(passwordhash, combinedString);
+}
+
 function generateUUID() {
     // https://en.wikipedia.org/wiki/Universally_unique_identifier --> version 4
     return uuid.v4();
 }
 
-module.exports = { hashString, hashPasswordSalt, generateUUID };
+module.exports = { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt };
