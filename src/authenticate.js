@@ -1,7 +1,73 @@
 const argon2 = require("argon2");
 const { executeQuery, dbEscape } = require("./db.js");
-const { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt, getUsers } = require("./util.js");
+const { hashPasswordSalt, verifyPasswordSalt, getUsers, sleep } = require("./util.js");
 const config = require("./config.js");
+const uuid = require("uuid");
+
+
+const sessions = new Map();
+
+/**
+ * @description starts session for user
+ * @returns session object or error string
+ */
+function newSession(userUUID) {
+    const users = getUsers(null, userUUID, null);
+
+    if (users.length !== 1) return "no user matching uuid";
+
+    let session = {
+        start: Date.now(),
+        user: userUUID,
+        token: uuid.v4()
+    };
+
+    sessions.set(session.token, session);
+
+    return session;
+}
+
+/**
+ * @description validates session token
+ * @returns 0 on success, 1 on failure, 2 on session expired
+ */
+function validateSessionToken(token) {
+    console.log(test);
+
+    const session = sessions.get(token);
+
+    if (!session) return 1;
+
+    let timeDiff = Date.now() - session.start;
+
+    if (timeDiff > config.maxSessionTime) {
+        // session ran out
+        sessions.delete(token);
+        
+        return 2;
+    }
+
+    return 0;
+}
+
+// periodically reset tokens
+(async () => {
+
+    while (1) {
+
+        sessions.forEach((value, key) => {
+
+            validateSessionToken(key);
+
+        });
+
+        await sleep(300000);
+        
+    }
+
+})();
+
+
 
 /**
  * @description verifies input credentials. All arguments are optional, provided that one or more are defined. All arguments MUST be typeof string
@@ -48,15 +114,15 @@ function checkCredentialCorrectFormat(uuid, username, email, password) {
 async function storeCredentials(uuid, username, email, password) {
 
     let formatResult = checkCredentialCorrectFormat(uuid, username, email, password);
-    if (typeof(formatResult) === "string") throw new Error(formatResult);
+    if (typeof(formatResult) === "string") return formatResult;
 
-    if (formatResult < 4) throw new Error(formatResult);
+    if (formatResult < 4) return "not enough arguments";
 
     // get (if any) existing users
     let query = "SELECT * FROM usercredentials WHERE username = " + dbEscape(username);
     let output = (await executeQuery(query))[0];
 
-    if (output.length > 0) throw new Error("ERROR user already registered");
+    if (output.length > 0) return "user already registered";
 
     // insert new user into database
     const passwordhash = await hashPasswordSalt(password, uuid);
@@ -64,7 +130,7 @@ async function storeCredentials(uuid, username, email, password) {
     query = `INSERT INTO usercredentials (uuid, username, email, passwordhash) VALUES (${dbEscape(uuid)}, ${dbEscape(username)}, ${dbEscape(email)}, ${dbEscape(passwordhash)})`;
     output = await executeQuery(query);
 
-    return output;
+    return 0;
 }
 
 /**
@@ -82,7 +148,7 @@ async function updateCredentials(uuid, username, email, password) {
 async function verifyCredentials(uuid, password) {
     const formatResult = checkCredentialCorrectFormat(uuid, null, null, password);
 
-    if (formatResult !== 2) throw new Error("Not all input arguments are defined");
+    if (formatResult !== 2) return "not all input arguments are defined";
 
     // get existing user, if any
     let query = "SELECT * FROM usercredentials WHERE uuid = " + dbEscape(uuid);
@@ -90,7 +156,7 @@ async function verifyCredentials(uuid, password) {
 
     if (user.length === 0) {
         // no users
-        throw new Error(`No users found`);
+        return "no user matching input";
     }
 
     const match = await verifyPasswordSalt(password, uuid, user[0].passwordhash);
@@ -99,8 +165,8 @@ async function verifyCredentials(uuid, password) {
         // succesful authentication
         return 0;
     } else {
-        throw new Error("Passwords do not match");
+        return "passwords do not match";
     }
 }
 
-module.exports = { storeCredentials, updateCredentials, verifyCredentials };
+module.exports = { storeCredentials, updateCredentials, verifyCredentials, newSession, validateSessionToken };
