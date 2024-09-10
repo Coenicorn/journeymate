@@ -4,7 +4,7 @@ CREATE TABLE usercredentials (
     uuid VARCHAR(36) NOT NULL PRIMARY KEY,
     username VARCHAR(30) NOT NULL,
     email VARCHAR(254) NOT NULL,
-    passwordhash VARCHAR()
+    passwordhash VARCHAR(128) NOT NULL
 );
 CREATE TABLE userdata (
     uuid VARCHAR(36) NOT NULL PRIMARY KEY,

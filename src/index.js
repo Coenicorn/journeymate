@@ -2,7 +2,7 @@ const express = require("express");
 const config = require("./config.js");
 const path = require("path");
 const bodyparser = require("body-parser");
-const { executeQuery } = require("./dbconnection.js");
+const { executeQuery } = require("./db.js");
 
 const app = express();
 
