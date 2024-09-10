@@ -97,7 +97,7 @@
                 <option value="option3">option3</option>
               </select>
               <input id="SearchPlace" type="text" placeholder="search">
-              <input type="submit">
+              <button id="SearchButton" onclick="ShowInput()">search</button>
             </form>
           </div>
     </body>
@@ -141,6 +141,11 @@
             if (checked == "on"){
                 setCookie("username", username, 1);
             }
+        }
+
+        function ShowInput(){
+          let input = document.getElementById("SearchPlace").value;
+          alert(input);
         }
     </script>
 </html>
