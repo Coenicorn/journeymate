@@ -100,6 +100,11 @@
               <input id="SearchPlace" type="text" placeholder="search" class="SearchField">
               <button id="SearchButton" onclick="ShowInput()">search</button>
             </form>
+            <div class="dropdown">
+              <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+              <div id="myDropdown" class="dropdown-content">
+              </div>
+            </div>
           </div>
     </body>
     <script>
@@ -147,6 +152,49 @@
         function ShowInput(){
           let input = document.getElementById("SearchPlace").value;
           alert(input);
+        }
+
+        function myFunction() {
+          document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
+
+        const words = ["test1", "test2", "test3", "test4", "test5"];
+
+        // Get the parent element where the new elements will be appended
+        const element = document.getElementById("myDropdown");
+
+        // Loop through the array of words
+        for (let i = 0; i < words.length; i++) {
+            // Create a new <a> element for each word
+            const para = document.createElement("a");
+            
+            // Create a text node with the current word
+            const node = document.createTextNode(words[i]);
+            
+            // Append the text node to the <a> element
+            para.appendChild(node);
+            
+            // Optionally append a <br> element after each <a> element
+            if (i < words.length - 1) { // Avoid appending <br> after the last word
+                para.appendChild(document.createElement("br"));
+            }
+
+            // Append the <a> element to the parent element
+            element.appendChild(para);
         }
     </script>
 </html>
