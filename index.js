@@ -42,7 +42,6 @@ async function main() {
                 console.log("#" + (index + 1) + " - " + result.formatted + "\n");
             });
             
-
         console.log("\n--------------------------------\n");
 
         const chosenNumber = await getUserInput("Kies het getal van het resultaat waar je wilt vertrekken:");
@@ -54,12 +53,7 @@ async function main() {
 
         const stResult = await getStation(results, chosenNumber);
 
-
-        
-
         await getRoute(stResult);
-
-        const tripNummer = await getUserInput("Hoelaat wil je aankomen:\n");
 
     // verder met tripNummer.
 
@@ -156,60 +150,61 @@ const nsApiReisRequest = nsReisInfoURL
     .replace("{dateTime}", encodeURIComponent(rfc3339Date));
 
 const nsReisResponse = await fetch(nsApiReisRequest, {
-headers: {
+    headers: {
     'Ocp-Apim-Subscription-Key': nsAPIKey
-}
+    }
 });
 
 const nsReisData = await nsReisResponse.json();
-const availableTrips = new Map([]);
-const stops = new Map([]);
+const availableTrips = new Map([]); // reisinformatie
 
-nsReisData.trips.forEach((trip, index) => {
+    nsReisData.trips.forEach((loopTrip, index) => {
 
-    console.log("Trip #"+ (trip.idx + 1));
-    
-    
-    trip.legs.forEach((leg, legIndex) => {
+        console.log("Trip nummer #" + (loopTrip.idx + 1));
+        const legStops = []; // Stops van traject
 
-        const reis = {
-            id: trip.idx,
-            duration: trip.actualDurationInMinutes,
-            direction: trip.direction,
-            vertrekTijd: trip.legs[legIndex].origin.plannedDateTime,
-            aankomstTijd: trip.legs[legIndex].destination.plannedDateTime,
-            vertrekPeron: trip.legs[legIndex].origin.actualTrack,
-            aankomstPeron: trip.legs[legIndex].destination.actualTrack,
-        };
-
+        // Legs loop
+       loopTrip.legs.forEach((loopLeg, legIndex) => {
         
-
-        availableTrips.set(index, reis);
-        
-        const tripStops = [];
-
-        leg.stops.forEach((loopStop, stopIndex) => {
-            
-            const stop = {
-                name: loopStop.name,
-                routeIdx: loopStop.routeIdx,
-                plannedDeparureDateTime: loopStop.plannedDepartureDateTime,
-                plannedDepartureTrack: loopStop.plannedDepartureTrack,
-                cancelled: loopStop.cancelled
-            };
-
-            console.log(stop.name);
-            tripStops.push(stop);
-
+            // Stops loop
+             loopLeg.stops.forEach((loopStop, stopIndex) => {
+           
+                const stop = {
+                    name: loopStop.name,
+                    plannedDepartureDateTime: loopStop.plannedDepartureDateTime,
+                    plannedDepartureTrack: loopStop.plannedDepartureTrack,
+                    plannedArrivalTrack: loopStop.plannedArrivalTrack,
+                    actualArrivalTrack: loopStop.actualArrivalTrack,
+                    isCancelled: loopStop.cancelled 
+                }
+                legStops.push(stop); // voeg stop toe aan traject
+                console.log(" -" + stop.name)
+            });
         });
+        console.log("\n");
 
-        stops.set(trip.idx, tripStops);
-        //console.log(" Aantal stops: " + tripStops.length);
-        //console.log(" Keer overstappen: " + (trip.legs.length - 1));
-        const tempDate = new Date(reis.aankomstTijd);
-        console.log(" " + formatDate(tempDate, 'YYYY-MM-DD HH:mm:ss') + "\n");
+        // Buiten legs loop
+        const trip = {
+            index: loopTrip.idx,
+            actualDurationInMinutes: loopTrip.actualDurationInMinutes,
+            plannedDurationInMinutes: loopTrip.plannedDurationInMinutes,
+            transfers: loopTrip.transfers,
+            stops: legStops // voeg traject toe aan de trip
+        }
+        availableTrips.set(loopTrip.idx, trip); // voeg de trip toe aan alle beschikbare trips
     });
-});
+
+    const vraag = await getUserInput("Welke trip wil je selecteren?");
+    if(vraag > availableTrips.size || vraag < 0 ){
+        console.log("Resultaat bestaat niet. Kies opnieuw.\n\n\n");
+        return main();
+    }
+    // Functie voor het uploaden naar de server. data: availableTrips.get(vraag -1)
+    
+    // user moet kiezen welke trip
+    // print trip informatie over de gekozen trip
+    // speel de trip informatie door naar de database voor server-side processing voor kruisend station
+    // laat user weten dat zijn of haar reis is opgeslagen, en dat diegene moet wachten op een match
 }
 
 main();
