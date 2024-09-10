@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { storeCredentials, verifyCredentials, newSession } = require("../../authenticate.js");
 const { executeQuery } = require("../../db.js");
-const { hashString, generateUUID, hashPasswordSalt, getUsers } = require("../../util.js");
+const { hashString, generateUUID, hashPasswordSalt, getUsers, log } = require("../../util.js");
 
 router.post("/", async (request, response) => {
     // username password based authentication
@@ -13,7 +13,7 @@ router.post("/", async (request, response) => {
     const users = await getUsers(username);
 
     if (users.length !== 1) {
-        response.status(400).send("user not registered");
+        response.status(400).json({ status: "user not registered" });
         return;
     }
 
@@ -23,22 +23,22 @@ router.post("/", async (request, response) => {
 
     if (result) {
         // fail
-        response.status(400).send(result);
+        response.status(400).json(result);
     } else {
         const token = await newSession(uuid);
 
         if (typeof(token) === "string") {
             // fail
-            response.status(500).send(token);
+            response.status(500).json(token);
         } else {
-            response.status(200).send(token);
+            response.status(200).json(token);
         }
     }
 });
 
 router.post("/signup", async (request, response) => {
     function fail(reason) {
-        response.status(400).send({ status: `Invalid request: ${reason}`});
+        response.status(400).json({ status: `Invalid request: ${reason}`});
     }
    
     // signup with username and password
@@ -63,6 +63,8 @@ router.post("/signup", async (request, response) => {
     } else {
         response.redirect("/api/auth/");
         response.end();
+
+        log(`new signup from user ${username}`);
     }
 });
 

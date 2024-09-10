@@ -23,16 +23,17 @@ globalConfig.databaseName = process.env.DBNAME;
 globalConfig.databaseHost = process.env.DBHOST;
 globalConfig.databaseUser = process.env.DBUSER;
 
+globalConfig.geoApiKey = process.env.GEOAPIKEY;
 globalConfig.nsApiKey = process.env.NSAPIKEY;
-globalConfig.geoapifyKey = process.env.GEOAPIKEY;
-globalConfig.geoapifyEndpoint = process.env.GEOAPIFYENDPOINT;
-globalConfig.nsStationsEndpoint = process.env.NSSTATIONSENDPOINT;
+globalConfig.geoapifyEndpoint = "https://api.geoapify.com/v1/geocode/search?text={search}&apiKey=" + process.env.GEOAPIKEY;
+globalConfig.nsStationsEndpoint = "https://gateway.apiportal.ns.nl/nsapp-stations/v2/nearest?lat={lat}&lng={lng}&includeNonPlannableStations=false";
+globalConfig.nsReisInfoEndpoint = "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation={fromStation}&toStation={toStation}&dateTime={dateTime}&searchForArrival=true&addChangeTime=5";
 
 globalConfig.authUuidLength = 36;
 globalConfig.authMaxUsernameLength = 30;
 globalConfig.authMaxEmailLength = 254;
 globalConfig.authMaxPasswordLength = 128;
 
-globalConfig.maxSessionMinutes = 1
+globalConfig.maxSessionSeconds = 300;
 
 module.exports = globalConfig;

@@ -40,11 +40,17 @@ async function getUsers(username, uuid, email) {
     if (email) query += " WHERE email = " + dbEscape(email);
     
     const results = await executeQuery(query);
-    return results;
+    return results[0];
 }
 
 async function sleep(ms) {
     return new Promise((res, rej) => setTimeout(res, ms));
 }
 
-module.exports = { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt, getUsers, sleep };
+function log(string) {
+    let d = new Date();
+    let str = `[${d.toLocaleString()}] ` + string;
+    console.log(str);
+}
+
+module.exports = { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt, getUsers, sleep, log };

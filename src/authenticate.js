@@ -1,6 +1,6 @@
 const argon2 = require("argon2");
 const { executeQuery, dbEscape } = require("./db.js");
-const { hashPasswordSalt, verifyPasswordSalt, getUsers, sleep } = require("./util.js");
+const { hashPasswordSalt, verifyPasswordSalt, getUsers, sleep, log } = require("./util.js");
 const config = require("./config.js");
 const uuid = require("uuid");
 
@@ -14,6 +14,8 @@ async function newSession(userUUID) {
     const users = await getUsers(null, userUUID, null);
     
     if (users.length !== 1) return "no user matching uuid";
+
+    log(`session token provided to user ${users[0].username}`);
 
     // generate random session token
     const token = uuid.v4();
@@ -30,17 +32,24 @@ async function newSession(userUUID) {
  * @returns 0 on success, 1 on failure
  */
 async function validateSessionToken(token) {
+    if (typeof(token) !== "string") return 1;
+    if (token.length !== config.authUuidLength) return 1;
+
+
     let query = "SELECT * FROM sessiondata WHERE token = " + dbEscape(token);
     const session = await executeQuery(query);
 
-    if (session.length === 0) return 1;
+    if (session[0].length === 0) return 1;
 
     return 0;
 }
 
 async function removeExpiredSessions() {
-    let query = "DELETE FROM sessiondata WHERE starttime < NOW() - INTERVAL " + dbEscape(config.maxSessionMinutes) + " MINUTE";
-    await executeQuery(query);
+    let query = "DELETE FROM sessiondata WHERE starttime < NOW() - INTERVAL " + dbEscape(config.maxSessionSeconds) + " SECOND";
+    const result = await executeQuery(query);
+    if (result[0].affectedRows > 0) {
+        log(`revoked ${result[0].affectedRows} session tokens`);
+    }
 }
 
 // periodically reset tokens
