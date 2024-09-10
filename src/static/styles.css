@@ -83,6 +83,10 @@ input[type=text]:focus, input[type=password]:focus{
   width: 100%;
 }
 
+/* label{
+  text-align: center;
+} */
+
 /* Set a style for all buttons */
 button {
   background-color: #5DBCFD;
@@ -123,6 +127,7 @@ img.avatar {
 .container {
   padding: 16px;
   border-radius: 15px;
+  text-align: center;
 }
 
 span.psw {
@@ -212,7 +217,7 @@ span.psw {
   border-radius: 15px;
 }
 
-input[type=text].SearchField{
+/*input[type=text].SearchField{
   width: 100px;
   -webkit-transition: width 0.4s ease-in-out;
   transition: width 0.4s ease-in-out;
@@ -221,3 +226,4 @@ input[type=text].SearchField{
 input[type=text].SearchField:focus{
   width: 100%;
 }
+  */
