@@ -1,6 +1,6 @@
 const argon2 = require("argon2");
 const { executeQuery, dbEscape } = require("./db.js");
-const { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt } = require("./util.js");
+const { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt, getUsers } = require("./util.js");
 const config = require("./config.js");
 
 /**

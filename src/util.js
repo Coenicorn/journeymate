@@ -1,6 +1,7 @@
 const argon2 = require("argon2");
 const config = require("./config.js");
 const uuid = require("uuid");
+const { dbEscape, executeQuery } = require("./db.js");
 
 /**
  * @returns Promise<string> of password hash
@@ -27,4 +28,19 @@ function generateUUID() {
     return uuid.v4();
 }
 
-module.exports = { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt };
+/**
+ * @description gets users from database based on one or more parameters
+ * @note only one paramater at a time
+ */
+async function getUsers(username, uuid, email) {
+    let query = "SELECT * FROM usercredentials";
+
+    if (username) query += " WHERE username = " + dbEscape(username);
+    if (uuid) query += " WHERE uuid = " + dbEscape(uuid);
+    if (email) query += " WHERE email = " + dbEscape(email);
+    
+    const results = (await executeQuery(query))[0];
+    return results;
+}
+
+module.exports = { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt, getUsers };
