@@ -1,41 +1,67 @@
 const router = require("express").Router();
-const { storeCredentials } = require("../../authenticate.js");
+const { storeCredentials, verifyCredentials, newSession } = require("../../authenticate.js");
 const { executeQuery } = require("../../db.js");
 const { hashString, generateUUID, hashPasswordSalt, getUsers } = require("../../util.js");
 
-router.post("/", (request, response) => {
+router.post("/", async (request, response) => {
     // username password based authentication
-    response.status(200).end();
+    const body = request.body;
+
+    const password = body.password;
+    const username = body.username;
+
+    const users = await getUsers(username);
+
+    if (users.length !== 1) {
+        response.status(400).send("user not registered");
+        return;
+    }
+
+    const uuid = users[0].uuid;
+
+    const result = await verifyCredentials(uuid, password);
+
+    if (result) {
+        // fail
+        response.status(400).send(result);
+    } else {
+        const token = await newSession(uuid);
+
+        if (typeof(token) === "string") {
+            // fail
+            response.status(500).send(token);
+        } else {
+            response.status(200).send(token);
+        }
+    }
 });
 
 router.post("/signup", async (request, response) => {
     function fail(reason) {
-        response.status(400).send(`Invalid request: ${reason}`);
+        response.status(400).send({ status: `Invalid request: ${reason}`});
     }
    
     // signup with username and password
     const body = request.body;
 
-    const username = body.username; if (!username) fail("No username provided");
+    const username = body.username; if (!username) { fail("No username provided"); return; }
 
     // check if username exists
     const user = await getUsers(username);
 
-    console.log(user);
-
-    const email = body.email; if (!email) fail("No email provided");
-    const password = body.password; if (!username) fail("No password provided");
-    const location_lat = body.location_lat; if (!location_lat) fail("Missing location data");
-    const location_long = body.location_long; if (!location_long) fail("Missing location data");
+    const email = body.email; if (!email) { fail("No email provided"); return; }
+    const password = body.password; if (!username) {fail("No password provided"); return; }
+    const location_lat = body.location_lat; if (!location_lat) {fail("Missing location data"); return; }
+    const location_long = body.location_long; if (!location_long) {fail("Missing location data"); return; }
     const uuid = generateUUID();
 
     const result = await storeCredentials(uuid, username, email, password);
 
     if (result !== 0) {
         // error
-        fail("failed authentication");
+        fail(result);
     } else {
-        // response.redirect("/");
+        response.redirect("/api/auth/");
         response.end();
     }
 });

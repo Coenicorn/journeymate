@@ -5,49 +5,41 @@ const config = require("./config.js");
 const uuid = require("uuid");
 
 
-const sessions = new Map();
-
 /**
  * @description starts session for user
  * @returns session object or error string
  */
-function newSession(userUUID) {
-    const users = getUsers(null, userUUID, null);
-
+async function newSession(userUUID) {
+    // check if user exists
+    const users = await getUsers(null, userUUID, null);
+    
     if (users.length !== 1) return "no user matching uuid";
 
-    let session = {
-        start: Date.now(),
-        user: userUUID,
-        token: uuid.v4()
-    };
+    const token = uuid.v4();
 
-    sessions.set(session.token, session);
+    // add session to database
+    let query = `INSERT INTO sessiondata (token, uuid, starttime) VALUES (${dbEscape(token)}, ${dbEscape(userUUID)}, NOW())`;
+    const result = await executeQuery(query);
 
-    return session;
+    return { token: token };
 }
 
 /**
  * @description validates session token
- * @returns 0 on success, 1 on failure, 2 on session expired
+ * @returns 0 on success, 1 on failure
  */
-function validateSessionToken(token) {
-    console.log(test);
+async function validateSessionToken(token) {
+    let query = "SELECT * FROM sessiondata WHERE token = " + dbEscape(token);
+    const session = await executeQuery(query);
 
-    const session = sessions.get(token);
-
-    if (!session) return 1;
-
-    let timeDiff = Date.now() - session.start;
-
-    if (timeDiff > config.maxSessionTime) {
-        // session ran out
-        sessions.delete(token);
-        
-        return 2;
-    }
+    if (session.length === 0) return 1;
 
     return 0;
+}
+
+async function removeExpiredSessions() {
+    let query = "DELETE FROM sessiondata WHERE starttime < NOW() - INTERVAL " + dbEscape(config.maxSessionMinutes) + " MINUTE";
+    let result = await executeQuery(query);
 }
 
 // periodically reset tokens
@@ -55,18 +47,13 @@ function validateSessionToken(token) {
 
     while (1) {
 
-        sessions.forEach((value, key) => {
+        removeExpiredSessions();
 
-            validateSessionToken(key);
-
-        });
-
-        await sleep(300000);
+        await sleep(10000);
         
     }
 
 })();
-
 
 
 /**
@@ -81,22 +68,22 @@ function checkCredentialCorrectFormat(uuid, username, email, password) {
     errorstatus = "";
     nDefined = 0;
 
-    if (uuid !== null) {
+    if (uuid) {
         if (typeof(uuid) !== "string") errorstatus = "typeof uuid must be string";
         if (uuid.length !== config.authUuidLength) errorstatus = `length of uuid must match ${config.authUuidLength}`;
         nDefined += 1;
     }
-    if (username !== null) {
+    if (username) {
         if (typeof(username) !== "string") errorstatus = "typeof username must be string";
         if (username.length > config.authMaxUsernameLength) errorstatus = "username is too long";
         nDefined += 1;
     }
-    if (email !== null) {
+    if (email) {
         if (typeof(email) !== "string") errorstatus = "typeof email must be string";
         if (email.length > config.authMaxEmailLength) errorstatus = "How did we get here?";
         nDefined += 1;
     }
-    if (password !== null) {
+    if (password) {
         if (typeof(password) !== "string") errorstatus = "typeof password must be string";
         if (password.length > config.authMaxPasswordLength) errorstatus = "password is too long";
         nDefined += 1;

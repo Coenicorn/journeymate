@@ -16,8 +16,8 @@ const pool = mysql.createPool({
  * @note DOES NOT SANITIZE INPUT
  */
 async function executeQuery(query) {
-    const connection = await pool.getConnection();
-    const result = await connection.query(query);
+    const connection = await pool.getConnection().catch(err => console.error(err));
+    const result = await connection.query(query).catch(err => console.error(err));
     connection.release();
     return result;
 }

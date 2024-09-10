@@ -4,5 +4,5 @@ if [[ $(/usr/bin/id -u) -ne 0 ]]; then
     exit
 fi
 
-mariadb -u root < createuser.sql
 mariadb -u root < initdb.sql
+mariadb -u root < createuser.sql
