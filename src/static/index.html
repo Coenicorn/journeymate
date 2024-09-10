@@ -193,24 +193,33 @@
         //     // Append the <a> element to the parent element
         //     element.appendChild(para);
         // }
-        const labels = ["Amsterdam Centraal", "Amsterdam Sloterdijk", "Amsterdam Amstel", "Amsterdam Lelylaan", "Amsterdam Zuid"];
-
+        // Array of button objects
+        const labels = [
+            { id: "btn1", text: "Button1" },
+            { id: "btn2", text: "Button2" },
+            { id: "btn3", text: "Button3" },
+            { id: "btn4", text: "Button4" }
+        ];
+                
         // Get the parent element where the buttons will be appended
         const container = document.getElementById("myDropdown");
-
-        // Loop through the array of labels
+                
+        // Loop through the array of button objects
         for (let i = 0; i < labels.length; i++) {
             // Create a new <button> element
             const button = document.createElement("button");
             
             // Set the text content of the button
-            button.textContent = labels[i];
+            button.textContent = labels[i].text;
             
-            // Optionally, you can add an event listener to each button
+            // Optionally, set an ID for each button
+            button.id = labels[i].id;
+            
+            // Add an event listener to each button
             button.addEventListener("click", function() {
-                alert(`You clicked ${labels[i]}`);
+                alert(`You clicked ${labels[i].text}`);
             });
-
+            
             // Append the button to the parent element
             container.appendChild(button);
         }
