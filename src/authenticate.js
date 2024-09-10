@@ -15,6 +15,7 @@ async function newSession(userUUID) {
     
     if (users.length !== 1) return "no user matching uuid";
 
+    // generate random session token
     const token = uuid.v4();
 
     // add session to database
@@ -39,7 +40,7 @@ async function validateSessionToken(token) {
 
 async function removeExpiredSessions() {
     let query = "DELETE FROM sessiondata WHERE starttime < NOW() - INTERVAL " + dbEscape(config.maxSessionMinutes) + " MINUTE";
-    let result = await executeQuery(query);
+    await executeQuery(query);
 }
 
 // periodically reset tokens
@@ -60,9 +61,6 @@ async function removeExpiredSessions() {
  * @description verifies input credentials. All arguments are optional, provided that one or more are defined. All arguments MUST be typeof string
  * @note all arguments must be either typeof string or typeof null
  * @returns error string or number of defined arguments
- * 
- * 
- * TODO write unit tests
  */
 function checkCredentialCorrectFormat(uuid, username, email, password) {
     errorstatus = "";

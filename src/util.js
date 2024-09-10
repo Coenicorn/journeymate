@@ -39,7 +39,7 @@ async function getUsers(username, uuid, email) {
     if (uuid) query += " WHERE uuid = " + dbEscape(uuid);
     if (email) query += " WHERE email = " + dbEscape(email);
     
-    const results = (await executeQuery(query))[0];
+    const results = await executeQuery(query);
     return results;
 }
 

@@ -12,18 +12,33 @@ const pool = mysql.createPool({
 }).promise();
 
 /**
- * @description executes database query
- * @note DOES NOT SANITIZE INPUT
+ * @description attempts to fetch database connection
+ * @returns database connection object or error string
  */
-async function executeQuery(query) {
-    const connection = await pool.getConnection().catch(err => console.error(err));
-    const result = await connection.query(query).catch(err => console.error(err));
-    connection.release();
-    return result;
+async function getDatabaseConnection() {
+    try {
+        return await pool.getConnection();
+    } catch(e) {
+        throw e; // abort because database cannot be reached for some reason
+    }
 }
 
-async function getDatabaseConnection() {
-    return await pool.getConnection();
+/**
+ * @description executes database query
+ * @note DOES NOT SANITIZE INPUT
+ * @returns result object or error string
+ */
+async function executeQuery(query) {
+    try {
+        const connection = await getDatabaseConnection();
+        const result = await connection.query(query);
+
+        connection.release();
+
+        return result;
+    } catch(e) {
+        throw e; // abort because database cannot be reached for some reason
+    }
 }
 
 function dbEscape(string) {
