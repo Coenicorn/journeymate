@@ -43,4 +43,8 @@ async function getUsers(username, uuid, email) {
     return results;
 }
 
-module.exports = { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt, getUsers };
+async function sleep(ms) {
+    return new Promise((res, rej) => setTimeout(res, ms));
+}
+
+module.exports = { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt, getUsers, sleep };
