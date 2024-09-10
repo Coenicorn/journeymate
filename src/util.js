@@ -5,13 +5,15 @@ const uuid = require("uuid");
 /**
  * @returns Promise<string> of password hash
  */
-async function hashString(inputString) {
+async function hashString(inputString, salt) {
     // using argon2 recommended best practices: https://argon2-cffi.readthedocs.io/en/stable/parameters.html
-    return argon2.hash(inputString, {
-        type: argon2.argon2id,
-        parallelism: 4,
-        memoryCost: 1024,
-    });
+    return argon2.hash(inputString);
+}
+
+async function hashPasswordSalt(password, salt) {
+    const combinedString = `${password} . ${salt}`;
+
+    return hashString(combinedString);
 }
 
 function generateUUID() {
@@ -19,4 +21,4 @@ function generateUUID() {
     return uuid.v4();
 }
 
-module.exports = { hashString };
+module.exports = { hashString, hashPasswordSalt, generateUUID };

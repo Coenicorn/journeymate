@@ -28,9 +28,9 @@ globalConfig.geoapifyKey = process.env.GEOAPIKEY;
 globalConfig.geoapifyEndpoint = process.env.GEOAPIFYENDPOINT;
 globalConfig.nsStationsEndpoint = process.env.NSSTATIONSENDPOINT;
 
-globalConfig.authUuidLength = process.env.AUTH_UUIDLENGTH;
-globalConfig.authMaxUsernameLength = process.env.AUTH_MAXUSERNAMELENGTH;
-globalConfig.authMaxEmailLength = process.env.AUTH_MAXEMAILLENGTH;
-globalConfig.authMaxPasswordLength = process.env.AUTH_MAXPASSWORDHASHLENGTH;
+globalConfig.authUuidLength = 36;
+globalConfig.authMaxUsernameLength = 30;
+globalConfig.authMaxEmailLength = 254;
+globalConfig.authMaxPasswordLength = 128;
 
 module.exports = globalConfig;

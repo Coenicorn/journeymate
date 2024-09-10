@@ -226,3 +226,10 @@ input[type=text].SearchField:focus{
   width: 100%;
 }
   */
+
+/* station menu */
+#myDropdown {
+  display: inline;
+  flex-wrap: wrap; /* Allows buttons to wrap to the next line if needed */
+  gap: 10px; /* Adds space between buttons */
+}
