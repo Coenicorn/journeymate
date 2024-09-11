@@ -20,6 +20,13 @@ app.use(express.static(
 // use api router
 app.use("/api", require("./api/"));
 
+// 404 handling
+app.use((req, res) => {
+    res.status(404);
+
+    if (req.accepts(''))
+});
+
 // start server on port 3000
 app.listen(EXPRESSPORT, () => {
     console.log("listening on port " + EXPRESSPORT);
