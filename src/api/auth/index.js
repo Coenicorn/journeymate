@@ -71,4 +71,15 @@ router.post("/signup", async (request, response) => {
     }
 });
 
+router.post("/validateToken", async (request, response) => {
+    const token = request.body.token;
+    const tokenIsNotValid = await validateSessionToken(token);
+
+    if (tokenIsNotValid) {
+        response.status(400).json({ status: "Invalid session token", invalidToken: 1 });
+    } else {
+        response.status(200).json({ status: "Valid session token", invalidToken: 0 });
+    }
+});
+
 module.exports = router;

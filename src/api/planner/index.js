@@ -92,7 +92,7 @@ router.get("/getRoutes", async (request, response) => {
     try {
         const routes = await planner.getRoutes(startStation, endStation);
 
-        debuglog("sent route for (");
+        debuglog("sent route {id=} for (");
         if (startStation.code) debuglog(" - from: " + startStation.code);
         if (endStation.code) debuglog(" - from: " + endStation.code);
         debuglog(")")
@@ -104,6 +104,18 @@ router.get("/getRoutes", async (request, response) => {
     }
 
     response.status(200).end();
+});
+
+router.post("/selectRoute", async (request, response) => {
+    const token = request.body.token;
+    const tokenIsNotValid = await validateSessionToken(token);
+
+    if (tokenIsNotValid) {
+        response.status(400).json({ status: "Invalid session token", invalidToken: 1 });
+        return;
+    }
+
+    response.status(501).json({ status: "Not yet implemented" });
 });
 
 module.exports = router;

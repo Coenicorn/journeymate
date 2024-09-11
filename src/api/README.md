@@ -50,6 +50,34 @@ This will either return an http response 200 on success with a json response wit
 }
 ```
 
+### Validating a token
+
+When an access token is acquired, it is to be used in most if not all requests to other api endpoints. One can check if a token is still valid by sending a POST request to `/auth/validateToken` with a json payload of this form: 
+```perl
+{
+  "token": "[sometoken]"
+}
+```
+This will either result in an http 200 response with json status or http 400 response with json status.
+Any successful response might look like this:
+```perl
+{
+  "status": "[status]",
+  "invalidToken": 0
+}
+```
+Any unsuccessful response might look like this:
+```perl
+{
+  "status": "[status]",
+  "invalidToken": 1
+}
+```
+
+### IMPORTANT
+
+The pattern of validating a token either by successfully receiving a request or rejecting it by responding with http code 400 and returning a json object with top-level paramater `"invalidToken": 1` MUST be continued throughout the rest of the api, apart from authentication endpoints. This can thus be assumed to always work
+
 ## Planner
 
 The planner API provides routes for getting location data for known locations, getting the closest stations and planning an eventual route.

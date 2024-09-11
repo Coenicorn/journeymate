@@ -120,7 +120,6 @@ async function getRoutes(vertrekStation, eindStation) {
 
     nsReisData.trips.forEach((loopTrip, index) => {
         const legStops = []; // Stops van traject
-        const legs = [];
 
         // Legs loop
         loopTrip.legs.forEach((loopLeg, legIndex) => {
@@ -144,7 +143,8 @@ async function getRoutes(vertrekStation, eindStation) {
             plannedDurationInMinutes: loopTrip.plannedDurationInMinutes,
             transfers: loopTrip.transfers,
             stops: legStops, // voeg traject toe aan de trip
-            trainType: loopTrip.modalityListItems
+            trainType: loopTrip.modalityListItems,
+            uid: loopTrip.uid
         };
 
         availableTrips.push(trip); // voeg de trip toe aan alle beschikbare trips
