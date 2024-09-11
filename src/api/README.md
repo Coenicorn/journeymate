@@ -1,8 +1,10 @@
 # JourneyMate backend
 
 The journeymate backend API uses a few routes with each representing a different part of functionality.
-All parts of the API are located under https://[siteroot]/api/, where [siteroot] represents the domain.
-All of the following routes use this url as base, so when (for example) a route `/auth` is mentioned, this expands to https://[siteroot]/api/auth
+All parts of the API are located under `https://[siteroot]/api/`, where [siteroot] represents the domain.
+All of the following routes use this url as base, so when (for example) a route `/auth` is mentioned, this expands to `https://[siteroot]/api/auth`
+
+Using a client side `fetch` request, you can just send requests to `/api/[whatever]`, which will automatically resolve site root.
 
 ## Authentication
 
@@ -67,9 +69,30 @@ Where `location` is a string with the name of the location you wish to fetch. Fo
 }
 ```
 This will either return an http response 200 with a list of possible locations matching the input string, or an http error code with json error response.
-Successfull responses may look like this:
-```
+Successfull responses might look like this:
+```perl
 {
-    "
+  "locations": [
+    {
+      "country": "Netherlands",
+      "city": "Amsterdam",
+      "lon": 4.897975505617977,
+      "lat": 52.37454030000001,
+      "formatted": "Amsterdam, NH, Netherlands",
+      "adres_line1": "Amsterdam",
+      "adres_line2": "NH, Netherlands",
+      "category": "administrative",
+      "rank": {
+        "importance": 0.5559294669399465,
+        "popularity": 9.995467104553104,
+        "confidence": 1,
+        "isFullMatch": true
+      }
+    }
+  ]
 }
+```
+Failed responses might look like this:
+```perl
+
 ```
