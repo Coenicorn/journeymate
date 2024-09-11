@@ -94,5 +94,55 @@ Successfull responses might look like this:
 ```
 Failed responses might look like this:
 ```perl
+{
+  
+}
+```
 
+
+
+
+```perl
+{
+  "stations": [
+    {
+      "EVACode": "8400058",
+      "UICCode": "8400058",
+      "cdCode": 58,
+      "code": "ASD",
+      "ingangsDatum": "2017-02-01",
+      "heeftFaciliteiten": true,
+      "heeftReisassistentie": true,
+      "heeftVertrektijden": true,
+      "land": "NL",
+      "lat": 52.3788871765137,
+      "lng": 4.90027761459351,
+      "radius": 525,
+      "naderenRadius": 1200,
+      "distance": 507,
+      "namen": {
+        "lang": "Amsterdam Centraal",
+        "middel": "Amsterdam C.",
+        "kort": "Amsterdm C"
+      },
+      "synoniemen": [
+        "Amsterdam CS",
+        "Amsterdam"
+      ],
+      "nearbyMeLocationId": {
+        "value": "ASD",
+        "type": "stationV2"
+      },
+      "sporen": [
+        {
+          "spoorNummer": "1"
+        },
+        {
+          "spoorNummer": "2"
+        }
+      ],
+      "stationType": "MEGA_STATION"
+    }
+  ]
+}
 ```

@@ -75,6 +75,7 @@ async function getLocations(input) {
  * @returns array of possible stations closest to location
  */
 async function getStations(location /* taken from previous function */) {
+    if (typeof(location.lat) !== "number" || typeof(location.long) !== "number") return "location data format is invalid";
     // NS API
     const nsApiRequest = config.nsStationsEndpoint
         .replace("{lat}", location.lat)

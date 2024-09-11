@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { validateSessionToken } = require("../../authenticate.js");
 const planner = require("../../planner.js");
+const { log } = require("../../util.js");
 
 // WIP
 router.get("/getLocations", async (request, response) => {
@@ -22,10 +23,15 @@ router.get("/getLocations", async (request, response) => {
     try {
         const locations = await planner.getLocations(location);
 
+        if (typeof(locations) === "string") {
+            response.status(400).json({ status: locations });
+            return;
+        }
+
         response.status(200).json({ locations: locations });
     } catch(e) {
         response.status(500).json({ status: "something went wrong" });
-        log(e.message);
+        log(e);
     }
 });
 
@@ -51,7 +57,7 @@ router.get("/getStations", async (request, response) => {
         response.status(200).json({ stations: stations });
     } catch(e) {
         response.status(500).json({ status: "something went wrong" });
-        log(e.message);
+        log(e);
     }
 
     response.status(200).end();
@@ -85,7 +91,7 @@ router.get("/getRoutes", async (request, response) => {
         response.status(200).json({ routes: routes });
     } catch(e) {
         response.status(500).json({ status: "something went wrong" });
-        log(e.message);
+        log(e);
     }
 
     response.status(200).end();
