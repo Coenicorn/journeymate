@@ -140,7 +140,7 @@ span.psw {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
-  top: 0;
+  top: 5%;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
@@ -272,7 +272,7 @@ input[type=text].SearchField:focus{
       width: 100%;
   }
 
-  .bottom-menu a .fa-train, .bottom-menu a .fa-circle-question, .bottom-menu a .fa-sliders {
+  .bottom-menu a .fa-train, .bottom-menu a .fa-circle-question, .bottom-menu a .fa-user {
       position: sticky;
       float: left;
       display: block;
@@ -287,7 +287,7 @@ input[type=text].SearchField:focus{
       transition: 1s;
   }
 
-  .bottom-menu a .fa-train:hover, .bottom-menu a .fa-circle-question:hover, .bottom-menu a .fa-sliders:hover {
+  .bottom-menu a .fa-train:hover, .bottom-menu a .fa-circle-question:hover, .bottom-menu a .fa-user:hover {
       filter: brightness(0.7);
       transition: 1s;
   }
@@ -296,7 +296,7 @@ input[type=text].SearchField:focus{
   .dropup-menu {
       display: none;
       position: fixed;
-      bottom: 8.5%; /* Position above the bottom menu */
+      bottom: 8.75%; /* Position above the bottom menu */
       left: 66.666666%;
       /* transform: translateX(-0%); */
       background-color: #DFE0E2;
@@ -315,7 +315,7 @@ input[type=text].SearchField:focus{
       font-size: 50px;
   }
 
-  .dropup-menu a .fa-screwdriver-wrench, .dropup-menu a .fa-right-to-bracket, .dropup-menu a .fa-right-from-bracket {
+  .dropup-menu a .fa-screwdriver-wrench, .dropup-menu a .fa-right-to-bracket, .dropup-menu a .fa-user-plus {
     font-size: 50px;
     border-top: none;
     color: #999999;

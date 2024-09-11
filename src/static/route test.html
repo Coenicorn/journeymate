@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Journeymate</title>
     </head>
-    <body onload="//checkLogin()">
+    <body onload="//checkLogin()" id="body">
 
       <h1 class="page-top-text" style="font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">Journeymate</h1>
 
@@ -85,15 +85,15 @@
               </div>
           
               <div class="container" style="background-color:#f1f1f1">
-                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                <button type="button" onclick="document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
                 <span class="psw">Forgot <a href="#">password?</a></span>
               </div>
             </form>
           </div>
 
-          <div class="search">
+          <div class="search" id="search-menu">
             <form id="locationForm">
-                <label for="locationInput">Enter location:</label>
+                <label for="locationInput">Enter starting location:</label>
                 <input type="text" id="locationInput" name="locationInput" required>
                 <button type="submit">Search</button>
             </form>
@@ -103,13 +103,13 @@
           </div>
 
           <div class="bottom-menu">
-            <a href="#"><i class="fa-solid fa-train"></i></a>
-            <a href="#"><i class="fa-solid fa-circle-question"></i></a>
-            <a href="#" id="settings-button"><i class="fa-solid fa-sliders"></i></a>
+            <a href="#" onclick="document.getElementById('search-menu').style.display = 'block'; document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='none';" title="route"><i class="fa-solid fa-train"></i></a>
+            <a href="#" onclick="document.getElementById('search-menu').style.display = 'none'; document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='none';" title="questions in the train"><i class="fa-solid fa-circle-question"></i></a>
+            <a href="#" id="settings-button" title="user settings"><i class="fa-solid fa-user"></i></a>
             <div id="dropup-menu" class="dropup-menu">
-                <a href="#"><i class="fa-solid fa-screwdriver-wrench"></i></a>
-                <a href="#"><i class="fa-solid fa-right-to-bracket"></i></a>
-                <a href="#"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <a href="#" onclick="document.getElementById('search-menu').style.display = 'none'; document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='none';" title="settings"><i class="fa-solid fa-screwdriver-wrench"></i></a>
+                <a href="#" onclick="document.getElementById('search-menu').style.display = 'none'; document.getElementById('id01').style.display='block'; document.getElementById('id02').style.display='none';" title="sign-in"><i class="fa-solid fa-right-to-bracket"></i></a>
+                <a href="#" onclick="document.getElementById('search-menu').style.display = 'none'; document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='block';" title="sign-out"><i class="fa-solid fa-user-plus"></i></a>
             </div>
         </div>
     </body>
