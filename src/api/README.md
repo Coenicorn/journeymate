@@ -10,5 +10,13 @@ The authentication API is split up into two parts: signing up and signing in.
 
 ### Signing up
 
-When a user is registered for the first time, they will need to make a call to `/auth/signup`. 
-This route expects a json payload of this form: ``
+When a user is registered for the first time, they will need to make a POST request to `/auth/signup`. 
+This route expects a json payload of this form: 
+```perl
+{
+    "username": "[someusername]",
+    "password": "[somepassword]",
+    "email": "[someemail]"
+}
+```
+This will either return a http response 200 or 

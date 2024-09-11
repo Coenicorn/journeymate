@@ -51,8 +51,8 @@ router.post("/signup", async (request, response) => {
 
     const email = body.email; if (!email) { fail("No email provided"); return; }
     const password = body.password; if (!username) {fail("No password provided"); return; }
-    const location_lat = body.location_lat; if (!location_lat) {fail("Missing location data"); return; }
-    const location_long = body.location_long; if (!location_long) {fail("Missing location data"); return; }
+    // const location_lat = body.location_lat; if (!location_lat) {fail("Missing location data"); return; }
+    // const location_long = body.location_long; if (!location_long) {fail("Missing location data"); return; }
     const uuid = generateUUID();
 
     const result = await storeCredentials(uuid, username, email, password);
@@ -61,8 +61,7 @@ router.post("/signup", async (request, response) => {
         // error
         fail(result);
     } else {
-        response.redirect("/api/auth/");
-        response.end();
+        response.status(200).end();
 
         log(`new signup from user ${username}`);
     }
