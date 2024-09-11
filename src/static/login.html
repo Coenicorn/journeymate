@@ -8,7 +8,7 @@
     <body onload="document.getElementById('id02').style.display='block';">
         <div id="id01" class="modal">
         
-            <form class="modal-content animate">
+            <form class="modal-content animate" action="http://92.108.61.219:32837/api/auth/signin" method="POST" id="signinform">
               <div class="imgcontainer">
                 <span onclick="document.getElementById('id01').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
                 <img src="./assets/img/avatar.png" alt="Avatar" class="avatar">
@@ -38,7 +38,7 @@
   
           <div id="id02" class="modal">
           
-              <form class="modal-content animate" id="signinform">
+              <form class="modal-content animate" action="http://92.108.61.219:32837/api/auth/signup" method="POST" id="signupform">
                 <div class="imgcontainer">
                   <span onclick="document.getElementById('id02').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
                   <img src="./assets/img/avatar.png" alt="Avatar" class="avatar">
@@ -55,13 +55,13 @@
                   <label for="password"><b>Password</b></label><br>
                   <input type="password" placeholder="Enter Password" name="password" id="Password" required>
                   <br>
-                  <label for="password"><b>Repeat Password</b></label><br>
+                  <label for="password2"><b>Repeat Password</b></label><br>
                   <input type="password" placeholder="Repeat Password" name="password" id="RepeatPassword" required>  
                   <br>
                   <label for="location"><b>Start locatie</b></label><br>
                   <input type="text" placeholder="Enter start locatie" name="location" required>
     
-                  <button type="submit">Sign Up</button>
+                  <button type="submit" onclick="">Sign Up</button>
                   <button type="submit" onclick="document.getElementById('id01').style.display='block'; document.getElementById('id02').style.display='none'">Login</button>
                   <label>
                     <input type="checkbox" name="remember"> Remember me
@@ -76,7 +76,7 @@
             </div>
     </body>
     <script>
-      document.getElementById('signinform').addEventListener('submit', async function(event) {
+        document.getElementById('signupform').addEventListener('submit', async function(event) {
           // Prevent the form from submitting in the default way
           event.preventDefault();
           
@@ -104,24 +104,52 @@
           .catch(err => console.log(err));
       });
 
-    //   (async () => {
+      document.getElementById('signinform').addEventListener('submit', async function(event) {
+          // Prevent the form from submitting in the default way
+          event.preventDefault();
+          
+          const form = event.target;
+          const formData = new FormData(form);
 
-    //     const response = await fetch("/api/auth/signup", {
-    //       method: "POST",
-    //       body: JSON.stringify({
-    //         username: "test",
-    //         password: "test",
-    //         email: "test"
-    //       }),
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         "Accepts": "application/json"
-    //       }
-    //     });
-    //     const json = await response.json();
+          const data = {
+            username: formData.get("username"),
+            password: formData.get("password"),
+          };
+
+          // session token
+          // Send the data using fetch
+          fetch("http://92.108.61.219:32837/api/auth/signin", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+                "Accepst": "application/json"
+            }
+          })
+          .then(response => response.json())
+          .then(data => console.log(data))
+          .catch(err => console.log(err));
+      });
+
+      /*(async () => {
+
+        const response = await fetch("http://92.108.61.219:32837/api/auth/signup", {
+          method: "POST",
+          body: JSON.stringify({
+            username: "test",
+            password: "test",
+            email: "test"
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            "Accepts": "application/json"
+          }
+        });
+        const json = await response.json();
 
     //     console.log(json);
 
-    //   })();
+      })();
+    */
     </script>
 </html>
