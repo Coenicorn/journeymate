@@ -22,7 +22,7 @@ router.get("/getLocations", async (request, response) => {
     try {
         const locations = await planner.getLocations(location);
 
-        response.status(200).json(locations);
+        response.status(200).json({ locations: locations });
     } catch(e) {
         response.status(500).json({ status: "something went wrong" });
         log(e.message);
@@ -48,7 +48,7 @@ router.get("/getStations", async (request, response) => {
     try {
         const stations = await planner.getStations(location);
 
-        response.status(200).json(stations);
+        response.status(200).json({ stations: stations });
     } catch(e) {
         response.status(500).json({ status: "something went wrong" });
         log(e.message);
@@ -82,7 +82,7 @@ router.get("/getRoutes", async (request, response) => {
     try {
         const routes = await planner.getRoutes(startStation, endStation);
 
-        response.status(200).json(routes);
+        response.status(200).json({ routes: routes });
     } catch(e) {
         response.status(500).json({ status: "something went wrong" });
         log(e.message);
