@@ -95,7 +95,7 @@ Successfull responses might look like this:
 Failed responses might look like this:
 ```perl
 {
-  
+  "status": ""
 }
 ```
 

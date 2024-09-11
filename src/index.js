@@ -3,6 +3,7 @@ const config = require("./config.js");
 const path = require("path");
 const bodyparser = require("body-parser");
 const { executeQuery } = require("./db.js");
+const cors = require("cors");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(bodyparser.json());
 app.use(express.static(
     path.join(__dirname, "static")
 ));
+app.use(cors());
 
 // use api router
 app.use("/api", require("./api/"));
