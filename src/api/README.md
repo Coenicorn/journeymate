@@ -78,19 +78,28 @@ Any unsuccessful response might look like this:
 
 The pattern of validating a token either by successfully receiving a request or rejecting it by responding with http code 400 and returning a json object with top-level paramater `"invalidToken": 1` MUST be continued throughout the rest of the api, apart from authentication endpoints. This can thus be assumed to always work
 
+This also means that the token provided will have to be packaged with any and all requests to api endpoints apart from authentication, wishes the user them to work. This is done by including the token at the top level of every json payload, like so:
+```perl
+{
+  ...
+  "token": "[sometoken]"
+}
+```
+This always being the case makes that this document WILL NOT continue to specify the token's inclusion in any featured request examples, so remember to always include it to avoid any unnecessary frustrations.
+
 ## Planner
 
 The planner API provides routes for getting location data for known locations, getting the closest stations and planning an eventual route.
 
 ### Getting locations
 
-This route is used to get location data which will be used by the rest of the api. When a user wishes to fetch location data, a GET request must be sent with json payload of this form:
+This route is used to get geographical location data (e.g. latitude / longitude) which will be used by the rest of the api. When a user wishes to fetch location data, a GET request must be sent with json payload of this form:
 ```perl
 {
     "location": "[somelocation]"
 }
 ```
-Where `location` is a string with the name of the location you wish to fetch. For example, if I wish to request locations for `amsterdam`, I would send this request: 
+Where the value of `location` is a string with the name of the location you wish to fetch. For example, if I wish to request locations for `amsterdam`, I would send this request: 
 ```perl
 {
     "location": "amsterdam"
@@ -123,7 +132,7 @@ Successfull responses might look like this:
 Failed responses might look like this:
 ```perl
 {
-  "status": ""
+  "status": "[somestatus]"
 }
 ```
 
@@ -132,7 +141,6 @@ Failed responses might look like this:
 This route is used to fetch stations closest to a given location. It is recommended to pass in the entire `locations` object as returned in the previous function for future proofing, but currently only the `lat` and `long` values are actually used. To fetch stations, the user must send a GET request to `/api/planner/getStations` with json payload in this form:
 ```perl
 {
-  "token": "[sessiontoken]",
   "location": {
       "country": "Netherlands",
       "city": "Amsterdam",
@@ -151,7 +159,6 @@ This route is used to fetch stations closest to a given location. It is recommen
     }
 }
 ```
-The session token in this request is the one previously retrieved from a call to `/auth/signin`
 This request will result in an http 200 with json response or an error code with status.
 A successful request might look like this:
 ```perl
@@ -199,3 +206,8 @@ A successful request might look like this:
 }
 ```
 A failed request response might look like this:
+```perl
+{
+  "status": "[somestatus]"
+}
+```
