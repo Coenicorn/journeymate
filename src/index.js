@@ -25,7 +25,7 @@ app.use((req, res) => {
     res.status(404);
 
     if (req.accepts('html')) {
-        res.sendFile(path.join(__dirname, "static"));
+        res.sendFile(path.join(__dirname, "static/404.html"));
     } else if (req.accepts("json")) {
         res.json({ status: "404 not found" });
     } else {
