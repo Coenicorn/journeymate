@@ -38,7 +38,7 @@
   
           <div id="id02" class="modal">
           
-              <form class="modal-content animate" id="signinform">
+              <form class="modal-content animate" action="/api/auth/signup" method="POST" id="signinform">
                 <div class="imgcontainer">
                   <span onclick="document.getElementById('id02').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
                   <img src="./assets/img/avatar.png" alt="Avatar" class="avatar">
@@ -61,7 +61,7 @@
                   <label for="location"><b>Start locatie</b></label><br>
                   <input type="text" placeholder="Enter start locatie" name="location" required>
     
-                  <button type="submit" onclick="">Sign Up</button>
+                  <button type="submit">Sign Up</button>
                   <button type="submit" onclick="document.getElementById('id01').style.display='block'; document.getElementById('id02').style.display='none'">Login</button>
                   <label>
                     <input type="checkbox" name="remember"> Remember me
@@ -76,43 +76,38 @@
             </div>
     </body>
     <script>
-        document.getElementById('signinform').addEventListener('submit', function(event) {
-            // Prevent the form from submitting in the default way
-            event.preventDefault();
-            
-            const form = event.target;
-            const formData = new FormData(form);
+      document.getElementById('signinform').addEventListener('submit', async function(event) {
+          // Prevent the form from submitting in the default way
+          event.preventDefault();
+          
+          const form = event.target;
+          const formData = new FormData(form);
+          alert(formData);
 
-
-            
-            // session token
-            // Send the data using fetch
-            fetch("http://92.108.61.219:32837/api/auth/signup", {
-              method: "POST",
-              body: JSON.stringify({
-                username: formData.username,
-                password: formData.password,
-                email: formData.email
-              }),
-              headers: {
-                "Content-Type": "application/json",
-                "Accepts": "application/json"
+          // session token
+          // Send the data using fetch
+          fetch("/api/auth/signup", {
+            method: "POST",
+            body: {
+              username: formData.username,
+              password: formData.password,
+              email: formData.email
             }
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Handle the response
-            })
-            
-            .catch((error) => {
-                // Handle the error
-            });
-            
-        });
+          })
+          .then(response => response.json())
+          .then(data => {
+              // Handle the response
+              console.log('Success:', data);
+          })
+          .catch((error) => {
+              // Handle the error
+              console.error('Error:', error);
+          });
+      });
 
-      /*(async () => {
+      (async () => {
 
-        const response = await fetch("http://92.108.61.219:32837/api/auth/signup", {
+        const response = await fetch("/api/auth/signup", {
           method: "POST",
           body: JSON.stringify({
             username: "test",
@@ -126,9 +121,8 @@
         });
         const json = await response.json();
 
+        console.log(json);
 
-        
       })();
-    */
     </script>
 </html>
