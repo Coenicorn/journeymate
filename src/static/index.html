@@ -280,11 +280,5 @@
           .then(data => setCookie("token", data.token, 100))
           .catch(err => console.log(err));
       });
-
-      function main() {
-        let t = getCookie("token");
-        console.log(t);
-      }
-      onload=main
     </script>
 </html>
