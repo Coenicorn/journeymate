@@ -9,7 +9,7 @@ router.get("/getLocations", async (request, response) => {
     const tokenIsNotValid = await validateSessionToken(token);
 
     if (tokenIsNotValid) {
-        response.status(400).json({ status: "Invalid session token" });
+        response.status(400).json({ status: "Invalid session token", invalidToken: 1 });
         return;
     }
 
@@ -40,7 +40,7 @@ router.get("/getStations", async (request, response) => {
     const tokenIsNotValid = await validateSessionToken(token);
 
     if (tokenIsNotValid) {
-        response.status(400).json({ status: "Invalid session token" });
+        response.status(400).json({ status: "Invalid session token", invalidToken: 1 });
         return;
     }
 
@@ -68,7 +68,7 @@ router.get("/getRoutes", async (request, response) => {
     const tokenIsNotValid = await validateSessionToken(token);
 
     if (tokenIsNotValid) {
-        response.status(400).json({ status: "Invalid session token" });
+        response.status(400).json({ status: "Invalid session token", invalidToken: 1 });
         return;
     }
 

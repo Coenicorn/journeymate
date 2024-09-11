@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const { storeCredentials, verifyCredentials, newSession } = require("../../authenticate.js");
 const { executeQuery } = require("../../db.js");
-const { hashString, generateUUID, hashPasswordSalt, getUsers, log } = require("../../util.js");
+const { hashString, generateUUID, hashPasswordSalt, getUsers, log, debuglog } = require("../../util.js");
 
-router.post("/", async (request, response) => {
+router.post("/signin", async (request, response) => {
     // username password based authentication
     const body = request.body;
 
@@ -20,6 +20,8 @@ router.post("/", async (request, response) => {
     const uuid = users[0].uuid;
 
     const result = await verifyCredentials(uuid, password);
+
+    debuglog(`new signin request from ${users[0].username}`);
 
     if (result) {
         // fail
@@ -44,6 +46,8 @@ router.post("/signup", async (request, response) => {
     // signup with username and password
     const body = request.body;
 
+    debuglog(`new signup request ${body}`);
+
     const username = body.username; if (!username) { fail("No username provided"); return; }
 
     // check if username exists
@@ -61,7 +65,7 @@ router.post("/signup", async (request, response) => {
         // error
         fail(result);
     } else {
-        response.status(200).end();
+        response.status(200).json({ status: "Succesfully logged in!" });
 
         log(`new signup from user ${username}`);
     }

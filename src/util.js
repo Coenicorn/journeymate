@@ -53,4 +53,11 @@ function log(string) {
     console.log(str);
 }
 
-module.exports = { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt, getUsers, sleep, log };
+function debuglog(string) {
+    if (config.debug !== true) return;
+    let d = new Date();
+    let str = `[${d.toLocaleString()}] [DEBUG] ` + string;
+    console.log(str);
+}
+
+module.exports = { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt, getUsers, sleep, log, debuglog };

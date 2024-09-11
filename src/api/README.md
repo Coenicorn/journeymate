@@ -33,7 +33,7 @@ This will either return a http response 200 on success or an http response 400 w
 ### Signing in
 
 Signing in will authenticate the user and provide a session token which will need to be supplied in every next non-auth request.
-To sign in and obtain a token, users must POST to `/auth/`.
+To sign in and obtain a token, users must POST to `/auth/signin`.
 This route expects a json payload of this form:
 ```perl
 {
@@ -56,7 +56,7 @@ The planner API provides routes for getting location data for known locations, g
 
 ### Getting locations
 
-This route is meant to get location data which will be used by the rest of the api. When a user wishes to fetch location data, a GET request must be sent with json payload of this form:
+This route is used to get location data which will be used by the rest of the api. When a user wishes to fetch location data, a GET request must be sent with json payload of this form:
 ```perl
 {
     "location": "[somelocation]"
@@ -99,9 +99,33 @@ Failed responses might look like this:
 }
 ```
 
+### Getting stations
 
-
-
+This route is used to fetch stations closest to a given location. It is recommended to pass in the entire `locations` object as returned in the previous function for future proofing, but currently only the `lat` and `long` values are actually used. To fetch stations, the user must send a GET request to `/api/planner/getStations` with json payload in this form:
+```perl
+{
+  "token": "[sessiontoken]",
+  "location": {
+      "country": "Netherlands",
+      "city": "Amsterdam",
+      "lon": 4.897975505617977,
+      "lat": 52.37454030000001,
+      "formatted": "Amsterdam, NH, Netherlands",
+      "adres_line1": "Amsterdam",
+      "adres_line2": "NH, Netherlands",
+      "category": "administrative",
+      "rank": {
+        "importance": 0.5559294669399465,
+        "popularity": 9.995467104553104,
+        "confidence": 1,
+        "isFullMatch": true
+      }
+    }
+}
+```
+The session token in this request is the one previously retrieved from a call to `/auth/signin`
+This request will result in an http 200 with json response or an error code with status.
+A successful request might look like this:
 ```perl
 {
   "stations": [
@@ -146,3 +170,4 @@ Failed responses might look like this:
   ]
 }
 ```
+A failed request response might look like this:

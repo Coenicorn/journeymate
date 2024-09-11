@@ -29,7 +29,7 @@ async function newSession(userUUID) {
 
 /**
  * @description validates session token
- * @returns 0 on success, 1 on failure
+ * @returns json object with validity status
  */
 async function validateSessionToken(token) {
     if (typeof(token) !== "string") return 1;

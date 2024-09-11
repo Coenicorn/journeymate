@@ -18,6 +18,8 @@ const dotenv = require("@dotenvx/dotenvx").config();
 
 const globalConfig = {};
 
+globalConfig.debug = true;
+
 globalConfig.databasePassword = process.env.DBPASSWORD;
 globalConfig.databaseName = process.env.DBNAME;
 globalConfig.databaseHost = process.env.DBHOST;
