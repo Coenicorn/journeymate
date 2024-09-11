@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { validateSessionToken } = require("../../authenticate.js");
 const planner = require("../../planner.js");
-const { log } = require("../../util.js");
+const { log, debuglog } = require("../../util.js");
 
 // WIP
 router.get("/getLocations", async (request, response) => {
@@ -28,6 +28,8 @@ router.get("/getLocations", async (request, response) => {
             return;
         }
 
+        debuglog(`sent locations data for: ${location}`);
+
         response.status(200).json({ locations: locations });
     } catch(e) {
         response.status(500).json({ status: "something went wrong" });
@@ -53,6 +55,8 @@ router.get("/getStations", async (request, response) => {
 
     try {
         const stations = await planner.getStations(location);
+
+        if (location.formatted) debuglog(`sent stations data for: ${location.formatted}`);
 
         response.status(200).json({ stations: stations });
     } catch(e) {
@@ -87,6 +91,11 @@ router.get("/getRoutes", async (request, response) => {
 
     try {
         const routes = await planner.getRoutes(startStation, endStation);
+
+        debuglog("sent route for (");
+        if (startStation.code) debuglog(" - from: " + startStation.code);
+        if (endStation.code) debuglog(" - from: " + endStation.code);
+        debuglog(")")
 
         response.status(200).json({ routes: routes });
     } catch(e) {
