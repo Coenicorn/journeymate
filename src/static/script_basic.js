@@ -15,7 +15,7 @@ function setCookie(cname,cvalue,exdays) {
   const d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
   let expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;SameSite=Lax;";
 }
 function getCookie(cname) {
   let name = cname + "=";
@@ -38,7 +38,7 @@ function getCookies(name) {
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
 async function checkLogin() {
-  let usernameResponse = await fetchWithToken("/api/user", {
+  let usernameResponse = await fetch("/api/user", {
     headers: {
       "Content-Type": "application/json",
       "Accepts": "application/json"
@@ -161,15 +161,6 @@ document.getElementById('signinform').addEventListener('submit', async function(
     alert("could not sign in :( are you registered?");
   }
 });
-
-async function fetchWithToken(url, config) {
-  // inject stored token
-  const token = getCookie("token");
-
-  config.headers["Authorization"] = token;
-
-  return fetch(url, config);
-}
 
 
         // const words = ["test1", "test2", "test3", "test4", "test5"];
@@ -329,4 +320,3 @@ const vragen = [
       "Ben je ooit in Scandinavië geweest?"
   ]
 ]
-

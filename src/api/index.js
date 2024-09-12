@@ -10,12 +10,12 @@ const router = require("express").Router();
 router.use("/auth", require("./auth"));
 // validate auth header
 router.use(async (request, response, next) => {
-    if (!request.headers.authorization) {
-        response.status(401).json({ status: "missing authentication headers" });
+    if (!request.cookies.token) {
+        response.status(401).json({ status: "missing authentication cookie" });
         return;
     }
 
-    const token = request.headers.authorization;
+    const token = request.cookies.token;
     const tokenData = await validateSessionToken(token);
 
     if (!tokenData) {

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Journeymate</title>
 </head>
-<body onload="checkLogin()" id="body">
+<body onload="checkLogin();" id="body">
 
   <h1 class="page-top-text" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="text-decoration: none; color: black;">Journeymate</a></h1>
 
@@ -87,7 +87,7 @@
           </div>
       
           <div class="container" style="background-color:#f1f1f1">
-            <button type="button" onclick="document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+            <button type="button" onclick="document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='none'; fetchTest();" class="cancelbtn">Cancel</button>
             <span class="psw">Forgot <a href="#">password?</a></span>
           </div>
         </form>
@@ -138,7 +138,7 @@
             <a href="#" onclick="document.getElementById('search-menu').style.display = 'none'; document.getElementById('question-menu').style.display = 'none'; document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='block';" title="sign-out"><i class="fa-solid fa-user-plus"></i></a>
         </div>
     </div>
-</body>
-<script src="script_search.js"></script>
+    <script src="script_search.js"></script>
     <script src="script_basic.js"></script>
+</body>
 </html>

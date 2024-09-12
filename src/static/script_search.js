@@ -19,7 +19,17 @@ document.getElementById('locationForm').addEventListener('submit', async functio
     document.getElementById("myDropdown2").style.display = 'none';
 
     // Call the getLocations function with the input value
-    const locations = await getLocations(input);
+    // const locations = await getLocations(input);
+    const locations = await fetch("/api/planner/getLocations", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            location: input
+        })
+    });
     console.log(locations);
     
     // Create result items
@@ -75,6 +85,12 @@ document.getElementById('locationForm').addEventListener('submit', async functio
                     if (target.getAttribute("locked") === "") return;
 
                     target.setAttribute("chosentrip", "");
+
+
+                    // upload to server
+                    fetch
+
+
 
                     container2.childNodes.forEach((child) => {
                         child.setAttribute("locked", "");

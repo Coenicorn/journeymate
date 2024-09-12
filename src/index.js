@@ -4,10 +4,12 @@ const path = require("path");
 const bodyparser = require("body-parser");
 const { executeQuery } = require("./db.js");
 const cors = require("cors");
+const cookieparser = require("cookie-parser");
 
 const app = express();
 
 // middleware
+app.use(cookieparser());
 app.use(bodyparser.urlencoded());
 app.use(bodyparser.json());
 
