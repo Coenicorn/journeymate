@@ -148,7 +148,7 @@ document.getElementById('signupform').addEventListener('submit', async function(
   if (response.status === 200) {
     // hide signup, show login
     document.getElementById('id02').style.display='none';
-    document.getElementById('id01').style.display='block';
+    document.getElementById('id01').style.display='b1k';
   }
 });
 
