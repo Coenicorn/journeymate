@@ -24,6 +24,7 @@ globalConfig.databasePassword = process.env.DBPASSWORD;
 globalConfig.databaseName = process.env.DBNAME;
 globalConfig.databaseHost = process.env.DBHOST;
 globalConfig.databaseUser = process.env.DBUSER;
+globalConfig.databasePort = process.env.DBPORT;
 
 globalConfig.geoApiKey = process.env.GEOAPIKEY;
 globalConfig.nsApiKey = process.env.NSAPIKEY;

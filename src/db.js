@@ -8,7 +8,8 @@ const pool = mysql.createPool({
     host: config.databaseHost,
     user: config.databaseUser,
     database: config.databaseName,
-    password: config.databasePassword
+    password: config.databasePassword,
+    port: config.databasePort
 }).promise();
 
 /**
