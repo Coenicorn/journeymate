@@ -20,6 +20,8 @@ const globalConfig = {};
 
 globalConfig.debug = true;
 
+globalConfig.serverPort = process.env.SERVERPORT;
+
 globalConfig.databasePassword = process.env.DBPASSWORD;
 globalConfig.databaseName = process.env.DBNAME;
 globalConfig.databaseHost = process.env.DBHOST;
