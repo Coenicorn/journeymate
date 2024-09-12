@@ -44,7 +44,7 @@ const trip1 = {
 }
 
 const trip2 = {
-    stops: [stop3Bussum, stop2Hilversum, stop5Utrecht],
+    stops: [stop3Bussum, stop4Hilversum, stop5Utrecht],
     tripIdx: 1
 }
 
@@ -70,9 +70,11 @@ function addUserToRoutes(user){
         let routeUsers = routes.get(stop.code);
 
         if(routeUsers === undefined){
+            // Station doesn't exist yet, so create new users entry
             routeUsers = [];
         }
 
+        // Add first user to the newly created station
         routeUsers.push(user);
 
         routes.set(stop.code, routeUsers)
@@ -88,16 +90,18 @@ function getUserStations(user){
 
     const stations = [];
 
-    routes.forEach((station, users) => {
+    routes.forEach((stop, users) => {
 
         if(users.includes(user)){
-            stations.push(station);
+            stations.push(stop);
         }
 
     });
 
     return stations;
 }
+
+searchRoutes(user1);
 
 function searchRoutes(user){
 
@@ -107,27 +111,33 @@ function searchRoutes(user){
     const userStations = getUserStations(user);
     const possibleMeetings = [];
 
-    routes.forEach((station, users) => {
+    routes.forEach((stop, users) => {
+
+        console.log("Loop stop; " + stop.code);
 
         // Check if the given userStations contains another station
-        if(userStations.includes(station)){
+        if(userStations.includes(stop)){
 
             // Look if there are more people at this station
             if(users.length > 1){
                 // Meetup is possible, add to possibleMeetups
 
+                // TODO: Add last check if times overlap, if not, do not add meeting to possibleMeetings
+
                 const meeting = {
-                    meetingStation: station,
+                    meetingStation: stop,
                     meetingUsers: users,
                     meetingTime: new Date()
                 }
-
+                console.log("New possible meeting detected: " + meeting.meetingStation.code + " with user(s) uid " + users);
                 possibleMeetings.push(meeting);
             }
         }
 
         // Select a random possible meeting (or give the user option in the future)
-        const random
+        const randomMeeting = possibleMeetings[Math.floor(Math.random() * possibleMeetings.length)];
+        console.log("Random selected meeting: " + randomMeeting.meetingStation.code + " with user(s) uid " + randomMeeting.meetingUsers);
+
 
     });
 
