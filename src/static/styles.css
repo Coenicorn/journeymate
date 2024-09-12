@@ -22,38 +22,38 @@ body {
     text-decoration: none;
     font-size: 17px;
     color: black;
-    transition: 1.5s;
+    transition: 0.5s;
 }
 
 .menu a:hover {
     background-color: #336699;
     color: black;
-    transition: 1.5s;
+    transition: 0.5s;
 }
 
 .menu a.active {
     background-color: #0097FF;
     color: white;
-    transition: 1.5s;
+    transition: 0.5s;
 }
 
 .menu a.active:hover {
     background-color: #29537C;
     color: rgba(255, 255, 255, 0.692);
-    transition: 1.5s;
+    transition: 0.5s;
 }
 
 .menu a.menu-right {
     float: right;
     background-color: #B3E0FF;
     color: black;
-    transition: 1.5s;
+    transition: 0.5s;
 }
 
 .menu a.menu-right:hover {
     background-color: #336699;
     color: #071013;
-    transition: 1.5s;
+    transition: 0.5s;
 }
 
 /* mid page styles */
@@ -75,8 +75,8 @@ input[type=text], input[type=password] {
   border: 1px solid #ccc;
   box-sizing: border-box;
   border-radius: 5px;
-  -webkit-transition: width 0.4s ease-in-out;
-  transition: width 0.4s ease-in-out;
+  -webkit-transition: width 0.5s ease-in-out;
+  transition: width 0.5s ease-in-out;
 }
 
 input[type=text]:focus, input[type=password]:focus{
@@ -97,12 +97,12 @@ button {
   cursor: pointer;
   width: 100%;
   border-radius: 5px;
-  transition: 1s;
+  transition: 0.5s;
 }
 
 button:hover {
   opacity: 0.8;
-  transition: 1s;
+  transition: 0.5s;
 }
 
 /* Extra styles for the cancel button */
@@ -216,17 +216,6 @@ span.psw {
   border-radius: 15px;
 }
 
-/*input[type=text].SearchField{
-  width: 100px;
-  -webkit-transition: width 0.4s ease-in-out;
-  transition: width 0.4s ease-in-out;
-}
-
-input[type=text].SearchField:focus{
-  width: 100%;
-}
-  */
-
 /* station menu */
 
 
@@ -292,12 +281,12 @@ input[type=text].SearchField:focus{
       font-size: 50px;
       border-top: #999999 solid 2px;
       background-color: #DFE0E2;
-      transition: 1s;
+      transition: 0.5s;
   }
 
   .bottom-menu a .fa-train:hover, .bottom-menu a .fa-circle-question:hover, .bottom-menu a .fa-user:hover {
       filter: brightness(0.7);
-      transition: 1s;
+      transition: 0.5s;
   }
 
   /* Drop-up menu styling */
@@ -331,7 +320,7 @@ input[type=text].SearchField:focus{
 
   .dropup-menu a:hover {
     filter: brightness(0.7);
-    transition: 1s;
+    transition: 0.5s;
   }
 
   .question-menu{
@@ -382,13 +371,13 @@ input[type=text].SearchField:focus{
     padding: 10px 25px;
     color: #000000;
     background-color: #FEC917;
-    transition: 1s;
+    transition: 0.5s;
     border-radius: 15px;
   }
 
   .new-question-button:hover {
     filter: brightness(0.7);
-    transition: 1s;
+    transition: 0.5s;
   }
 
 /*  route searching styles  */
@@ -459,7 +448,7 @@ input[type=text].SearchField:focus{
     color: #000000;
     padding: 2.5%;
     font-size: 15px;
-    transition: 1s;
+    transition: 0.5s;
     background-color: #DFE0E2;
     margin: 0px 0px;
   }
@@ -467,7 +456,7 @@ input[type=text].SearchField:focus{
   .dropdown-content button:hover {
     filter: brightness(0.7);
     transform: scale(1.1);
-    transition: 1s;
+    transition: 0.5s;
   }
 
   button {
@@ -545,7 +534,7 @@ input[type=text].SearchField:focus{
     width: 60%;
     border-radius: 20px;
     transition: width 0.5s ease-in-out;
-    -webkit-transition: width 0.4s ease-in-out;
+    -webkit-transition: width 0.5s ease-in-out;
   }
 
   .modal-button:hover {
