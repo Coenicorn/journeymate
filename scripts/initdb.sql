@@ -17,4 +17,3 @@ CREATE TABLE sessiondata (
     uuid CHAR(36) NOT NULL,
     starttime DATETIME NOT NULL
 );
-CREATE TABLE 

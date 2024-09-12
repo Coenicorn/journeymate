@@ -1,6 +1,13 @@
 const config = require("./config.js");
 const { debuglog } = require("./util.js");
- 
+const { executeQuery } = require("./db.js");
+
+const stationUserData = new Map(); /* maps station uid to array with users which will be in that station at some time */
+
+function pushNewStation(stationName, uid) {
+
+}
+
 async function test() {
     const startLocations = await getLocations("breda");
     console.log(startLocations);
