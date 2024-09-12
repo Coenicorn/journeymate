@@ -235,6 +235,12 @@ input[type=text].SearchField:focus{
 }
 
 
+/*  questions menu */
+.question-menu{
+  display: none;
+}
+
+
 /* AF BLIJVEN W I P */
 @media screen and (max-width: 700px) {
   body{
