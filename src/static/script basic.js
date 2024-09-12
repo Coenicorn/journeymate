@@ -61,12 +61,32 @@ function getCookies(name) {
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
-function checkLogin() {
-  const sessionToken = getCookies('sessionToken');
-  if (sessionToken) {
-    console.log('Session Token:', sessionToken);
+async function checkLogin() {
+  let usernameResponse = await fetchWithToken("/api/user", {
+    headers: {
+      "Content-Type": "application/json",
+      "Accepts": "application/json"
+    },
+    method: "GET"
+  }).catch(e => {
+    // check if the error is anythng other than unauthorized
+    console.log(e);
+  });
+
+  /* let password = getCookie("password");*/
+  if (usernameResponse.status === 200) {
+    console.log("logged in");
+
+    // parse username
+    const responseJson = await usernameResponse.json();
+    const username = responseJson.username;
+
+    setCookie("username", username, 50);
+
+    // hide login page
+    document.getElementById('id01').style.display='none'
   } else {
-    console.log('Session Token not found.');
+    // show login page
     document.getElementById('id01').style.display='block'
   }
 }
@@ -77,13 +97,16 @@ function Login(){
         setCookie("username", username, 1);
     }
 }
+
 function ShowInput(){
   let input = document.getElementById("SearchPlace").value;
   alert(input);
 }
+
 function myFunction() {
   document.getElementById("myDropdown").classList.toggle("show");
 }
+
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
@@ -97,3 +120,133 @@ window.onclick = function(event) {
     }
   }
 }
+
+document.getElementById('signupform').addEventListener('submit', async function(event) {
+  // Prevent the form from submitting in the default way
+  event.preventDefault();
+  
+  const form = event.target;
+  const formData = new FormData(form);
+
+  const data = {
+    username: formData.get("username"),
+    password: formData.get("password"),
+    email: formData.get("email")
+  };
+
+  // session token
+  // Send the data using fetch
+  const response = await fetch("/api/auth/signup", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+        "Content-Type": "application/json",
+        "Accepst": "application/json"
+    }
+  });
+
+  if (response.status === 200) {
+    // hide signup, show login
+    document.getElementById('id02').style.display='none';
+    document.getElementById('id01').style.display='block';
+  }
+});
+
+document.getElementById('signinform').addEventListener('submit', async function(event) {
+  // Prevent the form from submitting in the default way
+  event.preventDefault();
+  setCookie('test', "test", 100);
+  const form = event.target;
+  const formData = new FormData(form);
+
+  const data = {
+    username: formData.get("username"),
+    password: formData.get("password"),
+  };
+
+  // session token
+  // Send the data using fetch
+  const response = await fetch("/api/auth/signin", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+    }
+  });
+
+  if (response.status === 200) {
+    const data = await response.json();
+
+    setCookie("token", data.token, 1);
+
+    document.getElementById('id01').style.display='none';
+  } else {
+    alert("could not sign in :( are you registered?");
+  }
+});
+
+async function fetchWithToken(url, config) {
+  // inject stored token
+  const token = getCookie("token");
+
+  config.headers["Authorization"] = token;
+
+  return fetch(url, config);
+}
+
+
+        // const words = ["test1", "test2", "test3", "test4", "test5"];
+
+        // // Get the parent element where the new elements will be appended
+        // const element = document.getElementById("myDropdown");
+
+        // // Loop through the array of words
+        // for (let i = 0; i < words.length; i++) {
+        //     // Create a new <a> element for each word
+        //     const para = document.createElement("a");
+            
+        //     // Create a text node with the current word
+        //     const node = document.createTextNode(words[i]);
+            
+        //     // Append the text node to the <a> element
+        //     para.appendChild(node);
+            
+        //     // Optionally append a <br> element after each <a> element
+        //     if (i < words.length - 1) { // Avoid appending <br> after the last word
+        //         para.appendChild(document.createElement("br"));
+        //     }
+
+        //     // Append the <a> element to the parent element
+        //     element.appendChild(para);
+        // }
+        // Array of button objects
+        // const labels = [
+        //     { id: "btn1", text: "Button1" },
+        //     { id: "btn2", text: "Button2" },
+        //     { id: "btn3", text: "Button3" },
+        //     { id: "btn4", text: "Button4" }
+        // ];
+                
+        // // Get the parent element where the buttons will be appended
+        // const container = document.getElementById("myDropdown");
+                
+        // // Loop through the array of button objects
+        // for (let i = 0; i < labels.length; i++) {
+        //     // Create a new <button> element
+        //     const button = document.createElement("button");
+            
+        //     // Set the text content of the button
+        //     button.textContent = labels[i].text;
+            
+        //     // Optionally, set an ID for each button
+        //     button.id = labels[i].id;
+            
+        //     // Add an event listener to each button
+        //     button.addEventListener("click", function() {
+        //         alert(`You clicked ${labels[i].text}`);
+        //     });
+            
+        //     // Append the button to the parent element
+        //     container.appendChild(button);
+        // }
