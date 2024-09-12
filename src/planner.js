@@ -8,20 +8,20 @@ function pushNewStation(stationName, uid) {
 
 }
 
-async function test() {
-    const startLocations = await getLocations("breda");
-    console.log(startLocations);
-    const startStations = await getStations(startLocations[0]); // my chosen result
-    console.log(startStations);
+// async function test() {
+//     const startLocations = await getLocations("breda");
+//     console.log(startLocations);
+//     const startStations = await getStations(startLocations[0]); // my chosen result
+//     console.log(startStations);
 
-    const endLocations = await getLocations("utrecht centraal");
-    console.log(endLocations);
-    const endStations = await getStations(endLocations[0]);
-    console.log(endStations);
+//     const endLocations = await getLocations("utrecht centraal");
+//     console.log(endLocations);
+//     const endStations = await getStations(endLocations[0]);
+//     console.log(endStations);
 
-    const routes = await getRoutes(startStations[0], endStations[0]);
-    console.log(routes);
-}
+//     const routes = await getRoutes(startStations[0], endStations[0]);
+//     console.log(routes);
+// }
 
 /**
  * @description fetches all possible locations under a certain name
@@ -166,5 +166,7 @@ async function getRoutes(vertrekStation, eindStation) {
     // speel de trip informatie door naar de database voor server-side processing voor kruisend station
     // laat user weten dat zijn of haar reis is opgeslagen, en dat diegene moet wachten op een match
 }
+
+
 
 module.exports = { getLocations, getRoutes, getStations };

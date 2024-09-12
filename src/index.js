@@ -7,8 +7,6 @@ const cors = require("cors");
 
 const app = express();
 
-const EXPRESSPORT = 3000;
-
 // middleware
 app.use(bodyparser.urlencoded());
 app.use(bodyparser.json());
@@ -36,6 +34,6 @@ app.use((req, res) => {
 });
 
 // start server on port 3000
-app.listen(EXPRESSPORT, () => {
-    console.log("listening on port " + EXPRESSPORT);
+app.listen(config.serverPort, () => {
+    console.log("listening on port " + config.serverPort);
 });
