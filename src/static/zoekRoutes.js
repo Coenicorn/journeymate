@@ -67,6 +67,10 @@ const routes = new Map([])  // route, [user1, user2]
 function addUserToRoutes(user){
     user.selectedTrip.stops.forEach((stop, stopIndex) => {
 
+        if(stop.code === "UT"){
+            return;
+        }
+
         let routeUsers = routes.get(stop.code);
 
         if(routeUsers === undefined){
@@ -90,7 +94,7 @@ function getUserStations(user){
 
     const stations = [];
 
-    routes.forEach((stop, users) => {
+    routes.forEach((users, stop) => {
 
         if(users.includes(user)){
             stations.push(stop);
@@ -103,23 +107,19 @@ function getUserStations(user){
 
 searchRoutes(user1);
 
-function searchRoutes(user){
-
-    // Irritate over the routes of the user
+function searchRoutes(user) {
+    // Iterate over the routes of the user
 
     // Get stations of given user, if user is not registered, give error
     const userStations = getUserStations(user);
     const possibleMeetings = [];
 
-    routes.forEach((stop, users) => {
-
-        console.log("Loop stop; " + stop.code);
+    routes.forEach((users, stop) => {
 
         // Check if the given userStations contains another station
-        if(userStations.includes(stop)){
-
+        if (userStations.includes(stop)) {
             // Look if there are more people at this station
-            if(users.length > 1){
+            if (users.length > 1) {
                 // Meetup is possible, add to possibleMeetups
 
                 // TODO: Add last check if times overlap, if not, do not add meeting to possibleMeetings
@@ -128,27 +128,29 @@ function searchRoutes(user){
                     meetingStation: stop,
                     meetingUsers: users,
                     meetingTime: new Date()
-                }
-                console.log("New possible meeting detected: " + meeting.meetingStation.code + " with user(s) uid " + users);
+                };
+                console.log("New possible meeting detected: " + meeting.meetingStation + " with user(s) uid " + users.map(u => u.uid));
                 possibleMeetings.push(meeting);
             }
         }
-
-        // Select a random possible meeting (or give the user option in the future)
-        const randomMeeting = possibleMeetings[Math.floor(Math.random() * possibleMeetings.length)];
-        console.log("Random selected meeting: " + randomMeeting.meetingStation.code + " with user(s) uid " + randomMeeting.meetingUsers);
-
-
     });
 
+    // Select a random possible meeting (or give the user option in the future)
+    if (possibleMeetings.length > 0) {
+        const randomMeeting = possibleMeetings[Math.floor(Math.random() * possibleMeetings.length)];
+        console.log("\n\nRandom selected meeting: " + randomMeeting.meetingStation + " with user(s) uid " + randomMeeting.meetingUsers.map(u => u.uid));
+    } else {
+        console.log("\n\nNo possible meetings found.");
+    }
 
-
+    /*
     const sharedTrip = {
         meetingStationName: test,
         meetingStationCode: code,
         meetingStationPerron: perron,
         meetingStationTimeFrame: timeFrame
     }
+     */
 
 
 }
