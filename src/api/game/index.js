@@ -8,9 +8,12 @@ router.use("/question", async (request, response) => {
 
     const token = request.body.token;
 
-    const tokenResult = await validateSessionToken(token);
+    const tokenData = await validateSessionToken(token);
 
-    console.log(tokenResult);
+    if (tokenData === 0) {
+        response.status(400).json({ status: "invalid session token", invalidToken: 1 });
+        return;
+    }
 
     response.end();
 });

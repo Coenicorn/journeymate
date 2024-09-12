@@ -1,77 +1,3 @@
-const fulltripdata = {
-    actualDurationInMinutes: 67,
-    plannedDurationInMinutes: 67,
-    transfers: 1,
-    stops: [
-      {
-        name: 'Breda',
-        plannedDepartureDateTime: '2024-09-12T06:50:00+0200',
-        plannedDepartureTrack: '3',
-        plannedArrivalTrack: '3',
-        actualArrivalTrack: '3',
-        isCancelled: false
-      },
-      {
-        name: 'Tilburg',
-        plannedDepartureDateTime: '2024-09-12T07:03:00+0200',
-        plannedDepartureTrack: '1',
-        plannedArrivalTrack: '1',
-        actualArrivalTrack: '1',
-        isCancelled: false
-      },
-      {
-        name: "'s-Hertogenbosch",
-        plannedDepartureDateTime: undefined,
-        plannedDepartureTrack: '1',
-        plannedArrivalTrack: '1',
-        actualArrivalTrack: '1',
-        isCancelled: false
-      },
-      {
-        name: "'s-Hertogenbosch",
-        plannedDepartureDateTime: '2024-09-12T07:28:00+0200',
-        plannedDepartureTrack: '3',
-        plannedArrivalTrack: '3',
-        actualArrivalTrack: '3',
-        isCancelled: false
-      },
-      {
-        name: 'Utrecht Centraal',
-        plannedDepartureDateTime: undefined,
-        plannedDepartureTrack: '7',
-        plannedArrivalTrack: '7',
-        actualArrivalTrack: '7',
-        isCancelled: false
-      }
-    ],
-    trainType: [
-      {
-        name: 'Intercity',
-        nameNesProperties: {
-          color: 'text-subtle',
-          styles: { type: 'TextStyles', strikethrough: false, bold: false }
-        },
-        iconNesProperties: { color: 'text-body', icon: 'train' },
-        actualTrack: '3',
-        accessibilityName: 'Intercity'
-      },
-      {
-        name: 'Intercity',
-        nameNesProperties: {
-          color: 'text-subtle',
-          styles: { type: 'TextStyles', strikethrough: false, bold: false }
-        },
-        iconNesProperties: { color: 'text-body', icon: 'train' },
-        actualTrack: '3',
-        accessibilityName: 'Intercity'
-      }
-    ],
-    uid: 'arnu|fromStation=8400131|toStation=8400621|plannedFromTime=2024-09-12T06:50:00+02:00|plannedArrivalTime=2024-09-12T07:57:00+02:00|excludeHighSpeedTrains=false|searchForAccessibleTrip=false|addChangeTime=5|localTrainsOnly=false|disabledTransportModalities=BUS,FERRY,TRAM,METRO|travelAssistance=false|tripSummaryHash=1807014965'
-  }
-  
-
-
-
 const stop2Hilversum = {
     name: "Hilversum",
     code: "HV",
@@ -134,8 +60,11 @@ const user2 = {
     plannedFirstDepartureDateTime: trip2.stops[0].plannedDepartureDateTime
 }
 
+
+
 const users = [user1, user2]
 const routes = new Map([])  // route, [user1, user2]
+
 
 
 function addUserToRoutes(user){
@@ -168,13 +97,19 @@ function getUserStations(user){
 
     const stations = [];
 
-    routes.forEach((users, stop) => {
+    user.selectedTrip.stops.forEach((stop, index) => {
 
-        if(users.includes(user)){
-            stations.push(stop);
-        }
-
+        const code = stop.code;
+        
     });
+
+    // routes.forEach((users, stop) => {
+
+    //     if(users.includes(user)){
+    //         stations.push(stop);
+    //     }
+
+    // });
 
     return stations;
 }

@@ -1,13 +1,9 @@
 const config = require("./config.js");
-const { debuglog } = require("./util.js");
+const { debuglog, getUsers } = require("./util.js");
 const { executeQuery } = require("./db.js");
 const inspect = require("util").inspect;
 
 const stationUserData = new Map(); /* maps station uid to array with users which will be in that station at some time */
-
-function pushNewStation(stationName, uid) {
-
-}
 
 async function test() {
     const startLocations = await getLocations("breda");
@@ -45,8 +41,6 @@ async function getLocations(input) {
 
             const response = await fetch(apiSearch);
             const data = await response.json();
-
-            console.log(data);
 
             const results = [];
 
@@ -149,6 +143,7 @@ async function getRoutes(vertrekStation, eindStation) {
                     plannedArrivalTrack: loopStop.plannedArrivalTrack,
                     actualArrivalTrack: loopStop.actualArrivalTrack,
                     isCancelled: loopStop.cancelled,
+                    code: loopStop.uicCode
                 };
                 legStops.push(stop); // voeg stop toe aan traject
             });
@@ -161,7 +156,9 @@ async function getRoutes(vertrekStation, eindStation) {
             transfers: loopTrip.transfers,
             stops: legStops, // voeg traject toe aan de trip
             trainType: loopTrip.modalityListItems,
-            uid: loopTrip.uid
+            uid: loopTrip.uid,
+            origin: loopTrip.origin,
+            destination: loopTrip.destination
         };
 
         availableTrips.push(trip); // voeg de trip toe aan alle beschikbare trips
@@ -177,6 +174,95 @@ async function getRoutes(vertrekStation, eindStation) {
     // laat user weten dat zijn of haar reis is opgeslagen, en dat diegene moet wachten op een match
 }
 
+function formatUser(uuid, trip) {
+    return { uid: uuid, selectedTrip: trip };
+}
 
+/**
+ * @description stores a user's trip choice
+ * @returns 1 on failure, 0 on success
+ */
+function chooseTrip(userUUID, trip /* view getRoutes for object properties */) {
+    addUserToRoutes(formatUser(userUUID, trip));
+}
 
-module.exports = { getLocations, getRoutes, getStations };
+const stationsData = new Map([]); /* key = station code, value = [user1, user2, ..., userN] */
+
+function addUserToRoutes(user){
+    // console.log(user);
+
+    user.selectedTrip.stops.forEach((stop, stopIndex) => {
+
+        if(stop.code === user.selectedTrip.destination){
+            return;
+        }
+
+        let routeUsers = stationsData.get(stop.code);
+
+        if(routeUsers === undefined){
+            // Station doesn't exist yet, so create new users entry
+            routeUsers = [];
+        }
+
+        // Add first user to the newly created station
+        routeUsers.push(user);
+
+        stationsData.set(stop.code, routeUsers)
+
+        // console.log("User " + user.uid + " added to station " + stop.code);
+        // console.log(stop);
+    });
+}
+
+function getUserStations(user) {
+
+    const matchingStations = [];
+
+    user.selectedTrip.stops.forEach((stop, index) => {
+
+        const code = stop.code;
+
+        const mapEntry = stationsData.get(code);
+
+        if (!mapEntry) return;
+
+        console.log(mapEntry);
+
+        // match found
+        matchingStations.push(stop);
+        
+    });
+
+    return matchingStations;
+}
+
+async function getTrip(beginLot, endLot, uuid) {
+    const startLocations = await getLocations(beginLot);
+    const endLocations = await getLocations(endLot);
+
+    const startStations = await getStations(startLocations[0]);
+    const endStations = await getStations(endLocations[0]);
+
+    const route = await getRoutes(startStations[0], endStations[0]);
+    const trip = route[0];
+
+    return trip;
+}
+
+async function veryBigTest() {
+    const userC = (await getUsers("c"))[0];
+    const userD = (await getUsers("d"))[0];
+
+    const tripC = await getTrip("hilversum", "utrecht centraal", userC.uuid);
+    const tripD = await getTrip("hilversum", "utrecht centraal", userD.uuid);
+    
+    chooseTrip(userC.uuid, tripC);
+    chooseTrip(userD.uuid, tripD);
+
+    const match = getUserStations(formatUser(userC.uuid, tripC));
+
+    console.log(match);
+}
+veryBigTest();
+
+module.exports = { getLocations, getRoutes, getStations, chooseTrip };

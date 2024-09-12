@@ -6,10 +6,11 @@ const { log, debuglog } = require("../../util.js");
 // WIP
 router.get("/getLocations", async (request, response) => {
     const token = request.body.token;
-    const tokenIsNotValid = await validateSessionToken(token);
 
-    if (tokenIsNotValid) {
-        response.status(400).json({ status: "Invalid session token", invalidToken: 1 });
+    const tokenData = await validateSessionToken(token);
+
+    if (tokenData === 0) {
+        response.status(400).json({ status: "invalid session token", invalidToken: 1 });
         return;
     }
 
@@ -41,10 +42,11 @@ router.get("/getLocations", async (request, response) => {
 
 router.get("/getStations", async (request, response) => {
     const token = request.body.token;
-    const tokenIsNotValid = await validateSessionToken(token);
 
-    if (tokenIsNotValid) {
-        response.status(400).json({ status: "Invalid session token", invalidToken: 1 });
+    const tokenData = await validateSessionToken(token);
+
+    if (tokenData === 0) {
+        response.status(400).json({ status: "invalid session token", invalidToken: 1 });
         return;
     }
 
@@ -71,10 +73,11 @@ router.get("/getStations", async (request, response) => {
 
 router.get("/getRoutes", async (request, response) => {
     const token = request.body.token;
-    const tokenIsNotValid = await validateSessionToken(token);
 
-    if (tokenIsNotValid) {
-        response.status(400).json({ status: "Invalid session token", invalidToken: 1 });
+    const tokenData = await validateSessionToken(token);
+
+    if (tokenData === 0) {
+        response.status(400).json({ status: "invalid session token", invalidToken: 1 });
         return;
     }
 
@@ -110,10 +113,11 @@ router.get("/getRoutes", async (request, response) => {
 
 router.post("/selectRoute", async (request, response) => {
     const token = request.body.token;
-    const tokenIsNotValid = await validateSessionToken(token);
 
-    if (tokenIsNotValid) {
-        response.status(400).json({ status: "Invalid session token", invalidToken: 1 });
+    const tokenData = await validateSessionToken(token);
+
+    if (tokenData === 0) {
+        response.status(400).json({ status: "invalid session token", invalidToken: 1 });
         return;
     }
 

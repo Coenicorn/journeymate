@@ -39,6 +39,6 @@ globalConfig.authMaxUsernameLength = 30;
 globalConfig.authMaxEmailLength = 254;
 globalConfig.authMaxPasswordLength = 128;
 
-globalConfig.maxSessionSeconds = 100000;
+globalConfig.maxSessionSeconds = 1200;
 
 module.exports = globalConfig;

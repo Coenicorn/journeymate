@@ -29,19 +29,19 @@ async function newSession(userUUID) {
 
 /**
  * @description validates session token
- * @returns json object with validity status
+ * @returns 0 on failure, json object on success
  */
 async function validateSessionToken(token) {
-    if (typeof(token) !== "string") return 1;
-    if (token.length !== config.authUuidLength) return 1;
+    if (typeof(token) !== "string") return 0;
+    if (token.length !== config.authUuidLength) return 0;
 
 
     let query = "SELECT * FROM sessiondata WHERE token = " + dbEscape(token);
     const session = await executeQuery(query);
 
-    if (session[0].length === 0) return 1;
+    if (session[0].length !== 1) return 0;
 
-    return 0;
+    return session[0];
 }
 
 async function removeExpiredSessions() {
