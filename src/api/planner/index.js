@@ -15,6 +15,8 @@ router.get("/getLocations", async (request, response) => {
 
     const location = request.body.location;
 
+    console.log(location);
+
     if (typeof(location) !== "string") {
         response.status(400).json({ status: "Invalid location input parameter; must be string" });
         return;
