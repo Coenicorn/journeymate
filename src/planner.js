@@ -1,6 +1,7 @@
 const config = require("./config.js");
 const { debuglog, getUsers } = require("./util.js");
 const { executeQuery } = require("./db.js");
+const { storeCredentials } = require("./authenticate.js");
 const inspect = require("util").inspect;
 
 const stationUserData = new Map(); /* maps station uuid to array with users which will be in that station at some time */
@@ -280,6 +281,6 @@ async function veryBigTest() {
 
     console.log(trip[0]);
 }
-veryBigTest();
+// veryBigTest();
 
 module.exports = { getLocations, getRoutes, getStations, chooseTrip };
