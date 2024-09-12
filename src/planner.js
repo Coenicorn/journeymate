@@ -1,6 +1,6 @@
 const config = require("./config.js");
 const { debuglog } = require("./util.js");
-
+ 
 async function test() {
     const startLocations = await getLocations("breda");
     console.log(startLocations);
