@@ -24,20 +24,20 @@ document.getElementById('locationForm').addEventListener('submit', async functio
     
     // Create result items
     locations.forEach((location, index) => {
-        const resultDiv = document.createElement('button');
-        resultDiv.textContent = `${location.formatted}`;
+        const locationDiv = document.createElement('button');
+        locationDiv.textContent = `${location.formatted}`;
         
         // Optionally, set an ID or data attribute for each result
-        resultDiv.id = `result${index}`;
-        resultDiv.dataset.lat = location.lat;
-        resultDiv.dataset.lon = location.lon;
-        resultDiv.dataset.zip = location.postcode;
+        locationDiv.id = `result${index}`;
+        locationDiv.dataset.lat = location.lat;
+        locationDiv.dataset.lon = location.lon;
+        locationDiv.dataset.zip = location.postcode;
         
         // Add an event listener if needed
          // Add an event listener to log lat and lon to the console
-         resultDiv.addEventListener('click', async () => {
-            console.log(`Latitude: ${resultDiv.dataset.lat}, Longitude: ${resultDiv.dataset.lon}`);
-            const station = await getStation(resultDiv.dataset.lat, resultDiv.dataset.lon);
+         locationDiv.addEventListener('click', async () => {
+            console.log(`Latitude: ${locationDiv.dataset.lat}, Longitude: ${locationDiv.dataset.lon}`);
+            const station = await getStation(locationDiv.dataset.lat, locationDiv.dataset.lon);
             console.log(station);
             const routes = await getRoute(station);
             console.log(routes);
@@ -54,29 +54,42 @@ document.getElementById('locationForm').addEventListener('submit', async functio
 
             
             routes.forEach((trip, index) => {
-                const resultDiv = document.createElement('button');
+                const tripDiv = document.createElement('button');
                 const parsedTime = formatDate(new Date(trip.stops[0].plannedDepartureDateTime), "MM-DD HH:mm");
                 const parsedArrivalTime = formatDate(new Date(trip.stops[trip.stops.length - 1].plannedArrivalDateTime), "MM-DD HH:mm");
-                resultDiv.textContent = `${trip.stops[0].name} (Vertrek: ${parsedTime}) (Duur: ${trip.actualDurationInMinutes}min.) --> ${trip.stops[trip.stops.length - 1].name} (Aankomst: ${parsedArrivalTime})`;
+                tripDiv.textContent = `${trip.stops[0].name} (Vertrek: ${parsedTime}) (Duur: ${trip.actualDurationInMinutes}min.) --> ${trip.stops[trip.stops.length - 1].name} (Aankomst: ${parsedArrivalTime})`;
             
                 // Optionally, set an ID or data attribute for each result
-                resultDiv.id = `result${index}`;
+                tripDiv.id = `result${index}`;
                 // Loop through each stop and set a data attribute if needed
                 trip.stops.forEach((stop, stopIndex) => {
-                    resultDiv.dataset[`stopName${stopIndex}`] = `stop name:    ${stop.name},    departure time:    ${stop.plannedDepartureDateTime},    arival time:    ${stop.plannedArrivalDateTime}`;
-                    //resultDiv.dataset[`plannedDepartureDateTime${stopIndex}`] = stop.plannedDepartureDateTime;
-                    //resultDiv.dataset[`plannedArrivalDateTime${stopIndex}`] = stop.plannedArrivalDateTime;
+                    tripDiv.dataset[`stopName${stopIndex}`] = `stop name:    ${stop.name},    departure time:    ${stop.plannedDepartureDateTime},    arival time:    ${stop.plannedArrivalDateTime}`;
+                    //tripDiv.dataset[`plannedDepartureDateTime${stopIndex}`] = stop.plannedDepartureDateTime;
+                    //tripDiv.dataset[`plannedArrivalDateTime${stopIndex}`] = stop.plannedArrivalDateTime;
                     
+                });
+
+                tripDiv.addEventListener("click", async () => {
+                    tripDiv.setAttribute("chosentrip", " ");
+                    console.log(tripDiv.getAttribute("chosentrip"));
+
+                    container2.childNodes.forEach(() => {
+                        if (tripDiv.getAttribute("chosentrip")) {
+                            tripDiv.style.backgroundColor = "#09e623";
+                        } else {
+                            tripDiv.style.opacity = "0.5"
+                        }
+                    })
                 });
                 
                 // Append the result to the container
-                container2.appendChild(resultDiv); 
+                container2.appendChild(tripDiv);
             });
 
         });
         
         // Append the result to the container
-        container.appendChild(resultDiv);
+        container.appendChild(locationDiv);
     });
 
     // If no results, display a message
