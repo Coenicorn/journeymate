@@ -35,5 +35,5 @@ app.use((req, res) => {
 
 // start server on port 3000
 app.listen(config.serverPort, () => {
-    console.log("listening on port " + EXPRESSPORT);
+    console.log("listening on port " + config.serverPort);
 });
