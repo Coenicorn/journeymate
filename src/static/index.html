@@ -106,13 +106,20 @@
       </div>
 
 
-      <div id="question-menu">
+      <!-- <div id="question-menu">
       <div class="question-menu">
         <img src="./assets/img/card image.png" alt="Centered Image" class="question-image">
       </div>
       <div class="question-in-card">
         <a class="question-subject"><b>Onderwerp</b></a><br>
         <a class="question-text">test hoidaar eeeee test wat is dit voor een zin</a><br>
+        <a class="new-question-button" href="#" onclick="getQuestion()">new question</a>
+      </div> -->
+
+      <div id="question-menu" class="question-menu">
+        <img src="./assets/img/card image.png" alt="Centered Image" class="question-image">
+        <div class="question-subject"><b>Zou je liever</b></div>
+        <div class="question-text">Zou je liever tegen 1 grote eend vechten ter grootte van een paard of 100 paarden ter grootte van een eend?</div>
         <a class="new-question-button" href="#" onclick="getQuestion()">new question</a>
       </div>
       
@@ -244,35 +251,35 @@
         //     element.appendChild(para);
         // }
         // Array of button objects
-        const labels = [
-            { id: "btn1", text: "Button1" },
-            { id: "btn2", text: "Button2" },
-            { id: "btn3", text: "Button3" },
-            { id: "btn4", text: "Button4" }
-        ];
+        // const labels = [
+        //     { id: "btn1", text: "Button1" },
+        //     { id: "btn2", text: "Button2" },
+        //     { id: "btn3", text: "Button3" },
+        //     { id: "btn4", text: "Button4" }
+        // ];
                 
-        // Get the parent element where the buttons will be appended
-        const container = document.getElementById("myDropdown");
+        // // Get the parent element where the buttons will be appended
+        // const container = document.getElementById("myDropdown");
                 
-        // Loop through the array of button objects
-        for (let i = 0; i < labels.length; i++) {
-            // Create a new <button> element
-            const button = document.createElement("button");
+        // // Loop through the array of button objects
+        // for (let i = 0; i < labels.length; i++) {
+        //     // Create a new <button> element
+        //     const button = document.createElement("button");
             
-            // Set the text content of the button
-            button.textContent = labels[i].text;
+        //     // Set the text content of the button
+        //     button.textContent = labels[i].text;
             
-            // Optionally, set an ID for each button
-            button.id = labels[i].id;
+        //     // Optionally, set an ID for each button
+        //     button.id = labels[i].id;
             
-            // Add an event listener to each button
-            button.addEventListener("click", function() {
-                alert(`You clicked ${labels[i].text}`);
-            });
+        //     // Add an event listener to each button
+        //     button.addEventListener("click", function() {
+        //         alert(`You clicked ${labels[i].text}`);
+        //     });
             
-            // Append the button to the parent element
-            container.appendChild(button);
-        }
+        //     // Append the button to the parent element
+        //     container.appendChild(button);
+        // }
 
         document.getElementById('signupform').addEventListener('submit', async function(event) {
           // Prevent the form from submitting in the default way
