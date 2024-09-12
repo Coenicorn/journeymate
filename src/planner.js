@@ -167,4 +167,6 @@ async function getRoutes(vertrekStation, eindStation) {
     // laat user weten dat zijn of haar reis is opgeslagen, en dat diegene moet wachten op een match
 }
 
+
+
 module.exports = { getLocations, getRoutes, getStations };
