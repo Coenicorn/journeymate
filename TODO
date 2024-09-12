@@ -1,2 +1,9 @@
 - Need to remove stored user routes from lookup map
 - More efficient trip matching implementation
+- Update API README
+- Change session token implementation to actual session token -_-, now it's more like a regular session with a session id
+
+
+
+
+- replace login button with user icon when logged in

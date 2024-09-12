@@ -9,7 +9,7 @@ const router = require("express").Router();
 
 router.use("/auth", require("./auth"));
 // validate auth header
-router.use(async (request, response) => {
+router.use(async (request, response, next) => {
     if (!request.headers.authorization) {
         response.status(401).json({ status: "missing authentication headers" });
         return;
@@ -18,11 +18,13 @@ router.use(async (request, response) => {
     const token = request.headers.authorization;
     const tokenData = await validateSessionToken(token);
 
-    if (tokenData === 0) {
+    if (!tokenData) {
         response.status(401).json({ status: "invalid session token", invalidToken: 1 });
         debuglog(`token (${token}) failed authentication`);
         return;
     }
+
+    response.locals.tokenData = tokenData[0];
 
     next();
 });

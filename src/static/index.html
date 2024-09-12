@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Journeymate</title>
 </head>
-<body onload="//checkLogin()" id="body">
+<body onload="checkLogin()" id="body">
 
   <h1 class="page-top-text" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Journeymate</h1>
 
@@ -24,7 +24,7 @@
 
     <div id="id01" class="modal">
     
-      <form class="modal-content animate" action="http://92.108.61.219:32837/api/auth/signin" method="POST" id="signinform">
+      <form class="modal-content animate" action="/api/auth/signin" method="POST" id="signinform">
         <div class="imgcontainer">
           <span onclick="document.getElementById('id01').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
           <img src="./assets/img/avatar.png" alt="Avatar" class="avatar">
@@ -54,7 +54,7 @@
 
     <div id="id02" class="modal">
     
-        <form class="modal-content animate" action="http://92.108.61.219:32837/api/auth/signup" method="POST" id="signupform">
+        <form class="modal-content animate" action="/api/auth/signup" method="POST" id="signupform">
           <div class="imgcontainer">
             <span onclick="document.getElementById('id02').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
             <img src="./assets/img/avatar.png" alt="Avatar" class="avatar">
@@ -139,7 +139,6 @@
           d.setTime(d.getTime() + (exdays*24*60*60*1000));
           let expires = "expires=" + d.toUTCString();
           document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/;SameSite=Lax";
-          console.log(document.cookie);
         }
 
         function getCookie(cname) {
@@ -159,22 +158,26 @@
         }
 
         async function checkLogin() {
-          let username = await (await fetchWithToken("/api/user", {
+          let usernameResponse = await fetchWithToken("/api/user", {
             headers: {
               "Content-Type": "application/json",
               "Accepts": "application/json"
             },
             method: "GET"
-          })).json();
-
-          console.log(username);
+          });
 
           /* let password = getCookie("password");*/
-          if (username != "") {
-            alert("Welcome again " + username);
+          if (usernameResponse.status === 200) {
+            console.log("logged in");
+
+            // parse username
+            const responseJson = await usernameResponse.json();
+            const username = responseJson.username;
+
+            setCookie("username", username, 50);
           } else {
-                document.getElementById('id01').style.display='block'
-            }
+            document.getElementById('id01').style.display='block'
+          }
         }
 
         function Login(){
@@ -209,6 +212,7 @@
         }
 
         async function fetchWithToken(url, config) {
+          // inject stored token
           const token = getCookie("token");
 
           config.headers["Authorization"] = token;
@@ -303,7 +307,6 @@
           // Prevent the form from submitting in the default way
           event.preventDefault();
           setCookie('test', "test", 100);
-          console.log(getCookie('test'));
           const form = event.target;
           const formData = new FormData(form);
 

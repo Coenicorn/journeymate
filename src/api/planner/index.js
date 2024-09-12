@@ -5,14 +5,6 @@ const { log, debuglog, getUsers } = require("../../util.js");
 
 // WIP
 router.get("/getLocations", async (request, response) => {
-    const token = request.body.token;
-
-    const tokenData = await validateSessionToken(token);
-
-    if (tokenData === 0) {
-        response.status(401).json({ status: "invalid session token", invalidToken: 1 });
-        return;
-    }
 
     const location = request.body.location;
 
@@ -41,14 +33,6 @@ router.get("/getLocations", async (request, response) => {
 });
 
 router.get("/getStations", async (request, response) => {
-    const token = request.body.token;
-
-    const tokenData = await validateSessionToken(token);
-
-    if (tokenData === 0) {
-        response.status(401).json({ status: "invalid session token", invalidToken: 1 });
-        return;
-    }
 
     const location = request.body.location;
 
@@ -72,14 +56,6 @@ router.get("/getStations", async (request, response) => {
 });
 
 router.get("/getRoutes", async (request, response) => {
-    const token = request.body.token;
-
-    const tokenData = await validateSessionToken(token);
-
-    if (tokenData === 0) {
-        response.status(401).json({ status: "invalid session token", invalidToken: 1 });
-        return;
-    }
 
     const startStation = request.body.startStation;
     const endStation = request.body.endStation;
@@ -112,14 +88,6 @@ router.get("/getRoutes", async (request, response) => {
 });
 
 router.post("/selectTrip", async (request, response) => {
-    const token = request.body.token;
-
-    const tokenData = await validateSessionToken(token);
-
-    if (tokenData === 0) {
-        response.status(401).json({ status: "invalid session token", invalidToken: 1 });
-        return;
-    }
 
     // get trip and verify format
     const trip = request.body.trip;
@@ -140,8 +108,6 @@ router.post("/selectTrip", async (request, response) => {
         response.status(400).json({ status: "Incorrect payload content" });
         return;
     }
-
-    const uuid = tokenData[0].uuid;
 
     const user  = await getUsers(null, uuid);
 
