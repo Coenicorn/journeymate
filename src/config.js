@@ -32,7 +32,7 @@ globalConfig.geoApiKey = process.env.GEOAPIKEY;
 globalConfig.nsApiKey = process.env.NSAPIKEY;
 globalConfig.geoapifyEndpoint = "https://api.geoapify.com/v1/geocode/search?text={search}&apiKey=" + process.env.GEOAPIKEY;
 globalConfig.nsStationsEndpoint = "https://gateway.apiportal.ns.nl/nsapp-stations/v2/nearest?lat={lat}&lng={lng}&includeNonPlannableStations=false";
-globalConfig.nsReisInfoEndpoint = "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation={fromStation}&toStation={toStation}&dateTime={dateTime}&searchForArrival=true&addChangeTime=5";
+globalConfig.nsReisInfoEndpoint = "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation={fromStation}&toStation={toStation}&dateTime={dateTime}&addChangeTime=5";
 
 globalConfig.authUuidLength = 36;
 globalConfig.authMaxUsernameLength = 30;

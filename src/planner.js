@@ -110,10 +110,11 @@ async function getStations(location /* taken from previous function */) {
  */
 async function getRoutes(vertrekStation, eindStation) {
     // NS ROUTE PLANNER
-    var currentDate = new Date(); //een datum aanmaken voor een richtlijn voor de aankomsttijd (werkt niet helemaal)
-    currentDate.setUTCHours(8); // UTC time
-    currentDate.setUTCMinutes(34); // aankomsttijd op Utrecht Centraal, vanuit gaande dat tram om 8:39 vertrekt naar HU
-    var rfc3339Date = currentDate.toISOString().replace("Z", "+0200");
+    let currentDate = new Date(); //een datum aanmaken voor een richtlijn voor de aankomsttijd (werkt niet helemaal)
+    // currentDate.setUTCHours(8); // UTC time
+    // currentDate.setUTCMinutes(34); // aankomsttijd op Utrecht Centraal, vanuit gaande dat tram om 8:39 vertrekt naar HU
+    let rfc3339Date = currentDate.toISOString().split(".")[0] + "+0200";
+    console.log(rfc3339Date);
 
     const nsApiReisRequest = config.nsReisInfoEndpoint
         .replace("{fromStation}", vertrekStation.code)
@@ -266,28 +267,19 @@ async function getTrip(beginLot, endLot, uuid) {
     const endStations = await getStations(endLocations[0]);
 
     const route = await getRoutes(startStations[0], endStations[0]);
-    const trip = route[0];
 
-    return trip;
+    return route;
 }
 
 async function veryBigTest() {
-    const userC = (await getUsers("c"))[0];
-    const userD = (await getUsers("d"))[0];
-    const userA = (await getUsers("a"))[0];
+    const user = (await getUsers("c"))[0];
 
-    const tripC = await getTrip("hilversum", "utrecht centraal", userC.uuid);
-    const tripD = await getTrip("hilversum", "utrecht centraal", userD.uuid);
-    const tripA = await getTrip("bussum", "utrecht centraal", userA.uuid);
-    
-    chooseTrip(userC.uuid, tripC);
-    chooseTrip(userD.uuid, tripD);
-    chooseTrip(userA.uuid, tripA);
+    const trip = await getTrip("hilversum", "utrecht centraal", user.uuid);
 
-    const match = getUserStations(formatUser(userC.uuid, tripC));
+    // console.log(matchToJson(match));
 
-    console.log(matchToJson(match));
+    console.log(trip[0]);
 }
-// veryBigTest();
+veryBigTest();
 
 module.exports = { getLocations, getRoutes, getStations, chooseTrip };
