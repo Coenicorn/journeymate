@@ -466,7 +466,7 @@ input[type=text].SearchField:focus{
 
   .dropdown-content button:hover {
     filter: brightness(0.7);
-    transform: scale(1.2);
+    transform: scale(1.1);
     transition: 1s;
   }
 
