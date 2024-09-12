@@ -38,8 +38,9 @@
           <label for="password"><b>Password</b></label><br>
           <input id="lPassword" type="password" placeholder="Enter Password" name="password" required>
 
-          <button type="submit">Login</button>
-          <button type="button" onclick="document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='block'">Sign Up</button>
+          <button type="submit" class="modal-button">Login</button>
+          <button type="button" class="modal-button" onclick="document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='block'">Sign Up</button>
+          <br>
           <label>
             <input type="checkbox" name="remember" id="lRemember"> Remember me
           </label>
@@ -77,8 +78,9 @@
             <label for="location"><b>Start locatie</b></label><br>
             <input type="text" placeholder="Enter start locatie" name="location" required>
 
-            <button type="submit" onclick="">Sign Up</button>
-            <button type="button" onclick="document.getElementById('id01').style.display='block'; document.getElementById('id02').style.display='none'">Login</button>
+            <button type="submit" class="modal-button" onclick="">Sign Up</button>
+            <button type="button" class="modal-button" onclick="document.getElementById('id01').style.display='block'; document.getElementById('id02').style.display='none'">Login</button>
+            <br>
             <label>
               <input type="checkbox" name="remember"> Remember me
             </label>
@@ -94,7 +96,7 @@
       <div class="search" id="search-menu">
         <div class="search-form">
           <form id="locationForm">
-            <label for="locationInput">Enter starting location:</label>
+            <label for="locationInput">Enter starting location:</label><br>
             <input type="text" id="locationInput" name="locationInput" required>
             <button type="submit" class="search-submit">Search</button>
           </form>

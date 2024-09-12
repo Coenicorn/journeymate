@@ -140,7 +140,7 @@ span.psw {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
-  top: 5%;
+  top: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
@@ -260,7 +260,7 @@ input[type=text].SearchField:focus{
     margin-top: 0px;
     font-size: 48px;
     padding: 15px;
-    background-color: #ffd900;
+    background-color: #FEC917;
     position: sticky;
   }
 
@@ -381,7 +381,7 @@ input[type=text].SearchField:focus{
     display: inline;
     padding: 10px 25px;
     color: #000000;
-    background-color: #ffd900;
+    background-color: #FEC917;
     transition: 1s;
     border-radius: 15px;
   }
@@ -390,6 +390,8 @@ input[type=text].SearchField:focus{
     filter: brightness(0.7);
     transition: 1s;
   }
+
+/*  route searching styles  */
 
   .search_frame{
     width: 100%;
@@ -416,7 +418,13 @@ input[type=text].SearchField:focus{
   }
 
   .search-form button{
+    max-width: 60%;
+    transition: 0.5s;
+  }
+
+  .search-form button:hover{
     max-width: 80%;
+    transition: 0.5s;
   }
 
   .results{
@@ -458,6 +466,7 @@ input[type=text].SearchField:focus{
 
   .dropdown-content button:hover {
     filter: brightness(0.7);
+    transform: scale(1.2);
     transition: 1s;
   }
 
@@ -473,4 +482,109 @@ input[type=text].SearchField:focus{
     overflow: scroll;
     height: 68.3%;
   }
+
+
+  /*  modal styles  */
+
+  .modal{
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+  }
+
+  .modal-content {
+    background-color: #FEC917;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #AAAAAA;
+    border-radius: 15px;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+
+  .container {
+    padding: 16px;
+    border-radius: 15px;
+    text-align: center;
+  }
+
+  .container .cancelbtn {
+    transform: translate(-75%, 0%);
+  }
+
+  input[type=text], input[type=password] {
+    text-align: center;
+    width: 60%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 20px;
+    -webkit-transition: width 0.5s ease-in-out;
+    transition: width 0.5s ease-in-out;
+  }
+  
+  input[type=text]:focus, input[type=password]:focus, input[type=text]:hover, input[type=password]:hover{
+    width: 100%;
+  }
+
+  .modal-button {
+    background-color: #FFFFFF;
+    color: #000000;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 60%;
+    border-radius: 20px;
+    transition: width 0.5s ease-in-out;
+    -webkit-transition: width 0.4s ease-in-out;
+  }
+
+  .modal-button:hover {
+    width: 100%;
+    filter: brightness(0.9);
+    transition: width 0.5s ease-in-out;
+  }
+
+  /* The Close Button (x) */
+  .close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #071013;
+    font-size: 35px;
+    font-weight: bold;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: red;
+    cursor: pointer;
+    transform: scale(1.3);
+    transition: transform 0.5s ease-in-out;
+  }
+
+  /* Extra styles for the cancel button */
+  .cancelbtn {
+    left: 25px;
+    width: auto;
+    padding: 10px 18px;
+    background-color: #FF0000;
+    border-radius: 20px;
+  }
+
+  .cancelbtn:hover {
+    filter: brightness(0.8);
+    transform: scale(1.3);
+  }
+
 }
