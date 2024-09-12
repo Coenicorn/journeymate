@@ -31,7 +31,7 @@ router.post("/signin", async (request, response) => {
 
         if (typeof(token) === "string") {
             // fail
-            response.status(500).json(token);
+            response.status(500).json({ status: token});
         } else {
             response.status(200).json(token);
         }

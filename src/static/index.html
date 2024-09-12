@@ -24,7 +24,7 @@
 
     <div id="id01" class="modal">
     
-      <form class="modal-content animate" action="/api/auth/signin" method="POST" id="signinform">
+      <form class="modal-content animate" id="signinform">
         <div class="imgcontainer">
           <span onclick="document.getElementById('id01').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
           <img src="./assets/img/avatar.png" alt="Avatar" class="avatar">
@@ -38,7 +38,7 @@
           <label for="password"><b>Password</b></label><br>
           <input id="lPassword" type="password" placeholder="Enter Password" name="password" required>
 
-          <button onclick="Login(); document.getElementById('id01').style.display='none'">Login</button>
+          <button >Login</button>
           <button onclick="document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='block'">Sign Up</button>
           <label>
             <input type="checkbox" name="remember" id="lRemember"> Remember me
@@ -54,7 +54,7 @@
 
     <div id="id02" class="modal">
     
-        <form class="modal-content animate" action="/api/auth/signup" method="POST" id="signupform">
+        <form class="modal-content animate" id="signupform">
           <div class="imgcontainer">
             <span onclick="document.getElementById('id02').style.display='none'; checkLogin()" class="close" title="Close Modal">&times;</span>
             <img src="./assets/img/avatar.png" alt="Avatar" class="avatar">
@@ -164,6 +164,9 @@
               "Accepts": "application/json"
             },
             method: "GET"
+          }).catch(e => {
+            // check if the error is anythng other than unauthorized
+            console.log(e);
           });
 
           /* let password = getCookie("password");*/
@@ -175,17 +178,13 @@
             const username = responseJson.username;
 
             setCookie("username", username, 50);
+
+            // hide login page
+            document.getElementById('id01').style.display='none'
           } else {
+            // show login page
             document.getElementById('id01').style.display='block'
           }
-        }
-
-        function Login(){
-            let username = document.getElementById("lUsername").value;
-            let checked = document.getElementById("lRemember").value;
-            if (checked == "on"){
-                setCookie("username", username, 1);
-            }
         }
 
         function ShowInput(){
@@ -317,17 +316,24 @@
 
           // session token
           // Send the data using fetch
-          fetch("/api/auth/signin", {
+          const response = await fetch("/api/auth/signin", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json",
                 "Accepts": "application/json"
             }
-          })
-          .then(response => response.json())
-          .then(data => { setCookie("token", data.token, 100); console.log("data: " + data) /* DEBUG */ })
-          .catch(err => console.log(err));
+          });
+
+          if (response.status === 200) {
+            const data = response.json();
+
+            setCookie("token", data.token, 1);
+
+            document.getElementById('id01').style.display='none';
+          } else {
+            alert("could not sign in :( are you registered?");
+          }
       });
     </script>
 </html>
