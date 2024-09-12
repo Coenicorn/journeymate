@@ -13,7 +13,7 @@
     <div class="top-menu">
 
         <div class="menu">
-            <a href="./index.html" class="active">home<i class="fa-solid fa-house"></i></a>
+            <a href="/" class="active">home<i class="fa-solid fa-house"></i></a>
             <a href="#" class="menu-right" onclick="document.getElementById('id01').style.display='block'">login</a>
             <a href="#" class="menu-right">menu</a>
             <a href="#" class="menu-right">questions</a>
@@ -38,17 +38,17 @@
           <label for="password"><b>Password</b></label><br>
           <input id="lPassword" type="password" placeholder="Enter Password" name="password" required>
 
-          <button >Login</button>
-          <button onclick="document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='block'">Sign Up</button>
+          <button type="submit">Login</button>
+          <button type="button" onclick="document.getElementById('id01').style.display='none'; document.getElementById('id02').style.display='block'">Sign Up</button>
           <label>
             <input type="checkbox" name="remember" id="lRemember"> Remember me
           </label>
         </div>
     
-        <div class="container" style="background-color:#f1f1f1">
+        <!-- <div class="container" style="background-color:#f1f1f1">
           <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
           <span class="psw">Forgot <a href="#">password?</a></span>
-        </div>
+        </div> -->
       </form>
     </div>
 
@@ -78,7 +78,7 @@
             <input type="text" placeholder="Enter start locatie" name="location" required>
 
             <button type="submit" onclick="">Sign Up</button>
-            <button type="submit" onclick="document.getElementById('id01').style.display='block'; document.getElementById('id02').style.display='none'">Login</button>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'; document.getElementById('id02').style.display='none'">Login</button>
             <label>
               <input type="checkbox" name="remember"> Remember me
             </label>
@@ -289,17 +289,20 @@
 
           // session token
           // Send the data using fetch
-          fetch("/api/auth/signup", {
+          const response = await fetch("/api/auth/signup", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json",
                 "Accepst": "application/json"
             }
-          })
-          .then(response => response.json())
-          .then(data => console.log(data))
-          .catch(err => console.log(err));
+          });
+
+          if (response.status === 200) {
+            // hide signup, show login
+            document.getElementById('id02').style.display='none';
+            document.getElementById('id01').style.display='block';
+          }
       });
 
       document.getElementById('signinform').addEventListener('submit', async function(event) {
@@ -326,7 +329,7 @@
           });
 
           if (response.status === 200) {
-            const data = response.json();
+            const data = await response.json();
 
             setCookie("token", data.token, 1);
 

@@ -7,3 +7,6 @@
 
 
 - replace login button with user icon when logged in
+- signal somehow that user had logged in / signed up
+- separate search button and results
+- button to display more results
