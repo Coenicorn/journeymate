@@ -65,7 +65,7 @@ router.post("/signup", async (request, response) => {
         // error
         fail(result);
     } else {
-        response.status(200).json({ status: "Succesfully logged in!" });
+        response.status(200).json({ status: "Succesfully signed up!" });
 
         log(`new signup from user ${username}`);
     }
