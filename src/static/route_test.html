@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="./styles.css">
+        <link rel="stylesheet" href="./styles2.css">
         <script src="https://kit.fontawesome.com/e7e6177339.js" crossorigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Journeymate</title>
     </head>
     <body onload="//checkLogin()" id="body">
 
-      <h1 class="page-top-text" style="font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">Journeymate</h1>
+      <h1 class="page-top-text" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Journeymate</h1>
 
         <div class="top-menu">
 
@@ -101,7 +101,7 @@
             </div>
             <div id="results" class="results">
               <div id="myDropdown" class="dropdown-content"></div>
-              <div id="myDropdown2" class="dropdown-content" style="display: none; overflow: scroll;"></div>    
+              <div id="myDropdown2" class="dropdown-content" style="display: none;"></div>    
             </div>
           </div>
 
@@ -111,8 +111,9 @@
             <img src="./assets/img/card image.png" alt="Centered Image" class="question-image">
           </div>
           <div class="question-in-card">
+            <a class="question-subject"><b>Onderwerp</b></a><br>
             <a class="question-text">test hoidaar eeeee test wat is dit voor een zin</a><br>
-            <a class="new-question-button" href="#" onclick="">new question</a>
+            <a class="new-question-button" href="#" onclick="getQuestion()">new question</a>
           </div>
           
           </div>
@@ -132,77 +133,6 @@
     <script src="script search.js"></script>
     <script src="script basic.js"></script>
     <script>
-        function setCookie(cname,cvalue,exdays) {
-          const d = new Date();
-          d.setTime(d.getTime() + (exdays*24*60*60*1000));
-          let expires = "expires=" + d.toUTCString();
-          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        }
-
-        function getCookie(cname) {
-          let name = cname + "=";
-          let decodedCookie = decodeURIComponent(document.cookie);
-          let ca = decodedCookie.split(';');
-          for(let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == ' ') {
-              c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-              return c.substring(name.length, c.length);
-            }
-          }
-          return "";
-        }
-
-        function getCookies(name) {
-          const value = `; ${document.cookie}`;
-          const parts = value.split(`; ${name}=`);
-          if (parts.length === 2) return parts.pop().split(';').shift();
-        }
-
-
-        function checkLogin() {
-          const sessionToken = getCookies('sessionToken');
-
-          if (sessionToken) {
-            console.log('Session Token:', sessionToken);
-          } else {
-            console.log('Session Token not found.');
-            document.getElementById('id01').style.display='block'
-          }
-        }
-
-        function Login(){
-            let username = document.getElementById("lUsername").value;
-            let checked = document.getElementById("lRemember").value;
-            if (checked == "on"){
-                setCookie("username", username, 1);
-            }
-        }
-
-        function ShowInput(){
-          let input = document.getElementById("SearchPlace").value;
-          alert(input);
-        }
-
-        function myFunction() {
-          document.getElementById("myDropdown").classList.toggle("show");
-        }
-
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function(event) {
-          if (!event.target.matches('.dropbtn')) {
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            var i;
-            for (i = 0; i < dropdowns.length; i++) {
-              var openDropdown = dropdowns[i];
-              if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-              }
-            }
-          }
-        }
 
         // const words = ["test1", "test2", "test3", "test4", "test5"];
 

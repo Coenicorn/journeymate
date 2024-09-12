@@ -1,5 +1,6 @@
-{
-    "Opleiding": [
+[
+    [
+        "Opleiding",
         "Waarom heb je voor je huidige opleiding gekozen?",
         "Wat is je laatste studie voor deze studie?",
         "Wat wil je leren op deze studie?",
@@ -7,7 +8,8 @@
         "Hoe laat sta je op om op tijd op school te zijn?",
         "Hoeveel jaar studeer je al?"
     ],
-    "Persoonlijk": [
+    [
+        "Persoonlijk", 
         "Werk je, zo ja, wat doe je?",
         "Doe je aan een sport?",
         "Waar kom je vandaan (woonplaats)?",
@@ -40,7 +42,8 @@
         "Wat is het beste advies wat je ooit hebt gekregen?",
         "Zou je kinderen willen, waarom wel of niet?"
     ],
-    "zoujeliever": [
+    [
+        "Zou je liever",
         "Zou je liever IOS of Android gebruiken?",
         "Zou je liever MAC-OS of Windows gebruiken?",
         "Zou je liever altijd 2 uur te vroeg zijn of 2 minuten te laat?",
@@ -59,7 +62,8 @@
         "Zou je liever een oranje peper eten of een glas grapefruitsap drinken?",
         "Zou je liever een frietje mayo of een frietje speciaal eten?"
     ],
-    "Eten": [
+    [
+        "Eten",
         "Koffie of thee?",
         "Zoet, zout of zuur?",
         "Wat is je favoriete toetje?",
@@ -75,7 +79,8 @@
         "Als je nog maar een maaltijd voor de rest van je leven mag eten wat zou het zijn? ",
         "Wat is het gekste eten wat je ooit op hebt?"
     ],
-    "Ben je ooit": [
+    [
+        "Ben je ooit",
         "Ben je ooit uit Nederland geweest?",
         "Heb je ooit op een motor gereden?",
         "Ben je ooit verhuist?",
@@ -85,4 +90,4 @@
         "Heb je ooit een extreme sport gedaan zoals bungeejumping of skydiving?",
         "Ben je ooit in Scandinavië geweest?"
     ]
-}
+]
