@@ -38,6 +38,7 @@ router.post("/signin", async (request, response) => {
     }
 });
 
+// TODO email verification
 router.post("/signup", async (request, response) => {
     function fail(reason) {
         response.status(400).json({ status: `Invalid request: ${reason}`});
