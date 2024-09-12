@@ -39,25 +39,8 @@ async function getUsers(username, uuid, email) {
     if (uuid) query += " WHERE uuid = " + dbEscape(uuid);
     if (email) query += " WHERE email = " + dbEscape(email);
     
-    const results = await executeQuery(query);
-    return results[0];
+    const results = (await executeQuery(query))[0];
+    return results;21
 }
 
-async function sleep(ms) {
-    return new Promise((res, rej) => setTimeout(res, ms));
-}
-
-function log(string) {
-    let d = new Date();
-    let str = `[${d.toLocaleString()}] ` + string;
-    console.log(str);
-}
-
-function debuglog(string) {
-    if (config.debug !== true) return;
-    let d = new Date();
-    let str = `[${d.toLocaleString()}] [DEBUG] ` + string;
-    console.log(str);
-}
-
-module.exports = { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt, getUsers, sleep, log, debuglog };
+module.exports = { hashString, hashPasswordSalt, generateUUID, verifyPasswordSalt, getUsers };
