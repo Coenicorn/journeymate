@@ -1,0 +1,2 @@
+- Need to remove stored user routes from lookup map
+- More efficient trip matching implementation

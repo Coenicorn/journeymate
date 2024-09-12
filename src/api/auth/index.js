@@ -77,7 +77,7 @@ router.post("/validateToken", async (request, response) => {
     const tokenData = await validateSessionToken(token);
 
     if (tokenData === 0) {
-        response.status(400).json({ status: "Invalid session token", invalidToken: 1 });
+        response.status(401).json({ status: "invalid session token", invalidToken: 1 });
     } else {
         response.status(200).json({ status: "Valid session token", invalidToken: 0 });
     }

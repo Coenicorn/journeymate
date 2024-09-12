@@ -3,7 +3,7 @@ const { debuglog, getUsers } = require("./util.js");
 const { executeQuery } = require("./db.js");
 const inspect = require("util").inspect;
 
-const stationUserData = new Map(); /* maps station uid to array with users which will be in that station at some time */
+const stationUserData = new Map(); /* maps station uuid to array with users which will be in that station at some time */
 
 async function test() {
     const startLocations = await getLocations("breda");
@@ -157,8 +157,6 @@ async function getRoutes(vertrekStation, eindStation) {
             stops: legStops, // voeg traject toe aan de trip
             trainType: loopTrip.modalityListItems,
             uid: loopTrip.uid,
-            origin: loopTrip.origin,
-            destination: loopTrip.destination
         };
 
         availableTrips.push(trip); // voeg de trip toe aan alle beschikbare trips
@@ -174,8 +172,17 @@ async function getRoutes(vertrekStation, eindStation) {
     // laat user weten dat zijn of haar reis is opgeslagen, en dat diegene moet wachten op een match
 }
 
+const stationsData = new Map([]); /* key = station code, value = [user1, user2, ..., userN] */
+
 function formatUser(uuid, trip) {
-    return { uid: uuid, selectedTrip: trip };
+    return { uuid: uuid, selectedTrip: trip };
+}
+
+function removeUserFromStationsData(uuid) {
+    // I hate this so much this needs to be better
+    stationsData.forEach((station) => {
+        station = station.filter((user) => { return user.uuid !== uuid });
+    });
 }
 
 /**
@@ -183,19 +190,18 @@ function formatUser(uuid, trip) {
  * @returns 1 on failure, 0 on success
  */
 function chooseTrip(userUUID, trip /* view getRoutes for object properties */) {
-    addUserToRoutes(formatUser(userUUID, trip));
-}
+    // clear previous trips from user
+    removeUserFromStationsData(userUUID);
 
-const stationsData = new Map([]); /* key = station code, value = [user1, user2, ..., userN] */
+    addUserToRoutes(formatUser(userUUID, trip));
+
+    debuglog(`user (${userUUID}) chose new trip`);
+}
 
 function addUserToRoutes(user){
     // console.log(user);
 
     user.selectedTrip.stops.forEach((stop, stopIndex) => {
-
-        if(stop.code === user.selectedTrip.destination){
-            return;
-        }
 
         let routeUsers = stationsData.get(stop.code);
 
@@ -209,14 +215,14 @@ function addUserToRoutes(user){
 
         stationsData.set(stop.code, routeUsers)
 
-        // console.log("User " + user.uid + " added to station " + stop.code);
+        // console.log("User " + user.uuid + " added to station " + stop.code);
         // console.log(stop);
     });
 }
 
 function getUserStations(user) {
 
-    const matchingStations = [];
+    const matchingUsers = new Map([]);
 
     user.selectedTrip.stops.forEach((stop, index) => {
 
@@ -226,14 +232,30 @@ function getUserStations(user) {
 
         if (!mapEntry) return;
 
-        console.log(mapEntry);
+        mapEntry.forEach((otherUser) => {
+            if (user.uuid === otherUser.uuid) return;
+
+            let matchingStations = matchingUsers.get(otherUser.uuid);
+            
+            if (matchingStations === undefined) {
+                matchingStations = []; // array does not yet exist, create it
+            }
+
+            matchingStations.push(stop);
+
+            matchingUsers.set(otherUser.uuid, matchingStations);
+        });
 
         // match found
-        matchingStations.push(stop);
+        // matchingStations.push(stop);
         
     });
 
-    return matchingStations;
+    return matchingUsers;
+}
+
+function matchToJson(match) {
+    return Object.fromEntries(match);
 }
 
 async function getTrip(beginLot, endLot, uuid) {
@@ -252,17 +274,20 @@ async function getTrip(beginLot, endLot, uuid) {
 async function veryBigTest() {
     const userC = (await getUsers("c"))[0];
     const userD = (await getUsers("d"))[0];
+    const userA = (await getUsers("a"))[0];
 
     const tripC = await getTrip("hilversum", "utrecht centraal", userC.uuid);
     const tripD = await getTrip("hilversum", "utrecht centraal", userD.uuid);
+    const tripA = await getTrip("bussum", "utrecht centraal", userA.uuid);
     
     chooseTrip(userC.uuid, tripC);
     chooseTrip(userD.uuid, tripD);
+    chooseTrip(userA.uuid, tripA);
 
     const match = getUserStations(formatUser(userC.uuid, tripC));
 
-    console.log(match);
+    console.log(matchToJson(match));
 }
-veryBigTest();
+// veryBigTest();
 
 module.exports = { getLocations, getRoutes, getStations, chooseTrip };

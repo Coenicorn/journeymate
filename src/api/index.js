@@ -7,5 +7,6 @@ const router = require("express").Router();
 router.use("/auth", require("./auth"));
 router.use("/planner", require("./planner"));
 router.use("/game", require("./game"));
+router.use("/user", require("./user"));
 
 module.exports = router;

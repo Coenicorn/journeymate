@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { validateSessionToken } = require("../../authenticate.js");
 const planner = require("../../planner.js");
-const { log, debuglog } = require("../../util.js");
+const { log, debuglog, getUsers } = require("../../util.js");
 
 // WIP
 router.get("/getLocations", async (request, response) => {
@@ -10,7 +10,7 @@ router.get("/getLocations", async (request, response) => {
     const tokenData = await validateSessionToken(token);
 
     if (tokenData === 0) {
-        response.status(400).json({ status: "invalid session token", invalidToken: 1 });
+        response.status(401).json({ status: "invalid session token", invalidToken: 1 });
         return;
     }
 
@@ -46,7 +46,7 @@ router.get("/getStations", async (request, response) => {
     const tokenData = await validateSessionToken(token);
 
     if (tokenData === 0) {
-        response.status(400).json({ status: "invalid session token", invalidToken: 1 });
+        response.status(401).json({ status: "invalid session token", invalidToken: 1 });
         return;
     }
 
@@ -77,7 +77,7 @@ router.get("/getRoutes", async (request, response) => {
     const tokenData = await validateSessionToken(token);
 
     if (tokenData === 0) {
-        response.status(400).json({ status: "invalid session token", invalidToken: 1 });
+        response.status(401).json({ status: "invalid session token", invalidToken: 1 });
         return;
     }
 
@@ -111,17 +111,49 @@ router.get("/getRoutes", async (request, response) => {
     response.status(200).end();
 });
 
-router.post("/selectRoute", async (request, response) => {
+router.post("/selectTrip", async (request, response) => {
     const token = request.body.token;
 
     const tokenData = await validateSessionToken(token);
 
     if (tokenData === 0) {
-        response.status(400).json({ status: "invalid session token", invalidToken: 1 });
+        response.status(401).json({ status: "invalid session token", invalidToken: 1 });
         return;
     }
 
-    response.status(501).json({ status: "Not yet implemented" });
+    // get trip and verify format
+    const trip = request.body.trip;
+    if (!trip) {
+        response.status(400).json({ status: "Missing trip value" });
+        return;
+    }
+    if (!(
+        trip.actualDurationInMinutes &&
+        trip.plannedDurationInMinutes,
+        trip.transfers,
+        trip.stops,
+        trip.trainType,
+        trip.uuid,
+        trip.origin,
+        trip.destination
+    )) {
+        response.status(400).json({ status: "Incorrect payload content" });
+        return;
+    }
+
+    const uuid = tokenData[0].uuid;
+
+    const user  = await getUsers(null, uuid);
+
+    if (user.length !== 1) {
+        response.status(500).json({ status: "failed to fetch user" });
+        return;
+    }
+
+    planner.chooseTrip(uuid, trip);
+
+    response.status(200).json({ status: "Successfully selected trip" });
+
 });
 
 module.exports = router;
