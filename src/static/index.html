@@ -171,6 +171,23 @@
           }
         }
 
+        async function fetchWithToken(url, config) {
+          const token = getCookie("token");
+
+          config.headers["Authorization"] = "lmao";
+
+          fetch(url, config)
+            .catch(response => console.log(response));
+        }
+
+        fetchWithToken("/api/game/question", {
+          body: {},
+          headers: {
+            "Accepts": "application/json",
+          },
+          method: "POST"
+        });
+
         // const words = ["test1", "test2", "test3", "test4", "test5"];
 
         // // Get the parent element where the new elements will be appended

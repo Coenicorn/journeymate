@@ -5,6 +5,10 @@ const router = require("express").Router();
 // endpoint name, e.g. #/api/auth
 
 router.use("/auth", require("./auth"));
+// validate auth header
+router.use(async (request, response) => {
+    
+});
 router.use("/planner", require("./planner"));
 router.use("/game", require("./game"));
 router.use("/user", require("./user"));

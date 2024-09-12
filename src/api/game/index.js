@@ -6,6 +6,8 @@ router.use("/question", async (request, response) => {
     // WIP
     // get random question from questions.json
 
+    console.log(request.headers);
+
     const token = request.body.token;
 
     const tokenData = await validateSessionToken(token);
