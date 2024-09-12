@@ -365,4 +365,9 @@ input[type=text].SearchField:focus{
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+  .search_frame{
+    width: 100%;
+    height: 500px;
+  }
 }
