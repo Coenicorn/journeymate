@@ -268,16 +268,16 @@
 
           // session token
           // Send the data using fetch
-          fetch("http://92.108.61.219:32837/api/auth/signin", {
+          fetch("api/auth/signin", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json",
-                "Accepst": "application/json"
+                "Accepts": "application/json"
             }
           })
           .then(response => response.json())
-          .then(data => setCookie("token", data.token, 100))
+          .then(data => { setCookie("token", data.token, 100); console.log("data: " + data) /* DEBUG */ })
           .catch(err => console.log(err));
       });
     </script>
