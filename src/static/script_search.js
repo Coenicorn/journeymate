@@ -14,6 +14,9 @@ document.getElementById('locationForm').addEventListener('submit', async functio
     
     // Clear previous results
     container.innerHTML = '';
+    container2.innerHTML = '';
+    document.getElementById("myDropdown").style.display = 'block';
+    document.getElementById("myDropdown2").style.display = 'none';
 
     // Call the getLocations function with the input value
     const locations = await getLocations(input);
