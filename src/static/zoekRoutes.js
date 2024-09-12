@@ -38,14 +38,35 @@ const stop5Utrecht = {
     plannedArrivalTrack: 3
 }
 
+const stop6Maastricht = {
+    name: "Maastricht",
+    code: "MST",
+    plannedDepartureDateTime: undefined,
+    plannedArrivalDateTime: new Date(),
+    plannedArrivalTrack: 3
+}
+
+const stop6Amersfoort = {
+    name: "Amersfoort Centraal",
+    code: "AMF",
+    plannedDepartureDateTime: new Date(),
+    plannedArrivalDateTime: new Date(),
+    plannedArrivalTrack: 5
+}
+
 const trip1 = {
     stops: [stop1Amsterdam, stop2Hilversum, stop5Utrecht],
     tripIdx: 0
 }
 
 const trip2 = {
-    stops: [stop3Bussum, stop4Hilversum, stop5Utrecht],
+    stops: [stop6Amersfoort, stop3Bussum, stop4Hilversum, stop5Utrecht],
     tripIdx: 1
+}
+
+const trip3 = {
+    stops: [stop6Maastricht, stop3Bussum, stop4Hilversum, stop5Utrecht],
+    tripIdx: 2
 }
 
 const user1 = {
@@ -60,28 +81,34 @@ const user2 = {
     plannedFirstDepartureDateTime: trip2.stops[0].plannedDepartureDateTime
 }
 
-const users = [user1, user2]
+const user3 = {
+    uid: 2,
+    selectedTrip: trip3,
+    plannedFirstDepartureDateTime: trip3.stops[0].plannedDepartureDateTime
+}
+
+const users = [user1, user2, user3]
 const routes = new Map([])  // route, [user1, user2]
 
 
-function addUserToRoutes(user){
+function addUserToRoutes(user) {
     user.selectedTrip.stops.forEach((stop, stopIndex) => {
 
-        if(stop.code === "UT"){
-            return;
+        if (stop.code === "UT") {
+            return;  // skip Utrecht
         }
 
         let routeUsers = routes.get(stop.code);
 
-        if(routeUsers === undefined){
-            // Station doesn't exist yet, so create new users entry
+        if (routeUsers === undefined) {
+            // Station doesn't exist yet, so create a new users entry
             routeUsers = [];
         }
 
-        // Add first user to the newly created station
+        // Add user to the station
         routeUsers.push(user);
 
-        routes.set(stop.code, routeUsers)
+        routes.set(stop.code, routeUsers);
 
         console.log("User " + user.uid + " added to station " + stop.code);
     });
@@ -89,6 +116,7 @@ function addUserToRoutes(user){
 
 addUserToRoutes(user1);
 addUserToRoutes(user2);
+addUserToRoutes(user3);
 
 function getUserStations(user){
 
@@ -106,16 +134,14 @@ function getUserStations(user){
 }
 
 searchRoutes(user1);
+searchRoutes(user2);
 
 function searchRoutes(user) {
-    // Iterate over the routes of the user
-
-    // Get stations of given user, if user is not registered, give error
+    // Get stations of the given user, if the user is not registered, give an error
     const userStations = getUserStations(user);
     const possibleMeetings = [];
 
     routes.forEach((users, stop) => {
-
         // Check if the given userStations contains another station
         if (userStations.includes(stop)) {
             // Look if there are more people at this station
@@ -135,13 +161,14 @@ function searchRoutes(user) {
         }
     });
 
-    // Select a random possible meeting (or give the user option in the future)
+    // Select a random possible meeting (or give the user an option in the future)
     if (possibleMeetings.length > 0) {
         const randomMeeting = possibleMeetings[Math.floor(Math.random() * possibleMeetings.length)];
         console.log("\n\nRandom selected meeting: " + randomMeeting.meetingStation + " with user(s) uid " + randomMeeting.meetingUsers.map(u => u.uid));
     } else {
         console.log("\n\nNo possible meetings found.");
     }
+
 
     /*
     const sharedTrip = {
