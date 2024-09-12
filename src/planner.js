@@ -1,6 +1,7 @@
 const config = require("./config.js");
 const { debuglog } = require("./util.js");
 const { executeQuery } = require("./db.js");
+const inspect = require("util").inspect;
 
 const stationUserData = new Map(); /* maps station uid to array with users which will be in that station at some time */
 
@@ -8,20 +9,26 @@ function pushNewStation(stationName, uid) {
 
 }
 
-// async function test() {
-//     const startLocations = await getLocations("breda");
-//     console.log(startLocations);
-//     const startStations = await getStations(startLocations[0]); // my chosen result
-//     console.log(startStations);
+async function test() {
+    const startLocations = await getLocations("breda");
+    console.log("start locations");
+    console.log(inspect(startLocations, {showHidden: false, depth: null, colors: true}));
+    const startStations = await getStations(startLocations[0]); // my chosen result
+    console.log("startStations");
+    console.log(inspect(startStations, {showHidden: false, depth: null, colors: true}));
 
-//     const endLocations = await getLocations("utrecht centraal");
-//     console.log(endLocations);
-//     const endStations = await getStations(endLocations[0]);
-//     console.log(endStations);
+    const endLocations = await getLocations("utrecht centraal");
+    console.log("end locations")
+    console.log(inspect(endLocations, {showHidden: false, depth: null, colors: true}));
+    const endStations = await getStations(endLocations[0]);
+    console.log("end station")
+    console.log(inspect(endStations, {showHidden: false, depth: null, colors: true}));
 
-//     const routes = await getRoutes(startStations[0], endStations[0]);
-//     console.log(routes);
-// }
+    const routes = await getRoutes(startStations[0], endStations[0]);
+    console.log("route")
+    console.log(inspect(routes, {showHidden: false, depth: null, colors: true}));
+}
+// test();
 
 /**
  * @description fetches all possible locations under a certain name
@@ -38,6 +45,9 @@ async function getLocations(input) {
 
             const response = await fetch(apiSearch);
             const data = await response.json();
+
+            console.log(data);
+
             const results = [];
 
             data.features.forEach((feature, index) => {
