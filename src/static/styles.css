@@ -89,8 +89,8 @@ input[type=text]:focus, input[type=password]:focus{
 
 /* Set a style for all buttons */
 button {
-  background-color: #5DBCFD;
-  color: white;
+  background-color: #77c8ff;
+  color: black;
   padding: 14px 20px;
   margin: 8px 0;
   border: none;
@@ -228,6 +228,27 @@ span.psw {
 /*  questions menu */
 .question-menu{
   display: none;
+}
+
+.dropdown-content {
+  width: 100%;
+  background-color: transparent;
+  overflow: scroll;
+}
+
+.results span {
+  padding: 3px;
+  background-color: rgb(253, 67, 25);
+  margin: 5px;
+  border-radius: 3px;
+}
+
+.results .timeFirst {
+  background-color: rgb(18, 141, 255);
+}
+
+.results .timeLast {
+  background-color: rgb(18, 141, 255);
 }
 
 

@@ -126,9 +126,19 @@ document.getElementById('locationForm').addEventListener('submit', async functio
                 const parsedArrivalTime = formatDate(new Date(trip.stops[trip.stops.length - 1].plannedArrivalDateTime), "MM-DD HH:mm");
                 
                 let t = document.createElement('span');
-                t.innerHTML = "test";
+                t.classList.add("timeFirst");
+                t.innerHTML = `${trip.stops[0].name} 🕒 ${parsedTime})`;
                 tripDiv.appendChild(t);
-                // tripDiv.innerH = `${trip.stops[0].name} 🕒 ${parsedTime})  ${trip.stops[trip.stops.length - 1].name} (Aankomst: ${parsedArrivalTime})`;
+
+                tripDiv.innerHTML += "→"
+
+                t = document.createElement('span');
+                t.classList.add("timeLast");
+                t.innerHTML = `${trip.stops[trip.stops.length - 1].name} 🕒 ${parsedArrivalTime})`;
+                tripDiv.appendChild(t);
+
+
+                tripDiv.innerH = `${trip.stops[0].name} 🕒 ${parsedTime})  ${trip.stops[trip.stops.length - 1].name} (Aankomst: ${parsedArrivalTime})`;
             
                 const peopleElm = document.createElement("span");
                 peopleElm.innerHTML = "no people";
