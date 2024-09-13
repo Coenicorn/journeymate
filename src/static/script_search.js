@@ -5,7 +5,7 @@ const nsReisInfoURL = "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3
 
 async function fetchWrapper(url, config) {
     return fetch(url, config).then(response => {
-        console.log(response);
+        // console.log(response);
         if (response.status === 401) {
             checkLogin();
             throw new Error("not logged in");
@@ -118,7 +118,7 @@ document.getElementById('locationForm').addEventListener('submit', async functio
                 })
             });
             const routes = (await routeResponse.json()).routes;
-            console.log(routes);
+            // console.log(routes);
             // map [index, reis]
             //array = Array.from(routes,)
             document.getElementById("myDropdown").style.display = 'none';
