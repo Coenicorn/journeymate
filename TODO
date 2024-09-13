@@ -3,7 +3,7 @@
 - Update API README
 - Change session token implementation to actual session token -_-, now it's more like a regular session with a session id
 - Replace client side loading of questions to server
-
+- verification email
 
 
 - replace login button with user icon when logged in

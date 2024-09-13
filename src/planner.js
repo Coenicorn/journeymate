@@ -109,13 +109,13 @@ async function getStations(location /* taken from previous function */) {
  * @returns array of route objects
  * @note only includes train transports
  */
-async function getRoutes(vertrekStation, eindStation) {
+async function getRoutes(vertrekStation, eindStation, departureTime /* in rfc3339Date */) {
     // NS ROUTE PLANNER
     let currentDate = new Date(); //een datum aanmaken voor een richtlijn voor de aankomsttijd (werkt niet helemaal)
     // currentDate.setUTCHours(8); // UTC time
     // currentDate.setUTCMinutes(34); // aankomsttijd op Utrecht Centraal, vanuit gaande dat tram om 8:39 vertrekt naar HU
     let rfc3339Date = currentDate.toISOString().split(".")[0] + "+0200";
-    console.log(rfc3339Date);
+    if (departureTime) rfc3339Date = departureTime;
 
     const nsApiReisRequest = config.nsReisInfoEndpoint
         .replace("{fromStation}", vertrekStation.code)
@@ -131,8 +131,6 @@ async function getRoutes(vertrekStation, eindStation) {
     const nsReisData = await nsReisResponse.json();
     const availableTrips = []; // reisinformatie
 
-    console.log("what")
-
     nsReisData.trips.forEach((loopTrip, index) => {
         const legStops = []; // Stops van traject
 
@@ -143,12 +141,14 @@ async function getRoutes(vertrekStation, eindStation) {
                 const stop = {
                     name: loopStop.name,
                     plannedDepartureDateTime: loopStop.plannedDepartureDateTime,
+                    plannedArrivalDateTime: loopStop.plannedArrivalDateTime,
                     plannedDepartureTrack: loopStop.plannedDepartureTrack,
                     plannedArrivalTrack: loopStop.plannedArrivalTrack,
                     actualArrivalTrack: loopStop.actualArrivalTrack,
                     isCancelled: loopStop.cancelled,
                     code: loopStop.uicCode
                 };
+                console.log(loopStop);
                 legStops.push(stop); // voeg stop toe aan traject
             });
         });

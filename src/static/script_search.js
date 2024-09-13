@@ -26,8 +26,7 @@ async function getUtrecht() {
             location: location
         })
     });
-    console.log(stationResponse);
-    const utrecht = (await stationResponse.json())[0];
+    const utrecht = (await stationResponse.json()).stations[0];
 
     return utrecht;
 }
@@ -74,7 +73,7 @@ document.getElementById('locationForm').addEventListener('submit', async functio
         // Add an event listener if needed
          // Add an event listener to log lat and lon to the console
          locationDiv.addEventListener('click', async () => {
-            console.log(`Latitude: ${locationDiv.dataset.lat}, Longitude: ${locationDiv.dataset.lon}`);
+            // console.log(`Latitude: ${locationDiv.dataset.lat}, Longitude: ${locationDiv.dataset.lon}`);
             // const station = await getStation(locationDiv.dataset.lat, locationDiv.dataset.lon);
             const stationResponse = await fetch("/api/planner/getStations", {
                 method: "POST",
@@ -86,11 +85,11 @@ document.getElementById('locationForm').addEventListener('submit', async functio
                     location: locationDiv.dataset
                 })
             });
-            const station = (await stationResponse.json()).stations;
-            console.log(station);
+            const station = (await stationResponse.json()).stations[0];
+            // console.log(station);
 
             const stationUtrecht = await getUtrecht();
-            console.log(stationUtrecht);
+            // console.log(stationUtrecht);
 
             // const routes = await getRoute(station[0]);
             const routeResponse = await fetch("/api/planner/getRoutes", {
@@ -104,12 +103,12 @@ document.getElementById('locationForm').addEventListener('submit', async functio
                     endStation: stationUtrecht
                 })
             });
-            const routes = await routeResponse.json();
+            const routes = (await routeResponse.json()).routes;
             console.log(routes);
             // map [index, reis]
             //array = Array.from(routes,)
             document.getElementById("myDropdown").style.display = 'none';
-            document.getElementById("myDropdown2").style.display = 'block';
+            document.getElementById("myDropdown2").style.display = 'inline-block';
             // routes.forEach((trip, tripIndex) => {
                 
             //     console.log("Aantal stops: " + trip.stops.length);
@@ -117,6 +116,9 @@ document.getElementById('locationForm').addEventListener('submit', async functio
 
             // });
 
+            // function addListItem(parentelm, value) {
+
+            // }
             
             routes.forEach((trip) => {
                 const tripDiv = document.createElement('button');
@@ -124,6 +126,8 @@ document.getElementById('locationForm').addEventListener('submit', async functio
                 const parsedArrivalTime = formatDate(new Date(trip.stops[trip.stops.length - 1].plannedArrivalDateTime), "MM-DD HH:mm");
                 tripDiv.textContent = `${trip.stops[0].name} (Vertrek: ${parsedTime}) (Duur: ${trip.actualDurationInMinutes}min.) --> ${trip.stops[trip.stops.length - 1].name} (Aankomst: ${parsedArrivalTime})`;
             
+
+
                 // // Optionally, set an ID or data attribute for each result
                 // tripDiv.id = `result${index}`;
                 // // Loop through each stop and set a data attribute if needed
