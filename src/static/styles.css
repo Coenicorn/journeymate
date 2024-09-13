@@ -208,7 +208,7 @@ span.psw {
   text-align: center;
   border-left: none;
   padding: 2%;
-  margin: 24px;
+  /* margin: 24px; */
   /*margin-left: -32px;
   margin-right: -32px;
   margin-bottom: -32px;*/
@@ -227,7 +227,7 @@ span.psw {
 /*  questions menu */
 .question-menu{
   display: none;
-  margin-top: 4vh;
+  margin-top: 3vh;
 }
 
 .dropdown-content {
@@ -269,7 +269,7 @@ span.psw {
     color: #000000;
     /* text-shadow: 0 0 1px #999999, 0 0 3px #444444; */
     margin-top: 0px;
-    font-size: 48px;
+    font-size: 2em;
     padding: 15px;
     background-color: #FEC917;
     position: sticky;
