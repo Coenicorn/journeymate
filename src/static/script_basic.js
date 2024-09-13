@@ -228,7 +228,7 @@ function getQuestion() {
     {
         getQuestion();
     }else{
-        document.getElementById("Vraag").innerHTML = vragen[random][random2];
+        document.getElementById("question-text").innerHTML = vragen[random][random2];
     }
 }
 
