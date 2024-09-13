@@ -124,9 +124,16 @@ document.getElementById('locationForm').addEventListener('submit', async functio
                 const tripDiv = document.createElement('button');
                 const parsedTime = formatDate(new Date(trip.stops[0].plannedDepartureDateTime), "MM-DD HH:mm");
                 const parsedArrivalTime = formatDate(new Date(trip.stops[trip.stops.length - 1].plannedArrivalDateTime), "MM-DD HH:mm");
-                tripDiv.textContent = `${trip.stops[0].name} (Vertrek: ${parsedTime}) (Duur: ${trip.actualDurationInMinutes}min.) --> ${trip.stops[trip.stops.length - 1].name} (Aankomst: ${parsedArrivalTime})`;
+                
+                let t = document.createElement('span');
+                t.innerHTML = "test";
+                tripDiv.appendChild(t);
+                // tripDiv.innerH = `${trip.stops[0].name} 🕒 ${parsedTime})  ${trip.stops[trip.stops.length - 1].name} (Aankomst: ${parsedArrivalTime})`;
             
+                const peopleElm = document.createElement("span");
+                peopleElm.innerHTML = "no people";
 
+                tripDiv.appendChild(peopleElm);
 
                 // // Optionally, set an ID or data attribute for each result
                 // tripDiv.id = `result${index}`;
