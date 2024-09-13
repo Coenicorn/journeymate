@@ -3,8 +3,21 @@ const geoapifyAPI = 'https://api.geoapify.com/v1/geocode/search?text={search}&ap
 const nsAPIKey = "a0595411f0ee485c8b291e973d18bca2";
 const nsReisInfoURL = "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation={fromStation}&toStation=UT&dateTime={dateTime}&searchForArrival=true&addChangeTime=5";
 
+async function fetchWrapper(url, config) {
+    return fetch(url, config).then(response => {
+        console.log(response);
+        if (response.status === 401) {
+            checkLogin();
+            throw new Error("not logged in");
+        }
+        return response;
+    }).catch(e => {
+        console.log("I am here")
+    });
+}
+
 async function getUtrecht() {
-    const locationResponse = await fetch("/api/planner/getLocations", {
+    const locationResponse = await fetchWrapper("/api/planner/getLocations", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -16,7 +29,7 @@ async function getUtrecht() {
     });
     const location = (await locationResponse.json()).locations[0];
 
-    const stationResponse = await fetch("/api/planner/getStations", {
+    const stationResponse = await fetchWrapper("/api/planner/getStations", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -34,6 +47,7 @@ async function getUtrecht() {
 document.getElementById('locationForm').addEventListener('submit', async function(e) {
     e.preventDefault();  // Prevent the form from submitting the usual way
 
+    try {
     const input = document.getElementById('locationInput').value;  // Get the input value
     const container = document.getElementById('myDropdown');
     const container2 = document.getElementById('myDropdown2');
@@ -47,7 +61,7 @@ document.getElementById('locationForm').addEventListener('submit', async functio
 
     // Call the getLocations function with the input value
     // const locations = await getLocations(input);
-    const locationsResponse = await fetch("/api/planner/getLocations", {
+    const locationsResponse = await fetchWrapper("/api/planner/getLocations", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -75,7 +89,7 @@ document.getElementById('locationForm').addEventListener('submit', async functio
          locationDiv.addEventListener('click', async () => {
             // console.log(`Latitude: ${locationDiv.dataset.lat}, Longitude: ${locationDiv.dataset.lon}`);
             // const station = await getStation(locationDiv.dataset.lat, locationDiv.dataset.lon);
-            const stationResponse = await fetch("/api/planner/getStations", {
+            const stationResponse = await fetchWrapper("/api/planner/getStations", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -92,7 +106,7 @@ document.getElementById('locationForm').addEventListener('submit', async functio
             // console.log(stationUtrecht);
 
             // const routes = await getRoute(station[0]);
-            const routeResponse = await fetch("/api/planner/getRoutes", {
+            const routeResponse = await fetchWrapper("/api/planner/getRoutes", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -165,7 +179,7 @@ document.getElementById('locationForm').addEventListener('submit', async functio
                     target.setAttribute("chosentrip", "");
 
                     // upload selected to server
-                    fetch("/api/planner/selectTrip", {
+                    fetchWrapper("/api/planner/selectTrip", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -204,6 +218,9 @@ document.getElementById('locationForm').addEventListener('submit', async functio
         noResultsDiv.textContent = 'No results found.';
         container.appendChild(noResultsDiv);
     }
+} catch(e) {
+    console.log(e);
+}
 });
 
 function formatDate(date, format) {
@@ -224,7 +241,7 @@ async function getLocations(input) {
         try {
             let apiSearch = geoapifyAPI.replace("{search}", encodeURIComponent(input));
     
-            const response = await fetch(apiSearch);
+            const response = await fetchWrapper(apiSearch);
             const data = await response.json();
             const results = [];
     
