@@ -9,6 +9,7 @@ const cookieparser = require("cookie-parser");
 const app = express();
 
 // middleware
+app.use(cors({origin: true}));
 app.use(cookieparser());
 app.use(bodyparser.urlencoded());
 app.use(bodyparser.json());
@@ -17,7 +18,6 @@ app.use(bodyparser.json());
 app.use(express.static(
     path.join(__dirname, "static")
 ));
-app.use(cors());
 
 // use api router
 app.use("/api", require("./api/"));

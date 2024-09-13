@@ -1,8 +1,36 @@
 // Assuming geoapifyAPI is defined
 const geoapifyAPI = 'https://api.geoapify.com/v1/geocode/search?text={search}&apiKey=4db075d5fc424f58a614eb428bd951b7';
 const nsAPIKey = "a0595411f0ee485c8b291e973d18bca2";
-const nsStationURL = "https://gateway.apiportal.ns.nl/nsapp-stations/v2/nearest?lat={lat}&lng={lng}&limit=1&includeNonPlannableStations=false";
 const nsReisInfoURL = "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation={fromStation}&toStation=UT&dateTime={dateTime}&searchForArrival=true&addChangeTime=5";
+
+async function getUtrecht() {
+    const locationResponse = await fetch("/api/planner/getLocations", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            location: "utrecht centraal"
+        })
+    });
+    const location = (await locationResponse.json()).locations[0];
+
+    const stationResponse = await fetch("/api/planner/getStations", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            location: location
+        })
+    });
+    console.log(stationResponse);
+    const utrecht = (await stationResponse.json())[0];
+
+    return utrecht;
+}
 
 document.getElementById('locationForm').addEventListener('submit', async function(e) {
     e.preventDefault();  // Prevent the form from submitting the usual way
@@ -20,7 +48,7 @@ document.getElementById('locationForm').addEventListener('submit', async functio
 
     // Call the getLocations function with the input value
     // const locations = await getLocations(input);
-    const locations = await fetch("/api/planner/getLocations", {
+    const locationsResponse = await fetch("/api/planner/getLocations", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -30,7 +58,7 @@ document.getElementById('locationForm').addEventListener('submit', async functio
             location: input
         })
     });
-    console.log(locations);
+    const locations = (await locationsResponse.json()).locations;
     
     // Create result items
     locations.forEach((location, index) => {
@@ -47,9 +75,36 @@ document.getElementById('locationForm').addEventListener('submit', async functio
          // Add an event listener to log lat and lon to the console
          locationDiv.addEventListener('click', async () => {
             console.log(`Latitude: ${locationDiv.dataset.lat}, Longitude: ${locationDiv.dataset.lon}`);
-            const station = await getStation(locationDiv.dataset.lat, locationDiv.dataset.lon);
+            // const station = await getStation(locationDiv.dataset.lat, locationDiv.dataset.lon);
+            const stationResponse = await fetch("/api/planner/getStations", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    location: locationDiv.dataset
+                })
+            });
+            const station = (await stationResponse.json()).stations;
             console.log(station);
-            const routes = await getRoute(station);
+
+            const stationUtrecht = await getUtrecht();
+            console.log(stationUtrecht);
+
+            // const routes = await getRoute(station[0]);
+            const routeResponse = await fetch("/api/planner/getRoutes", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    startStation: station,
+                    endStation: stationUtrecht
+                })
+            });
+            const routes = await routeResponse.json();
             console.log(routes);
             // map [index, reis]
             //array = Array.from(routes,)
@@ -84,12 +139,21 @@ document.getElementById('locationForm').addEventListener('submit', async functio
 
                     if (target.getAttribute("locked") === "") return;
 
+                    console.log(trip);
+
                     target.setAttribute("chosentrip", "");
 
-
-                    // upload to server
-                    fetch
-
+                    // upload selected to server
+                    fetch("/api/planner/selectTrip", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify({
+                            trip: trip
+                        })
+                    });
 
 
                     container2.childNodes.forEach((child) => {

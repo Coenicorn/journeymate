@@ -131,6 +131,8 @@ async function getRoutes(vertrekStation, eindStation) {
     const nsReisData = await nsReisResponse.json();
     const availableTrips = []; // reisinformatie
 
+    console.log("what")
+
     nsReisData.trips.forEach((loopTrip, index) => {
         const legStops = []; // Stops van traject
 
@@ -162,6 +164,8 @@ async function getRoutes(vertrekStation, eindStation) {
         };
 
         availableTrips.push(trip); // voeg de trip toe aan alle beschikbare trips
+        
+        console.log(loopTrip.uid);
     });
 
     return availableTrips;

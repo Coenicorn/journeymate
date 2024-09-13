@@ -4,7 +4,7 @@ const planner = require("../../planner.js");
 const { log, debuglog, getUsers } = require("../../util.js");
 
 // WIP
-router.get("/getLocations", async (request, response) => {
+router.post("/getLocations", async (request, response) => {
 
     const location = request.body.location;
 
@@ -32,7 +32,7 @@ router.get("/getLocations", async (request, response) => {
     }
 });
 
-router.get("/getStations", async (request, response) => {
+router.post("/getStations", async (request, response) => {
 
     const location = request.body.location;
 
@@ -55,7 +55,7 @@ router.get("/getStations", async (request, response) => {
     response.status(200).end();
 });
 
-router.get("/getRoutes", async (request, response) => {
+router.post("/getRoutes", async (request, response) => {
 
     const startStation = request.body.startStation;
     const endStation = request.body.endStation;
@@ -116,7 +116,8 @@ router.post("/selectTrip", async (request, response) => {
         return;
     }
 
-    planner.chooseTrip(uuid, trip);
+    // planner.chooseTrip(uuid, trip);
+    console.log(trip);
 
     response.status(200).json({ status: "Successfully selected trip" });
 
