@@ -201,7 +201,6 @@ span.psw {
   }
 }
 
-
 /* search menu */
 .search{
   background-color: #B3E0FF;
@@ -227,7 +226,7 @@ span.psw {
 /*  questions menu */
 .question-menu{
   display: none;
-  margin-top: 3vh;
+  margin-top: 4vh;
 }
 
 .dropdown-content {
