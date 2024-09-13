@@ -224,7 +224,12 @@ function getQuestion() {
   const random = Math.floor(Math.random() * vragen.length);
   document.getElementById("question-subject").innerHTML = vragen[random][0];
   const random2 = Math.floor(Math.random() * vragen[random].length) + 1;
-  document.getElementById("question-text").innerHTML = vragen[random][random2];
+  if(random2 > (vragen[random].length -1))
+    {
+        getQuestion();
+    }else{
+        document.getElementById("Vraag").innerHTML = vragen[random][random2];
+    }
 }
 
 const vragen = [
