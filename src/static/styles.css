@@ -214,7 +214,6 @@ span.psw {
   margin-bottom: -32px;*/
   /*border: 1px #B79CED solid;*/
   border-radius: 15px;
-  margin-top: 0;
 }
 
 /* station menu */
@@ -422,12 +421,12 @@ span.psw {
     top: 50%;
     left: 50%; */
     max-width: 100%;
+    margin-top: 5vh;
     /* transform: translate(-50%, -50%); */
     background-color: transparent;
     text-align: center;
     width: 100%;
     border-bottom: #999999 solid 2px;
-    padding-top: 3%;
   }
 
   .search-form button{
